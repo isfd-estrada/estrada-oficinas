@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Referentes TIC · ISFD José Manuel Estrada</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --azul:#1b2d4f; --azul-medio:#253d6b; --azul-claro:#2e4d87;
@@ -14,296 +14,471 @@
     --sombra:0 4px 28px rgba(27,45,79,0.13); --radio:14px;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:40px; }
+  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:80px; }
+
   .franja-top { height:5px; background:linear-gradient(90deg,var(--azul),var(--dorado),var(--dorado-claro),var(--dorado),var(--azul)); }
   header { background:var(--azul); padding:0 0 24px; text-align:center; }
   .inst-label { display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--dorado); padding:18px 20px 6px; font-weight:500; }
   header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.15; padding:0 20px; }
+  .oficina-sub { font-family:'DM Sans',sans-serif; font-size:clamp(12px,3vw,15px); color:var(--dorado-claro); font-weight:400; letter-spacing:0.5px; margin-top:5px; display:block; }
   .linea-dorada { width:60px; height:2px; background:var(--dorado); margin:10px auto 0; }
 
-  .coord-wrap { padding:20px 16px 20px; display:flex; justify-content:center; }
-  .coord-card { background:var(--azul-medio); border:1px solid rgba(201,168,76,0.35); border-radius:var(--radio); padding:16px 18px; display:flex; align-items:center; gap:16px; width:100%; max-width:540px; position:relative; overflow:hidden; }
+  /* COORDINADOR */
+  .coord-wrap { padding:20px 16px 0; display:flex; justify-content:center; }
+  .coord-card { background:var(--azul-medio); border:1px solid rgba(201,168,76,0.35); border-radius:var(--radio); padding:18px; display:flex; align-items:center; gap:16px; width:100%; max-width:540px; position:relative; overflow:hidden; }
   .coord-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .foto-circle { width:65px; height:65px; border-radius:50%; border:2.5px solid var(--dorado); overflow:hidden; flex-shrink:0; }
-  .foto-circle img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+  .foto-frame { width:72px; height:72px; border-radius:50%; border:2.5px solid var(--dorado); overflow:hidden; flex-shrink:0; }
+  .foto-frame img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+  .coord-info { flex:1; }
   .coord-etiqueta { font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:3px; }
-  .coord-nombre { font-family:'Playfair Display',serif; font-size:15px; color:var(--blanco); line-height:1.2; margin-bottom:3px; }
-  .coord-det { font-size:11.5px; color:var(--dorado-claro); }
+  .coord-nombre { font-family:'Playfair Display',serif; font-size:16px; color:var(--blanco); line-height:1.2; margin-bottom:2px; }
+  .coord-cargo { font-size:12px; color:rgba(255,255,255,0.6); font-style:italic; margin-bottom:4px; }
+  .coord-correo { font-size:12px; color:var(--dorado-claro); }
 
-  main { max-width:640px; margin:0 auto; padding:0 16px 20px; }
+  /* ROLES */
+  .roles-wrap { padding:10px 16px 0; display:flex; justify-content:center; }
+  .roles-grid { width:100%; max-width:540px; display:flex; gap:8px; }
+  .rol-card { flex:1; background:rgba(201,168,76,0.10); border:1px solid rgba(201,168,76,0.25); border-radius:10px; padding:10px 12px; }
+  .rol-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+  .rol-titulo { font-size:11px; font-weight:700; color:var(--blanco); margin-bottom:4px; display:flex; align-items:center; }
+  .rol-desc { font-size:11px; color:rgba(255,255,255,0.65); line-height:1.4; }
 
-  /* BLOQUE DIFERENCIADOR */
-  .bloque-header { border-radius:var(--radio); padding:16px 18px; margin-bottom:14px; margin-top:24px; position:relative; overflow:hidden; }
-  .bloque-tic { background:var(--azul); border-left:4px solid var(--dorado); }
-  .bloque-web { background:#0f2340; border-left:4px solid #4ade80; }
-  .bloque-header h2 { font-family:'Playfair Display',serif; font-size:18px; color:var(--blanco); margin-bottom:4px; }
-  .bloque-header .sub { font-size:12px; color:rgba(255,255,255,0.6); font-style:italic; }
-  .bloque-header .tarea { font-size:13px; color:var(--dorado-claro); margin-top:8px; font-weight:500; }
-  .bloque-web .tarea { color:#86efac; }
+  .horario-wrap { padding:10px 16px 20px; display:flex; justify-content:center; }
+  .horario-card { background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:10px 16px; width:100%; max-width:540px; text-align:center; }
+  .horario-txt { font-size:12px; color:var(--dorado-claro); font-weight:500; }
 
-  .tarea-box { background:var(--azul); border-radius:10px; padding:12px 16px; margin-bottom:14px; }
-  .tarea-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:600; margin-bottom:4px; }
-  .tarea-texto { font-size:13px; color:rgba(255,255,255,0.9); line-height:1.5; }
+  main { max-width:640px; margin:0 auto; padding:20px 16px 20px; }
 
-  .ref-card { background:var(--blanco); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:8px; border:1px solid rgba(27,45,79,0.08); padding:12px 14px; display:flex; gap:12px; align-items:flex-start; }
-  .ref-card.web { border-left:3px solid #4ade80; }
-  .ref-card.tic { border-left:3px solid var(--dorado); }
-  .ref-foto { width:48px; height:48px; border-radius:50%; border:2px solid var(--dorado); flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:18px; color:rgba(255,255,255,0.4); overflow:hidden; }
-  .ref-foto.web-foto { border-color:#4ade80; }
-  .ref-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
-  .ref-info { flex:1; }
-  .ref-nombre { font-family:'Playfair Display',serif; font-size:14px; color:var(--azul); margin-bottom:4px; }
-  .ref-area { font-size:11.5px; color:var(--gris); margin-bottom:5px; }
-  .ref-meta { display:flex; flex-wrap:wrap; gap:4px; }
-  .chip { font-size:10px; padding:2px 7px; border-radius:20px; font-weight:500; }
-  .chip-azul { background:var(--azul); color:var(--dorado-claro); }
-  .chip-verde { background:#065f46; color:#a7f3d0; }
-  .chip-verde2 { background:#14532d; color:#86efac; }
-  .chip-naranja { background:#92400e; color:#fef3c7; }
-  .chip-gris { background:#374151; color:#e5e7eb; }
-  .ref-lugar { font-size:10.5px; color:var(--gris); margin-top:4px; }
-  .ref-lugar::before { content:'📍 '; }
+  /* BUSCADOR */
+  .search-wrap { margin-bottom:18px; position:relative; }
+  .search-input { width:100%; padding:12px 16px 12px 44px; border-radius:12px; border:1.5px solid var(--crema-dark); background:var(--blanco); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto); box-shadow:var(--sombra); outline:none; transition:border .2s; }
+  .search-input:focus { border-color:var(--dorado); }
+  .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:18px; pointer-events:none; }
+  .search-results-count { font-size:12px; color:var(--gris); margin-top:6px; padding-left:4px; min-height:16px; }
+  .no-results { text-align:center; padding:24px; color:var(--gris); font-size:14px; display:none; }
+  .no-results.visible { display:block; }
 
-  .divisor { height:2px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); margin:28px 0 0; }
+  .seccion-label { display:flex; align-items:center; gap:10px; margin-bottom:12px; margin-top:4px; }
+  .seccion-label::before,.seccion-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .seccion-label span { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:600; white-space:nowrap; }
 
-  .valores-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
-  .valor-item { background:var(--blanco); border:1px solid rgba(27,45,79,0.1); border-radius:10px; padding:10px 12px; flex:1; min-width:120px; box-shadow:var(--sombra); text-align:center; }
-  .valor-icon { font-size:18px; margin-bottom:4px; }
-  .valor-texto { font-size:10.5px; color:var(--azul); font-weight:600; line-height:1.4; }
+  /* CARRERA CARD */
+  .carrera-card { background:var(--blanco); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:12px; overflow:hidden; border:1px solid rgba(27,45,79,0.08); transition:box-shadow .2s; }
+  .carrera-card:hover { box-shadow:0 8px 36px rgba(27,45,79,0.16); }
+  .carrera-card.search-hidden { display:none; }
+  .carrera-header { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; user-select:none; }
+  .carrera-tipo { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; color:var(--dorado); margin-bottom:2px; }
+  .carrera-nombre { font-family:'Playfair Display',serif; font-size:15px; color:var(--azul); line-height:1.2; flex:1; }
+  .carrera-arrow { color:var(--dorado); font-size:20px; transition:transform .25s; }
+  .carrera-card.open .carrera-arrow { transform:rotate(90deg); }
+  .carrera-body { display:none; padding:0 16px 16px; border-top:1px solid var(--crema-dark); }
+  .carrera-card.open .carrera-body { display:block; padding-top:14px; }
 
-  .lema { text-align:center; margin-top:20px; padding:14px; background:var(--azul); border-radius:var(--radio); font-size:13px; color:var(--dorado-claro); font-weight:600; }
+  /* PERSONA ROW */
+  .persona-row { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--crema-dark); }
+  .persona-row:last-child { border-bottom:none; padding-bottom:0; }
+  .persona-avatar { width:36px; height:36px; border-radius:50%; background:var(--azul); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--dorado-claro); flex-shrink:0; font-family:'DM Sans',sans-serif; }
+  .persona-avatar.webmaster { background:var(--azul-claro); }
+  .persona-avatar.referente { background:#065f46; }
+  .persona-data { flex:1; }
+  .persona-rol { font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; margin-bottom:2px; }
+  .persona-rol.webmaster { color:var(--azul-claro); }
+  .persona-rol.referente { color:#059669; }
+  .persona-nombre-txt { font-size:13.5px; font-weight:600; color:var(--azul); margin-bottom:2px; }
+  .persona-horario { font-size:11.5px; color:var(--gris); line-height:1.4; }
 
-  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:16px; }
+  /* CONDUCCION */
+  .conduccion-box { background:var(--crema); border-radius:8px; padding:8px 12px; margin-top:10px; border-left:3px solid var(--dorado); }
+  .conduccion-label { font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:600; color:var(--dorado); margin-bottom:4px; }
+  .conduccion-nombres { font-size:12.5px; color:var(--azul-medio); line-height:1.6; }
+
+  mark { background:rgba(201,168,76,0.3); border-radius:3px; padding:0 2px; }
+
+  /* NAV */
+  .nav-bar { position:fixed; bottom:0; left:0; right:0; background:var(--azul); border-top:2px solid var(--dorado); display:flex; z-index:100; box-shadow:0 -4px 20px rgba(27,45,79,0.25); }
+  .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:9px 4px; cursor:pointer; border:none; background:transparent; gap:2px; -webkit-tap-highlight-color:transparent; }
+  .nav-btn:hover,.nav-btn.active { background:rgba(201,168,76,0.15); }
+  .nav-btn .nav-icon { font-size:18px; }
+  .nav-btn .nav-label { font-size:8px; letter-spacing:0.3px; text-transform:uppercase; color:var(--dorado); font-weight:600; white-space:nowrap; }
+
+  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:8px; }
   footer span { color:var(--azul-medio); font-weight:600; }
 </style>
 </head>
 <body>
+
 <div class="franja-top"></div>
 <header>
   <span class="inst-label">Instituto Superior de Formación Docente</span>
   <h1>José Manuel Estrada</h1>
+  <span class="oficina-sub">Oficina de Referentes TIC · Ciclo Lectivo 2026</span>
   <div class="linea-dorada"></div>
+
   <div class="coord-wrap">
     <div class="coord-card">
-      <div class="foto-circle"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCACFAMgDASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAMEBQEGAgf/xABFEAABAwICBQYLBQcDBQAAAAABAAIDBBESIQUTFDFBNFFhcZPhIjI1U1RzgZGxstIzcnSSoQYjQlLC0fAVFmIkJUOiwf/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAZEQEBAQEBAQAAAAAAAAAAAAAAARIRAjH/2gAMAwEAAhEDEQA/AP05ERAREQEREBERBHPMynhfLJfC0XsN56FT22p9EaOubP4KXSnIH9bfmCgO8rfmSs2vvban0RnbdybbU+iM7buWDpCjr5Kud8VQ1sTix9nVBaQ0b7DcBv8A7qOooq+SneY6xkby4ya41TiHN8K3g5BtrtGRtlxWsxnVei22q9EZ23cubbU+is7buXn46adslpatrpDOZ2A1R8OPOwNsrXLehRmg0o2OMT6Si/chweRMW4sR435iSM75ZCyuIar0grqki4pY+27l3ban0Rh6ph/ZZWjKeugqZjUzxPicxoaxridWWiw94z61pjeFMw1V2CZk8LJY74XC4uMwpFU0XyCPrd8xVtcq6QREQEREBERAREQEREBERAREQEREFTSedC/rb8wUZjkufAd7lLpDkh+8z5grS1LyJZ15us0E6qrX1Rmla5zWswasFuEEEAjiMQv7So5v2dfM90jqhwe6LVENgaGYb3th+9nv/uvUKpA6WSNshqGEFztzLAjMAZ8yu6zmPPu/ZgPMofK4tmaGvbqrDxy7KxsBna3DnX039mhG4vilkLsReNbGJASb3LgfG3k9a9DgmwcpF8Nr4Bvvv7l8zmWNhkFQ0DWN3suLXAIy51d0zGXRaIfSVs1UJZHmZoa9uANGVsNrbrC49qviN9x4Dvcr6Kbq5VNGZUDB0u+Yq2quj+SN+875irSzfrUERFAREQEREBERAREQcXURAREQEREFXSHJD95nzBWlV0hyQ/eZ8wVpUFnTUsdXQN1wklLMbgA8Ek5i1xluK0VTpJ4RC1usZcueLBuHME3ySDEFMIzcaHrQ8A3tNixH25cXZ9C2W0sdHRllOXtBe05vsd4G89Hv61AKegFbt+1yE21obj8GxyvbiOtWqqohMZZrGYhIxti3FmSCBb/OdW1FtERZVV0fyRv3nfMVaVXR/JG/ed8xVpKCIiAiIgIiICIiAiIgIizZZ6+XSU1NSOpmMhYxxMrHOJLsXMRzINJFn4NMefoexf8AUmDTHn6HsX/UrxOtBFn4NMefoexf9SYNMefoexf9ScOrk8TZ4XRuJAdxG8HgVEGVoFtfAekwn6lBg0x5+h7F/wBSggm0vNU1MIloRqHNbfVPzu0H+bpTgvYa3z1P2TvqTBW+ep+yd9SgwaY8/Q9i/wCpMGmPP0PYv+pB86+u/wBS2TWU9tTrcWrd/Na3jKzhrfPU/ZO+pUdj0rt217TRY9Vq8Opfa1738ZT4NMefoexf9Sonw1vnqfsnfUhZWkW19OOkQn6lBg0x5+h7F/1KCObS8lbPTa2hBhaxxdqn54r/APLoUGnBE2CFsTSSGjed56VIs/Bpjz9D2L/qTBpjz9D2L/qTg0EWfg0x5+h7F/1Jg0x5+h7F/wBScOtBFn4NMefoexf9SUc9Zt81LWGB2GJkjXRNLd5cLG5P8qcOtBERRRERARQ1b3R0cz2GzmxuIPMbLEqWsgbGWUQnLgcRsSSQOexzPStTz1LePQrKo9t/3BXGWjwU7o4wybWAh9r7hbpz5rcbrJdUSC1tBl1yNw4c+Y7+cBc2l436CefBys3ebZDMLWGdPWIvKumdYYdDk3O4sIIHMct593OVZpzek2nZDSTMeLDjvHNvBuphdPQoqmkiRSWBIxPY02NjYuAP6LJqmxwFoi0e2W4Jyad43DIH/BzqTz0t49CsrRhrf9W0kaij1MLntLJNYHCSzQMhbmHHjksh08gtbQbnEnOw3Dn3d/PZNokF/wDsTz4NwQ3ebZDMXWp4TT1iLyrpnZFmhybniw3tzbt5Hs6VZhYyWidM6jNLKA6w3OaRuIIUwaehRVJpXjRT5g60moLgRz4bqkKWntnCwnncLk9ZKk89at42Fk0e2/7grjLRauncyMMm1gIfa+4W6c+a3G6gqIqeGmklbSseWNJDWsuXHgFlirlJYToZjGFzGOc5p8FxHhZW3A3F/wC61PDOnsUWPslN5iP8oXH0sAY4tiY0gGxaLEdRCmF02UVaGV7tHRyk3eYQ4npw3WdDTQvhY98TXvc0FznC5JIzJKk89W3jaWVEa3/cs5dRYaU07GifWCxsXG1rXvn+nSvnY6f0eP8AImx0/o8f5FrLOmuix9kp/R4/yo6kpw02hY02yLRYjqKmF02EUNG90lHA95u50bSTzkhFhp813IKj1TvgVUb4reoK3XcgqPVO+BRlNHgb424cVrzeM2deb0hpGllBjc6qiMTnOu1lsVjhyN+c5dSiMsLaeNjKuqEbWtGNjWnEWOyO+4uXC4PDfZep1MAPjf8AsuamAbnD8w4re4zmsKgrqWPV0TJJHvxYbuAyJBda9zfmuLq/Vcmf7PiFfEEBsGndkLEKGvgY2jkIvfLj0hTUXNfWkuTN9bH8wWFpiWndK2GWaeNzGk/u7Z4ukkW3dXDeVv14DoWA7jNH8wX3ssR3glTz64tnXkZp6LCHmprGgsGbW8GgNva9wePPvyXGsp2NkG2aRYYmBxBIOWIAWF992+5eu1EF7lwvnxHtXNTT/wAw4cRxWtxnNeRD6OYD/rKsADM4cNs7XzN755kdO661dHzwzaMc2GWSTAwgulyfmL5j229i2hBATkbnPiF8z00YglIvfAc/Ym4ZqObyG/8ADH5VQqaWaaYOZWywssBgYBvzzv7f0V+byI/8P/Sp9mj/AOXvWfN41Z15yR+zyuZJpKoLo8Ic0NJF3A2tn0cb8FW2lrWYm6XqsLrBp1dyd3T/APF6swQHIu9hIXNRT2viFrc4WtxnNeajfrJ2RM0tM6R9rWZlmC4Df0e/LdktCOlniOJ9ZJK0NdcOG/Lr/wAt131hBBewPG2RG9JKeMRu37jxTcM1HT+SI/UD5VnS0oq6GGMyyR2DXXjNjuWjT+SI/UD5V2lp4zSwk3+zbx6FmXjVnWI7QzXC211G4i5N7bt3tBPtK+naIZivHUzx78mkcb36jmtzUQg2xZ3t4y5qoLXx5WvfEFdplhnQ7S0NdVTOsd5tc7t/Pa2XMrVJSikgfGJpZQSXXkdcjLddaeohvbFne3jLrqaPCfG3c6bMuUHk+m9Uz4BEoPJ9N6pnwCLnW3a7kFR6p3wKlZ4jeoKKu5BUeqd8CpWeI3qCDOdNBTU0b9lEuJz/ALJl7b77+f8AVfDa+A5HRlQ02GRgGdt1uc9CuxN11E5msIx4m4mPuRmRkedZdPEXaQMLZtKNwOPhvPgZEG1+N/gtI0IjFKKaZsDYiZHWDm2dezr2tz29y+9I8hk6h8QpZTaSHMC7+LrX8E+9RaR5DJ7PiFB2u+yj9dH8wVhV677KP10fzBWFFZrpoKakhJpRLiDraqO4HPvzz/VfA0hATY6NqGkWNjCBe263OehXYma+gwawjG0jGx5JHSCsuliL9IGJs2lG4CTiefAyde1+N/gtI0IzDJs0rYWxlz3EBzbEGxva3Pb3KxUcml+4fgkptLCLgXed7rX8E+9Kjk0v3D8FFVpfIj/w/wDSrqpS+RH/AIf+lXkGa+WGlpmybLrcUkn2TL2PhXOfPa3Wo218BGE6MqGiwydABcC5AH9ulXom62kezGRiL24mPuRmRkef4LJhhJ0iadk2lBhJGNzrsFiDa557e7rViL7XQzMp5hA2Mma4EjLG9iCRbj0q5J9m7qKjqDZ0PhAXkAzda+R9/UpJPs3dRUVWp/JEf4cfKpqXkkPq2/BQ0/kiP8OPlU1JySH1bfgiKr5YaeJ8ppxITO77NlyDnmb8eF1A2vpy0NOjKhoIsA6AAEX3dy0IPDZKMX8bhcOvbP8ATqWOKciv2Rs+lh/DrMV2gWGdz1f5dWDQbJDUQMm2cREzNylZY3uM8uPBXXeIepR1BwsZ4QH7xozdh4/5kpHeIepRUNB5PpvVN+ARKDyfTeqZ8AilHa7kFR6p3wKlZ4jeoLpAcCHAEHIg8VVFEGjCyoqGtG5okyHvQfbIpmAATtIu45x8+7jw/VfWGfzzOH/j9/Hj+ij2M+lVP5+5NjPpVT2ncqJNXKZGOdMCGuJIDLXFsh7FHpHkMns+ITYz6VU9p3IKJmIGSWaQA3wvfcXG7LiiO132Ufro/mCsL5liZNGY5Bdp6bKDYz6VU9p3Ir6ZFOxgbr2m2LMxjPm3Hh+q+sM/nm/w/wAHv48f0Uexn0qp7TuTYz6VU9p3IJBHKXsc6YENcSQGWvlkPYu1HJpfuH4KLYz6VU9p3LhoWuGGSeoew72ukyI5jZB8y+RH/h/6VcXHNa5hY5oLSLEEZWVYUQaLMqKhrRuAk3e9BIyOZgtr2kYnHNnA7hv4fqu4J7fbsvYZ6vjxO9R7GfSqntO5NjPpVT2ncg+zFK57SZhha8usGDMWyHepJPs3dRUGxn0qp7TuXDQtcC2Seoe05FpkyPuQcg8kR+oHyqak5JD6tvwUoADQ0AADKyqiha0WjnnY0bmtkyHUgkbHK1xtMC0vLrFg3c3emCow217L4bX1fG+/fzcF8bGfSqntO5NjPpVT2ncg+3xyuI/fANDw6wZwHDvUrvFPUq+xn0qp/P3Lhog4Fr6ioc05FpkyI9iD7oPJ9N6pvwCKdoDWhrQAALADgig6iIgIiIC4iIOoiICIiAiIgIiICIiAiIgIiICIiAiIgIiIP//Z" alt="Eduardo López"></div>
-      <div>
-        <div class="coord-etiqueta">Coordinador TIC</div>
-        <div class="coord-nombre">López, Eduardo Nicolás</div>
-        <div class="coord-det">🌐 Referentes TIC · Equipo Webmaster</div>
+      <div class="foto-frame">
+        <img src="data:image/jpeg;base64,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" alt="Prof. Eduardo López">
       </div>
+      <div class="coord-info">
+        <div class="coord-etiqueta">Coordinador</div>
+        <div class="coord-nombre">López, Eduardo Nicolás</div>
+        <div class="coord-cargo">Prof. — Coordinador Referentes TIC</div>
+        <div class="coord-correo">✉️ <a href="mailto:referentestic@iestrada.edu.ar" style="color:var(--dorado-claro);text-decoration:none;">referentestic@iestrada.edu.ar</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roles-wrap">
+    <div class="roles-grid">
+      <div class="rol-card">
+        <div class="rol-titulo"><span class="rol-dot" style="background:#60a5fa;"></span>Web Master</div>
+        <div class="rol-desc">Atiende dificultades con Docentes: agregar o quitar de un aula virtual</div>
+      </div>
+      <div class="rol-card">
+        <div class="rol-titulo"><span class="rol-dot" style="background:#34d399;"></span>Referente TIC</div>
+        <div class="rol-desc">Resuelve reclamos de alumnos, matriculación, aulas virtuales y seguimiento docente</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="horario-wrap">
+    <div class="horario-card">
+      <div class="horario-txt">🖥️ Web Master para docentes de Profesorados y Tecnicaturas</div>
     </div>
   </div>
 </header>
 
 <main>
-
-  <!-- ══════════ REFERENTES TIC ══════════ -->
-  <div class="bloque-header bloque-tic">
-    <h2>📡 Referentes TIC</h2>
-    <div class="sub">¡Estamos para ayudarte!</div>
-    <div class="tarea">Tarea principal: resolver consultas y reclamos del alumnado y de los docentes.</div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="buscador" placeholder="Buscar carrera o referente..." autocomplete="off">
+    <div class="search-results-count" id="resultCount"></div>
   </div>
 
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Echeverría, Lorena</div>
-      <div class="ref-area">Profesorado de Educación Primaria</div>
-      <div class="ref-meta"><span class="chip chip-gris">L–V 8:00–12:00</span><span class="chip chip-azul">Turno mañana</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
+  <div class="seccion-label"><span>Tecnicaturas</span></div>
 
-  <div class="ref-card tic">
-    <div class="ref-foto"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCACFAMgDASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAMEBQEGAgf/xABFEAABAwICBQYLBQcDBQAAAAABAAIDBBESIQUTFDFBNFFhcZPhIjI1U1RzgZGxstIzcnSSoQYjQlLC0fAVFmIkJUOiwf/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAZEQEBAQEBAQAAAAAAAAAAAAAAARIRAjH/2gAMAwEAAhEDEQA/AP05ERAREQEREBERBHPMynhfLJfC0XsN56FT22p9EaOubP4KXSnIH9bfmCgO8rfmSs2vvban0RnbdybbU+iM7buWDpCjr5Kud8VQ1sTix9nVBaQ0b7DcBv8A7qOooq+SneY6xkby4ya41TiHN8K3g5BtrtGRtlxWsxnVei22q9EZ23cubbU+is7buXn46adslpatrpDOZ2A1R8OPOwNsrXLehRmg0o2OMT6Si/chweRMW4sR435iSM75ZCyuIar0grqki4pY+27l3ban0Rh6ph/ZZWjKeugqZjUzxPicxoaxridWWiw94z61pjeFMw1V2CZk8LJY74XC4uMwpFU0XyCPrd8xVtcq6QREQEREBERAREQEREBERAREQEREFTSedC/rb8wUZjkufAd7lLpDkh+8z5grS1LyJZ15us0E6qrX1Rmla5zWswasFuEEEAjiMQv7So5v2dfM90jqhwe6LVENgaGYb3th+9nv/uvUKpA6WSNshqGEFztzLAjMAZ8yu6zmPPu/ZgPMofK4tmaGvbqrDxy7KxsBna3DnX039mhG4vilkLsReNbGJASb3LgfG3k9a9DgmwcpF8Nr4Bvvv7l8zmWNhkFQ0DWN3suLXAIy51d0zGXRaIfSVs1UJZHmZoa9uANGVsNrbrC49qviN9x4Dvcr6Kbq5VNGZUDB0u+Yq2quj+SN+875irSzfrUERFAREQEREBERAREQcXURAREQEREFXSHJD95nzBWl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" alt="Eduardo López"></div>
-    <div class="ref-info">
-      <div class="ref-nombre">López, Eduardo Nicolás</div>
-      <div class="ref-area">Prof. Educación Primaria · Prof. Ciencias de la Educación</div>
-      <div class="ref-meta">
-        <span class="chip chip-gris">L–V 9:00–12:00</span><span class="chip chip-azul">T. mañana</span>
-        <span class="chip chip-naranja">Mar/Jue/Vie 19:00–22:00</span><span class="chip chip-gris">T. noche</span>
+  <!-- TEC. CIENCIAS DE DATOS -->
+  <div class="carrera-card" id="c1" data-keywords="ciencias datos inteligencia artificial sofia vallejos claudia gimenez webmaster referente tic lunes presencial virtual">
+    <div class="carrera-header" onclick="toggleCard('c1')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Tecnicatura Superior</div>
+        <div class="carrera-nombre">Ciencias de Datos e Inteligencia Artificial</div>
       </div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
+      <div class="carrera-arrow">›</div>
     </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">López, Jorge</div>
-      <div class="ref-area">Tec. Sup. en Niñez · Tec. Sup. en Gestión</div>
-      <div class="ref-meta">
-        <span class="chip chip-gris">Sáb 8:00–12:00</span><span class="chip chip-azul">T. mañana/vespertino</span>
-        <span class="chip chip-gris">Mié 16:30–18:40</span>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">SV</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">Vallejos, Sofía</div>
+        </div>
       </div>
-      <div class="ref-lugar">Bedelía</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Turraca, Susana</div>
-      <div class="ref-area">Educación Tecnológica</div>
-      <div class="ref-meta"><span class="chip chip-gris">Lun y Vie 17:20–18:40</span><span class="chip chip-naranja">Turno noche</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Gómez, Gladys</div>
-      <div class="ref-area">Profesorado de Filosofía</div>
-      <div class="ref-meta"><span class="chip chip-gris">Jueves 20:40–22:00</span><span class="chip chip-naranja">Turno noche</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Duarte, Gustavo</div>
-      <div class="ref-area">Profesorado de Educación Inicial</div>
-      <div class="ref-meta"><span class="chip chip-gris">Miércoles 10:00–12:00</span><span class="chip chip-azul">Turno mañana</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Correa, Sandra</div>
-      <div class="ref-area">Profesorado de Ciencias de la Educación</div>
-      <div class="ref-meta"><span class="chip chip-gris">Miércoles 18:00–22:00</span><span class="chip chip-naranja">Turno noche</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Sosa, Natalia</div>
-      <div class="ref-area">Profesorado de Educación Primaria</div>
-      <div class="ref-meta"><span class="chip chip-gris">Miércoles 8:00–12:00</span><span class="chip chip-azul">Turno mañana</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Giménez, Claudia</div>
-      <div class="ref-area">Tec. Sup. en Ciencias de Datos</div>
-      <div class="ref-meta"><span class="chip chip-gris">Lunes 18:40–20:00</span><span class="chip chip-verde">Turno tarde</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Goñalons, Gabriela</div>
-      <div class="ref-area">Prof. Ed. Inicial · Tec. Sup. en Logística Portuaria</div>
-      <div class="ref-meta"><span class="chip chip-gris">L–V 14:00–18:00</span><span class="chip chip-verde">Turno siesta</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="ref-card tic">
-    <div class="ref-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Ceccardi, Marcelo</div>
-      <div class="ref-area">Profesorado de Filosofía</div>
-      <div class="ref-meta"><span class="chip chip-gris">Lun y Jue 18:00–21:00</span><span class="chip chip-naranja">Turno noche</span></div>
-      <div class="ref-lugar">Oficina de Referentes TIC</div>
-    </div>
-  </div>
-
-  <div class="lema">Con empatía, colaboración y compromiso · ¡Llegamos más lejos!</div>
-
-  <!-- ══════════ WEBMASTER ══════════ -->
-  <div class="divisor"></div>
-
-  <div class="bloque-header bloque-web">
-    <h2>🌐 Equipo Webmaster</h2>
-    <div class="sub">Tecnología · Educación · Comunidad</div>
-    <div class="tarea">Tarea principal: dar de alta a los docentes en las distintas aulas.</div>
-  </div>
-
-  <div class="ref-card web">
-    <div class="ref-foto web-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Soto, Cecilia</div>
-      <div class="ref-meta"><span class="chip chip-azul">Profesorado en Educación Primaria</span></div>
-    </div>
-  </div>
-
-  <div class="ref-card web">
-    <div class="ref-foto web-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Turraca, Susana</div>
-      <div class="ref-meta"><span class="chip chip-azul">Profesorado en Educación Tecnológica</span></div>
-    </div>
-  </div>
-
-  <div class="ref-card web">
-    <div class="ref-foto web-foto"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCACFAMgDASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAMEBQEGAgf/xABFEAABAwICBQYLBQcDBQAAAAABAAIDBBESIQUTFDFBNFFhcZPhIjI1U1RzgZGxstIzcnSSoQYjQlLC0fAVFmIkJUOiwf/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAZEQEBAQEBAQAAAAAAAAAAAAAAARIRAjH/2gAMAwEAAhEDEQA/AP05ERAREQEREBERBHPMynhfLJfC0XsN56FT22p9EaOubP4KXSnIH9bfmCgO8rfmSs2vvban0RnbdybbU+iM7buWDpCjr5Kud8VQ1sTix9nVBaQ0b7DcBv8A7qOooq+SneY6xkby4ya41TiHN8K3g5BtrtGRtlxWsxnVei22q9EZ23cubbU+is7buXn46adslpatrpDOZ2A1R8OPOwNsrXLehRmg0o2OMT6Si/chweRMW4sR435iSM75ZCyuIar0grqki4pY+27l3ban0Rh6ph/ZZWjKeugqZjUzxPicxoaxridWWiw94z61pjeFMw1V2CZk8LJY74XC4uMwpFU0XyCPrd8xVtcq6QREQEREBERAREQEREBERAREQEREFTSedC/rb8wUZjkufAd7lLpDkh+8z5grS1LyJZ15us0E6qrX1Rmla5zWswasFuEEEAjiMQv7So5v2dfM90jqhwe6LVENgaGYb3th+9nv/uvUKpA6WSNshqGEFztzLAjMAZ8yu6zmPPu/ZgPMofK4tmaGvbqrDxy7KxsBna3DnX039mhG4vilkLsReNbGJASb3LgfG3k9a9DgmwcpF8Nr4Bvvv7l8zmWNhkFQ0DWN3suLXAIy51d0zGXRaIfSVs1UJZHmZoa9uANGVsNrbrC49qviN9x4Dvcr6Kbq5VNGZUDB0u+Yq2quj+SN+875irSzfrUERFAREQEREBERAREQcXURAREQEREFXSHJD95nzBWlV0hyQ/eZ8wVpUFnTUsdXQN1wklLMbgA8Ek5i1xluK0VTpJ4RC1usZcueLBuHME3ySDEFMIzcaHrQ8A3tNixH25cXZ9C2W0sdHRllOXtBe05vsd4G89Hv61AKegFbt+1yE21obj8GxyvbiOtWqqohMZZrGYhIxti3FmSCBb/OdW1FtERZVV0fyRv3nfMVaVXR/JG/ed8xVpKCIiAiIgIiICIiAiIgIizZZ6+XSU1NSOpmMhYxxMrHOJLsXMRzINJFn4NMefoexf8AUmDTHn6HsX/UrxOtBFn4NMefoexf9SYNMefoexf9ScOrk8TZ4XRuJAdxG8HgVEGVoFtfAekwn6lBg0x5+h7F/wBSggm0vNU1MIloRqHNbfVPzu0H+bpTgvYa3z1P2TvqTBW+ep+yd9SgwaY8/Q9i/wCpMGmPP0PYv+pB86+u/wBS2TWU9tTrcWrd/Na3jKzhrfPU/ZO+pUdj0rt217TRY9Vq8Opfa1738ZT4NMefoexf9Sonw1vnqfsnfUhZWkW19OOkQn6lBg0x5+h7F/1KCObS8lbPTa2hBhaxxdqn54r/APLoUGnBE2CFsTSSGjed56VIs/Bpjz9D2L/qTBpjz9D2L/qTg0EWfg0x5+h7F/1Jg0x5+h7F/wBScOtBFn4NMefoexf9SUc9Zt81LWGB2GJkjXRNLd5cLG5P8qcOtBERRRERARQ1b3R0cz2GzmxuIPMbLEqWsgbGWUQnLgcRsSSQOexzPStTz1LePQrKo9t/3BXGWjwU7o4wybWAh9r7hbpz5rcbrJdUSC1tBl1yNw4c+Y7+cBc2l436CefBys3ebZDMLWGdPWIvKumdYYdDk3O4sIIHMct593OVZpzek2nZDSTMeLDjvHNvBuphdPQoqmkiRSWBIxPY02NjYuAP6LJqmxwFoi0e2W4Jyad43DIH/BzqTz0t49CsrRhrf9W0kaij1MLntLJNYHCSzQMhbmHHjksh08gtbQbnEnOw3Dn3d/PZNokF/wDsTz4NwQ3ebZDMXWp4TT1iLyrpnZFmhybniw3tzbt5Hs6VZhYyWidM6jNLKA6w3OaRuIIUwaehRVJpXjRT5g60moLgRz4bqkKWntnCwnncLk9ZKk89at42Fk0e2/7grjLRauncyMMm1gIfa+4W6c+a3G6gqIqeGmklbSseWNJDWsuXHgFlirlJYToZjGFzGOc5p8FxHhZW3A3F/wC61PDOnsUWPslN5iP8oXH0sAY4tiY0gGxaLEdRCmF02UVaGV7tHRyk3eYQ4npw3WdDTQvhY98TXvc0FznC5JIzJKk89W3jaWVEa3/cs5dRYaU07GifWCxsXG1rXvn+nSvnY6f0eP8AImx0/o8f5FrLOmuix9kp/R4/yo6kpw02hY02yLRYjqKmF02EUNG90lHA95u50bSTzkhFhp813IKj1TvgVUb4reoK3XcgqPVO+BRlNHgb424cVrzeM2deb0hpGllBjc6qiMTnOu1lsVjhyN+c5dSiMsLaeNjKuqEbWtGNjWnEWOyO+4uXC4PDfZep1MAPjf8AsuamAbnD8w4re4zmsKgrqWPV0TJJHvxYbuAyJBda9zfmuLq/Vcmf7PiFfEEBsGndkLEKGvgY2jkIvfLj0hTUXNfWkuTN9bH8wWFpiWndK2GWaeNzGk/u7Z4ukkW3dXDeVv14DoWA7jNH8wX3ssR3glTz64tnXkZp6LCHmprGgsGbW8GgNva9wePPvyXGsp2NkG2aRYYmBxBIOWIAWF992+5eu1EF7lwvnxHtXNTT/wAw4cRxWtxnNeRD6OYD/rKsADM4cNs7XzN755kdO661dHzwzaMc2GWSTAwgulyfmL5j229i2hBATkbnPiF8z00YglIvfAc/Ym4ZqObyG/8ADH5VQqaWaaYOZWywssBgYBvzzv7f0V+byI/8P/Sp9mj/AOXvWfN41Z15yR+zyuZJpKoLo8Ic0NJF3A2tn0cb8FW2lrWYm6XqsLrBp1dyd3T/APF6swQHIu9hIXNRT2viFrc4WtxnNeajfrJ2RM0tM6R9rWZlmC4Df0e/LdktCOlniOJ9ZJK0NdcOG/Lr/wAt131hBBewPG2RG9JKeMRu37jxTcM1HT+SI/UD5VnS0oq6GGMyyR2DXXjNjuWjT+SI/UD5V2lp4zSwk3+zbx6FmXjVnWI7QzXC211G4i5N7bt3tBPtK+naIZivHUzx78mkcb36jmtzUQg2xZ3t4y5qoLXx5WvfEFdplhnQ7S0NdVTOsd5tc7t/Pa2XMrVJSikgfGJpZQSXXkdcjLddaeohvbFne3jLrqaPCfG3c6bMuUHk+m9Uz4BEoPJ9N6pnwCLnW3a7kFR6p3wKlZ4jeoKKu5BUeqd8CpWeI3qCDOdNBTU0b9lEuJz/ALJl7b77+f8AVfDa+A5HRlQ02GRgGdt1uc9CuxN11E5msIx4m4mPuRmRkedZdPEXaQMLZtKNwOPhvPgZEG1+N/gtI0IjFKKaZsDYiZHWDm2dezr2tz29y+9I8hk6h8QpZTaSHMC7+LrX8E+9RaR5DJ7PiFB2u+yj9dH8wVhV677KP10fzBWFFZrpoKakhJpRLiDraqO4HPvzz/VfA0hATY6NqGkWNjCBe263OehXYma+gwawjG0jGx5JHSCsuliL9IGJs2lG4CTiefAyde1+N/gtI0IzDJs0rYWxlz3EBzbEGxva3Pb3KxUcml+4fgkptLCLgXed7rX8E+9Kjk0v3D8FFVpfIj/w/wDSrqpS+RH/AIf+lXkGa+WGlpmybLrcUkn2TL2PhXOfPa3Wo218BGE6MqGiwydABcC5AH9ulXom62kezGRiL24mPuRmRkef4LJhhJ0iadk2lBhJGNzrsFiDa557e7rViL7XQzMp5hA2Mma4EjLG9iCRbj0q5J9m7qKjqDZ0PhAXkAzda+R9/UpJPs3dRUVWp/JEf4cfKpqXkkPq2/BQ0/kiP8OPlU1JySH1bfgiKr5YaeJ8ppxITO77NlyDnmb8eF1A2vpy0NOjKhoIsA6AAEX3dy0IPDZKMX8bhcOvbP8ATqWOKciv2Rs+lh/DrMV2gWGdz1f5dWDQbJDUQMm2cREzNylZY3uM8uPBXXeIepR1BwsZ4QH7xozdh4/5kpHeIepRUNB5PpvVN+ARKDyfTeqZ8AilHa7kFR6p3wKlZ4jeoLpAcCHAEHIg8VVFEGjCyoqGtG5okyHvQfbIpmAATtIu45x8+7jw/VfWGfzzOH/j9/Hj+ij2M+lVP5+5NjPpVT2ncqJNXKZGOdMCGuJIDLXFsh7FHpHkMns+ITYz6VU9p3IKJmIGSWaQA3wvfcXG7LiiO132Ufro/mCsL5liZNGY5Bdp6bKDYz6VU9p3Ir6ZFOxgbr2m2LMxjPm3Hh+q+sM/nm/w/wAHv48f0Uexn0qp7TuTYz6VU9p3IJBHKXsc6YENcSQGWvlkPYu1HJpfuH4KLYz6VU9p3LhoWuGGSeoew72ukyI5jZB8y+RH/h/6VcXHNa5hY5oLSLEEZWVYUQaLMqKhrRuAk3e9BIyOZgtr2kYnHNnA7hv4fqu4J7fbsvYZ6vjxO9R7GfSqntO5NjPpVT2ncg+zFK57SZhha8usGDMWyHepJPs3dRUGxn0qp7TuXDQtcC2Seoe05FpkyPuQcg8kR+oHyqak5JD6tvwUoADQ0AADKyqiha0WjnnY0bmtkyHUgkbHK1xtMC0vLrFg3c3emCow217L4bX1fG+/fzcF8bGfSqntO5NjPpVT2ncg+3xyuI/fANDw6wZwHDvUrvFPUq+xn0qp/P3Lhog4Fr6ioc05FpkyI9iD7oPJ9N6pvwCKdoDWhrQAALADgig6iIgIiIC4iIOoiICIiAiIgIiICIiAiIgIiICIiAiIgIiIP//Z" alt="Eduardo López"></div>
-    <div class="ref-info">
-      <div class="ref-nombre">López, Eduardo Nicolás</div>
-      <div class="ref-meta">
-        <span class="chip chip-azul">Prof. Ed. Primaria</span>
-        <span class="chip chip-azul">Ciencias de la Educación</span>
-        <span class="chip chip-azul">Inicial</span>
-        <span class="chip chip-azul">Filosofía</span>
-        <span class="chip chip-azul">Ed. Tecnológica</span>
-        <span class="chip chip-verde2">Tec. en Niñez</span>
-        <span class="chip chip-verde2">Tec. en Gestión</span>
+      <div class="persona-row">
+        <div class="persona-avatar referente">CG</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Giménez, Claudia</div>
+          <div class="persona-horario">Lunes 18:40 a 21:20 hs · Presencial · Oficina Referentes TIC</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Sofía Vallejos · Ceccardi Rosa</div>
       </div>
     </div>
   </div>
 
-  <div class="ref-card web">
-    <div class="ref-foto web-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Espíndola, Norma</div>
-      <div class="ref-meta">
-        <span class="chip chip-azul">Profesorado de Educación Inicial</span>
-        <span class="chip chip-verde2">Tec. Sup. en Logística Portuaria</span>
+  <!-- TEC. GESTIÓN / NIÑEZ -->
+  <div class="carrera-card" id="c2" data-keywords="gestion administrativa instituciones educativas niñez adolescencia familia jorge lopez webmaster referente tic lunes martes jueves sabado presencial virtual">
+    <div class="carrera-header" onclick="toggleCard('c2')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Tecnicatura Superior</div>
+        <div class="carrera-nombre">Gestión Administrativa · Niñez, Adolescencia y Familia</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">EL</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">López, Eduardo</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">JL</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">López, Jorge</div>
+          <div class="persona-horario">Lunes 18:40 a 20 hs · Presencial<br>Mar–Jue · Virtual · Sáb 8 a 12 hs</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción — Gestión</div>
+        <div class="conduccion-nombres">Andrea Grasso · Romina López</div>
+      </div>
+      <div class="conduccion-box" style="margin-top:8px;">
+        <div class="conduccion-label">Equipo de Conducción — Niñez</div>
+        <div class="conduccion-nombres">Meli Reduello · Manuel Santamaría</div>
       </div>
     </div>
   </div>
 
-  <div class="ref-card web">
-    <div class="ref-foto web-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Vallejos, Sofía</div>
-      <div class="ref-meta"><span class="chip chip-verde2">Tecnicatura en Ciencias de Datos</span></div>
+  <!-- TEC. LOGÍSTICA PORTUARIA -->
+  <div class="carrera-card" id="c3" data-keywords="logistica portuaria norma espindola gabriela goñalons webmaster referente tic lunes viernes virtual presencial">
+    <div class="carrera-header" onclick="toggleCard('c3')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Tecnicatura Superior</div>
+        <div class="carrera-nombre">Logística Portuaria</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">NE</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">Espíndola, Norma</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">GG</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Goñalons, Gabriela</div>
+          <div class="persona-horario">Lun–Vie 13 a 17 hs · Virtual · Oficina Referentes TIC</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Romina López-Romero · Darío</div>
+      </div>
     </div>
   </div>
 
-  <div class="ref-card web">
-    <div class="ref-foto web-foto">👤</div>
-    <div class="ref-info">
-      <div class="ref-nombre">Ceccardi, Marcelo</div>
-      <div class="ref-meta"><span class="chip chip-azul">Profesorado en Filosofía</span></div>
+  <div class="seccion-label"><span>Profesorados</span></div>
+
+  <!-- PROF. EDUCACIÓN PRIMARIA -->
+  <div class="carrera-card" id="c4" data-keywords="educacion primaria eduardo lopez lorena echevarria webmaster referente tic lunes viernes presencial virtual">
+    <div class="carrera-header" onclick="toggleCard('c4')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Profesorado</div>
+        <div class="carrera-nombre">Educación Primaria</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">EL</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">López, Eduardo</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">LE</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Echevarría, Lorena</div>
+          <div class="persona-horario">Lun–Vie 8 a 12 hs · Presencial · Oficina Referentes TIC</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Liliana Barreto · Ceccardi Rosa</div>
+      </div>
     </div>
   </div>
 
-  <div class="lema" style="background:#0f2340; color:#86efac;">Conectamos, organizamos y hacemos que todo funcione mejor</div>
-
-  <div class="valores-grid">
-    <div class="valor-item"><div class="valor-icon">🤝</div><div class="valor-texto">Colaboramos para crecer juntos</div></div>
-    <div class="valor-item"><div class="valor-icon">🎧</div><div class="valor-texto">Escuchamos con empatía</div></div>
-    <div class="valor-item"><div class="valor-icon">⚙️</div><div class="valor-texto">Trabajar en equipo nos hace mejores</div></div>
-    <div class="valor-item"><div class="valor-icon">🌱</div><div class="valor-texto">Cada detalle importa</div></div>
-    <div class="valor-item"><div class="valor-icon">💬</div><div class="valor-texto">Comunicar con respeto es avanzar juntos</div></div>
+  <!-- PROF. EDUCACIÓN INICIAL -->
+  <div class="carrera-card" id="c5" data-keywords="educacion inicial cecilia soto andres benitez facundo ojeda webmaster referente tic lunes presencial virtual">
+    <div class="carrera-header" onclick="toggleCard('c5')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Profesorado</div>
+        <div class="carrera-nombre">Educación Inicial</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">CS</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">Soto, Cecilia</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">AB</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Benítez, Andrés · Ojeda, Facundo</div>
+          <div class="persona-horario">Lun 7:45–11:45 / 13–17 hs · Presencial<br>Lun–Vie 14 a 17 hs · Virtual</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Abndrea Marturet · Mónica Rodríguez</div>
+      </div>
+    </div>
   </div>
 
+  <!-- PROF. CIENCIAS DE LA EDUCACIÓN -->
+  <div class="carrera-card" id="c6" data-keywords="ciencias educacion superior eduardo lopez webmaster referente tic lunes viernes sabado presencial virtual">
+    <div class="carrera-header" onclick="toggleCard('c6')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Profesorado Superior</div>
+        <div class="carrera-nombre">Ciencias de la Educación</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">EL</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">López, Eduardo</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">EL</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">López, Eduardo</div>
+          <div class="persona-horario">Lun–Vie 9 a 12 hs · Presencial<br>Lun–Vie 14–21:30 hs · Virtual · Sáb 8 a 13 hs · Virtual</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Sandra Martínez · Darío Romero</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROF. FILOSOFÍA -->
+  <div class="carrera-card" id="c7" data-keywords="filosofia marcelo ceccardi gladys gomez webmaster referente tic lunes martes viernes presencial virtual noche">
+    <div class="carrera-header" onclick="toggleCard('c7')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Profesorado</div>
+        <div class="carrera-nombre">Filosofía</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">MC</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">Ceccardi, Marcelo</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">GG</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Gómez, Gladys</div>
+          <div class="persona-horario">Lun/Mar 18:40–20:40 hs · Presencial<br>Vie 19:20–21:20 hs · Presencial · Oficina Referentes TIC noche</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Mirta Giménez</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROF. EDUCACIÓN TECNOLÓGICA -->
+  <div class="carrera-card" id="c8" data-keywords="educacion tecnologica susana turraca mariano rivero webmaster referente tic lunes miercoles presencial virtual aula">
+    <div class="carrera-header" onclick="toggleCard('c8')">
+      <div style="flex:1">
+        <div class="carrera-tipo">Profesorado</div>
+        <div class="carrera-nombre">Educación Tecnológica</div>
+      </div>
+      <div class="carrera-arrow">›</div>
+    </div>
+    <div class="carrera-body">
+      <div class="persona-row">
+        <div class="persona-avatar webmaster">ST</div>
+        <div class="persona-data">
+          <div class="persona-rol webmaster">Web Master</div>
+          <div class="persona-nombre-txt">Turraca, Susana</div>
+        </div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-avatar referente">ST</div>
+        <div class="persona-data">
+          <div class="persona-rol referente">Referente TIC</div>
+          <div class="persona-nombre-txt">Turraca, Susana · Rivero, Mariano</div>
+          <div class="persona-horario">Lun/Mar/Mié/Vie 17:30–21 hs · Presencial<br>Virtual 10 a 12:30 hs · Aula / Oficina Referentes</div>
+        </div>
+      </div>
+      <div class="conduccion-box">
+        <div class="conduccion-label">Equipo de Conducción</div>
+        <div class="conduccion-nombres">Norma Espíndola</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">No se encontraron resultados para tu búsqueda.</div>
+
+  <div style="background:var(--azul);border-radius:var(--radio);padding:18px;margin-top:8px;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--dorado),transparent);"></div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.85);text-align:center;line-height:1.6;">Para consultas sobre plataformas y recursos digitales institucionales contactar al coordinador o al referente de tu carrera.</p>
+    <p style="text-align:center;margin-top:8px;"><a href="mailto:referentestic@iestrada.edu.ar" style="color:var(--dorado-claro);font-size:13px;font-weight:600;">✉️ referentestic@iestrada.edu.ar</a></p>
+  </div>
 </main>
 
 <footer>
-  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Referentes TIC · Equipo Webmaster
+  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Referentes TIC 2026
 </footer>
+
+<nav class="nav-bar">
+  <button class="nav-btn" onclick="navTo('c1',this)"><span class="nav-icon">💻</span><span class="nav-label">Datos/IA</span></button>
+  <button class="nav-btn" onclick="navTo('c2',this)"><span class="nav-icon">📋</span><span class="nav-label">Gestión</span></button>
+  <button class="nav-btn" onclick="navTo('c4',this)"><span class="nav-icon">📚</span><span class="nav-label">Primaria</span></button>
+  <button class="nav-btn" onclick="navTo('c5',this)"><span class="nav-icon">🎒</span><span class="nav-label">Inicial</span></button>
+  <button class="nav-btn" onclick="navTo('c8',this)"><span class="nav-icon">🔧</span><span class="nav-label">Tecnol.</span></button>
+</nav>
+
+<script>
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+  function navTo(id, btn) {
+    const card = document.getElementById(id);
+    if (!card.classList.contains('open')) card.classList.add('open');
+    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const buscador = document.getElementById('buscador');
+  const resultCount = document.getElementById('resultCount');
+  const noResults = document.getElementById('noResults');
+  const cards = document.querySelectorAll('.carrera-card');
+  buscador.addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+    if (!query) {
+      cards.forEach(c => c.classList.remove('search-hidden','open'));
+      resultCount.textContent = '';
+      noResults.classList.remove('visible');
+      return;
+    }
+    let found = 0;
+    cards.forEach(card => {
+      const kw = (card.dataset.keywords||'').toLowerCase();
+      const txt = card.textContent.toLowerCase();
+      if (kw.includes(query)||txt.includes(query)) {
+        card.classList.remove('search-hidden');
+        card.classList.add('open');
+        found++;
+      } else {
+        card.classList.add('search-hidden');
+        card.classList.remove('open');
+      }
+    });
+    resultCount.textContent = found > 0 ? found+' carrera'+(found!==1?'s':'')+' encontrada'+(found!==1?'s':'') : '';
+    noResults.classList.toggle('visible', found===0);
+  });
+</script>
 </body>
 </html>
