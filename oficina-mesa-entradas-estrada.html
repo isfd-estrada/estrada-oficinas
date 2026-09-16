@@ -1,11 +1,440 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=mesa-entradas.html">
-<title>Redirigiendo...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesa de Entradas · ISFD José Manuel Estrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul:#1b2d4f; --azul-medio:#253d6b; --azul-claro:#2e4d87;
+    --dorado:#c9a84c; --dorado-claro:#e8c97d; --dorado-suave:#fef3d0;
+    --blanco:#ffffff; --crema:#f7f4ee; --crema-dark:#edeae1;
+    --texto:#1a1a2e; --gris:#6b7280;
+    --sombra:0 4px 28px rgba(27,45,79,0.13); --radio:14px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:80px; }
+
+  /* FRANJA + HEADER */
+  .franja-top { height:5px; background:linear-gradient(90deg,var(--azul),var(--dorado),var(--dorado-claro),var(--dorado),var(--azul)); }
+  header { background:var(--azul); padding:0 0 24px; text-align:center; }
+  .inst-label { display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--dorado); padding:18px 20px 6px; font-weight:500; }
+  header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.15; padding:0 20px; }
+  .oficina-sub { font-family:'DM Sans',sans-serif; font-size:clamp(13px,3.5vw,16px); color:var(--dorado-claro); font-weight:400; letter-spacing:0.5px; margin-top:5px; display:block; }
+  .linea-dorada { width:60px; height:2px; background:var(--dorado); margin:10px auto 0; }
+
+  /* RESPONSABLES */
+  .turnos-wrap { padding:20px 16px 0; display:flex; justify-content:center; }
+  .turnos-grid { width:100%; max-width:540px; display:flex; flex-direction:column; gap:10px; }
+  .turno-card { background:var(--azul-medio); border:1px solid rgba(201,168,76,0.35); border-radius:var(--radio); padding:14px 18px; display:flex; align-items:center; gap:14px; position:relative; overflow:hidden; }
+  .turno-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .foto-frame { width:56px; height:56px; border-radius:50%; border:2px solid var(--dorado); overflow:hidden; flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:22px; color:rgba(255,255,255,0.5); }
+  .turno-info { flex:1; }
+  .turno-etiqueta { font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:3px; }
+  .turno-nombre { font-family:'Playfair Display',serif; font-size:14px; color:var(--blanco); line-height:1.2; margin-bottom:2px; }
+  .turno-horario { font-size:12px; color:var(--dorado-claro); font-weight:500; }
+
+  /* HORARIOS */
+  .horario-wrap { padding:12px 16px 20px; display:flex; justify-content:center; }
+  .horario-card { background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3); border-radius:10px; padding:10px 16px; width:100%; max-width:540px; }
+  .horario-title { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:8px; text-align:center; }
+  .horario-fila { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--blanco); margin-bottom:5px; }
+  .horario-fila:last-child { margin-bottom:0; }
+  .horario-dot { width:6px; height:6px; border-radius:50%; background:var(--dorado); flex-shrink:0; }
+
+  /* MAIN */
+  main { max-width:640px; margin:0 auto; padding:24px 16px 20px; }
+
+  /* BUSCADOR */
+  .search-wrap { margin-bottom:20px; position:relative; }
+  .search-input { width:100%; padding:12px 16px 12px 44px; border-radius:12px; border:1.5px solid var(--crema-dark); background:var(--blanco); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto); box-shadow:var(--sombra); outline:none; transition:border .2s; }
+  .search-input:focus { border-color:var(--dorado); }
+  .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:18px; pointer-events:none; }
+  .search-results-count { font-size:12px; color:var(--gris); margin-top:6px; padding-left:4px; min-height:16px; }
+
+  /* SECCIÓN PRINCIPAL */
+  .seccion-label { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .seccion-label::before,.seccion-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .seccion-label span { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:600; white-space:nowrap; }
+
+  /* CARDS PRINCIPALES */
+  .tramite-card { background:var(--blanco); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:12px; overflow:hidden; border:1px solid rgba(27,45,79,0.08); transition:box-shadow .2s; }
+  .tramite-card:hover { box-shadow:0 8px 36px rgba(27,45,79,0.16); }
+  .tramite-header { display:flex; align-items:center; gap:14px; padding:16px 16px 14px; cursor:pointer; user-select:none; }
+  .tramite-icon { width:42px; height:42px; border-radius:10px; background:var(--azul); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:19px; }
+  .tramite-titulo { flex:1; font-family:'Playfair Display',serif; font-size:15.5px; color:var(--azul); line-height:1.3; }
+  .tramite-titulo small { font-family:'DM Sans',sans-serif; font-size:11.5px; color:var(--gris); font-weight:400; display:block; margin-top:2px; }
+  .badge { background:var(--dorado-suave); color:var(--azul); font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; border:1px solid rgba(201,168,76,0.4); white-space:nowrap; }
+  .tramite-arrow { color:var(--dorado); font-size:20px; transition:transform .25s; line-height:1; margin-left:6px; }
+  .tramite-card.open .tramite-arrow { transform:rotate(90deg); }
+  .tramite-body { display:none; padding:0 16px 16px; border-top:1px solid var(--crema-dark); }
+  .tramite-card.open .tramite-body { display:block; padding-top:14px; }
+
+  /* NOTA BOX */
+  .nota-box { background:#f0f4fb; border-radius:10px; padding:14px; border-left:3px solid var(--azul-claro); margin-bottom:10px; }
+  .nota-label { font-size:10.5px; text-transform:uppercase; letter-spacing:1px; font-weight:600; color:var(--azul-medio); margin-bottom:8px; }
+  .nota-box p { font-size:13.5px; line-height:1.6; color:#374151; }
+  .info-box { background:#f0faf5; border-radius:8px; padding:10px 12px; font-size:12.5px; color:#065f46; margin-bottom:14px; line-height:1.6; border-left:3px solid #34d399; }
+
+  /* SUB-CATEGORÍAS dentro de Presentar */
+  .subcat { margin-bottom:10px; border:1px solid var(--crema-dark); border-radius:10px; overflow:hidden; }
+  .subcat-header { display:flex; align-items:center; gap:10px; padding:11px 14px; cursor:pointer; user-select:none; background:var(--crema); transition:background .15s; }
+  .subcat-header:hover { background:var(--crema-dark); }
+  .subcat-icon { font-size:16px; }
+  .subcat-titulo { flex:1; font-size:13.5px; font-weight:600; color:var(--azul); }
+  .subcat-badge { background:var(--azul); color:var(--dorado-claro); font-size:10px; font-weight:700; padding:2px 7px; border-radius:20px; }
+  .subcat-arrow { color:var(--dorado); font-size:16px; transition:transform .2s; }
+  .subcat.open .subcat-arrow { transform:rotate(90deg); }
+  .subcat-body { display:none; padding:10px 14px 12px; background:var(--blanco); border-top:1px solid var(--crema-dark); }
+  .subcat.open .subcat-body { display:block; }
+
+  /* ITEMS de lista */
+  .item-list { list-style:none; padding:0; margin:0; }
+  .item-list li { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#374151; padding:5px 0; border-bottom:1px solid #f3f4f6; line-height:1.5; }
+  .item-list li:last-child { border-bottom:none; }
+  .item-bullet { width:6px; height:6px; border-radius:50%; background:var(--dorado); flex-shrink:0; margin-top:6px; }
+  .item-list li.hidden { display:none; }
+  .item-list li mark { background:rgba(201,168,76,0.25); border-radius:3px; padding:0 2px; font-style:normal; }
+
+  /* AVISO */
+  .aviso-general { background:var(--azul); border-radius:var(--radio); padding:20px; margin-top:8px; position:relative; overflow:hidden; }
+  .aviso-general::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .aviso-general h3 { font-family:'Playfair Display',serif; font-size:15px; color:var(--dorado-claro); margin-bottom:10px; }
+  .aviso-general ul { padding-left:18px; }
+  .aviso-general ul li { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.9; }
+
+  /* BARRA NAVEGACIÓN FIJA */
+  .nav-bar { position:fixed; bottom:0; left:0; right:0; background:var(--azul); border-top:2px solid var(--dorado); display:flex; z-index:100; box-shadow:0 -4px 20px rgba(27,45,79,0.25); }
+  .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 4px; cursor:pointer; border:none; background:transparent; gap:3px; transition:background .15s; -webkit-tap-highlight-color:transparent; }
+  .nav-btn:hover, .nav-btn.active { background:rgba(201,168,76,0.15); }
+  .nav-btn .nav-icon { font-size:20px; }
+  .nav-btn .nav-label { font-size:9.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--dorado); font-weight:600; }
+  .nav-btn.active .nav-label { color:var(--dorado-claro); }
+
+  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:8px; }
+  footer span { color:var(--azul-medio); font-weight:600; }
+
+  /* No results */
+  .no-results { text-align:center; padding:24px; color:var(--gris); font-size:14px; display:none; }
+  .no-results.visible { display:block; }
+</style>
 </head>
 <body>
-<script>window.location.replace("mesa-entradas.html");</script>
+
+<div class="franja-top"></div>
+<header>
+  <span class="inst-label">Instituto Superior de Formación Docente</span>
+  <h1>José Manuel Estrada</h1>
+  <span class="oficina-sub">Mesa de Entradas</span>
+  <div class="linea-dorada"></div>
+
+  <div class="turnos-wrap">
+    <div class="turnos-grid">
+      <div class="turno-card">
+        <div class="foto-frame">👤</div>
+        <div class="turno-info">
+          <div class="turno-etiqueta">Turno Mañana · Turno Tarde</div>
+          <div class="turno-nombre">Marello, Graciela</div>
+          <div class="turno-horario">08:00 – 12:00 hs &nbsp;·&nbsp; 13:00 – 17:00 hs</div>
+        </div>
+      </div>
+      <div class="turno-card">
+        <div class="foto-frame">👤</div>
+        <div class="turno-info">
+          <div class="turno-etiqueta">Turno Vespertino</div>
+          <div class="turno-nombre">Rausch, Carla</div>
+          <div class="turno-horario">17:00 – 21:00 hs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="horario-wrap">
+    <div class="horario-card">
+      <div class="horario-title">🕐 Horarios de atención</div>
+      <div class="horario-fila"><div class="horario-dot"></div> Mañana: 08:00 – 12:00 hs · Graciela Marello</div>
+      <div class="horario-fila"><div class="horario-dot"></div> Tarde: 13:00 – 17:00 hs · Graciela Marello</div>
+      <div class="horario-fila"><div class="horario-dot"></div> Vespertino: 17:00 – 21:00 hs · Carla Rausch</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- BUSCADOR -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="buscador" placeholder="Buscar trámite, formulario, nota..." autocomplete="off">
+    <div class="search-results-count" id="resultCount"></div>
+  </div>
+
+  <div class="seccion-label"><span>¿Qué podés hacer?</span></div>
+
+  <!-- CARD 1: SOLICITAR -->
+  <div class="tramite-card" id="card-solicitar">
+    <div class="tramite-header" onclick="toggleCard('card-solicitar')">
+      <div class="tramite-icon">📥</div>
+      <div class="tramite-titulo">Solicitar
+        <small>formularios, constancias y más</small>
+      </div>
+      <span class="badge">6</span>
+      <div class="tramite-arrow">›</div>
+    </div>
+    <div class="tramite-body">
+      <ul class="item-list" id="list-solicitar">
+        <li><div class="item-bullet"></div><span>Formularios de <strong>Licencia</strong></span></li>
+        <li><div class="item-bullet"></div><span>Constancias emitidas por otras dependencias</span></li>
+        <li><div class="item-bullet"></div><span><strong>Libreta de Exámenes</strong></span></li>
+        <li><div class="item-bullet"></div><span>Formulario de <strong>Equivalencia</strong> y ficha de evaluación por materia</span></li>
+        <li><div class="item-bullet"></div><span>Cuota anual de asociación a la <strong>Cooperadora</strong></span></li>
+        <li><div class="item-bullet"></div><span>Ficha de inscripción a <strong>Concursos Ordinario y Extraordinario</strong> de Interinatos y Suplencias</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CARD 2: PRESENTAR -->
+  <div class="tramite-card" id="card-presentar">
+    <div class="tramite-header" onclick="toggleCard('card-presentar')">
+      <div class="tramite-icon">📤</div>
+      <div class="tramite-titulo">Presentar
+        <small>notas, solicitudes y planillas</small>
+      </div>
+      <span class="badge">19</span>
+      <div class="tramite-arrow">›</div>
+    </div>
+    <div class="tramite-body">
+
+      <div class="info-box">
+        📝 Las notas siempre van dirigidas a la <strong>Rectora</strong> e incluyen: motivo, apellido y nombre, DNI, carrera/curso/división (si corresponde), número de contacto y <strong>correo electrónico</strong>.
+      </div>
+
+      <!-- Subcategoría 1 -->
+      <div class="subcat" id="sub1">
+        <div class="subcat-header" onclick="toggleSub('sub1')">
+          <span class="subcat-icon">🎓</span>
+          <span class="subcat-titulo">Títulos y certificados</span>
+          <span class="subcat-badge">5</span>
+          <span class="subcat-arrow">›</span>
+        </div>
+        <div class="subcat-body">
+          <ul class="item-list" id="list-titulos">
+            <li><div class="item-bullet"></div><span>Solicitud de <strong>Título</strong>, copia de Título o Diploma</span></li>
+            <li><div class="item-bullet"></div><span><strong>Certificado Analítico</strong></span></li>
+            <li><div class="item-bullet"></div><span>Carga horaria y <strong>caja curricular</strong></span></li>
+            <li><div class="item-bullet"></div><span>Programa de materias cursadas (con certificado analítico o copia del título)</span></li>
+            <li><div class="item-bullet"></div><span><strong>Equivalencias</strong> — del 1 al 15 de abril</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Subcategoría 2 -->
+      <div class="subcat" id="sub2">
+        <div class="subcat-header" onclick="toggleSub('sub2')">
+          <span class="subcat-icon">📋</span>
+          <span class="subcat-titulo">Notas y solicitudes generales</span>
+          <span class="subcat-badge">6</span>
+          <span class="subcat-arrow">›</span>
+        </div>
+        <div class="subcat-body">
+          <ul class="item-list" id="list-notas">
+            <li><div class="item-bullet"></div><span>Solicitud de <strong>Vacante o Pase</strong> (cualquier época, sujeto a disponibilidad)</span></li>
+            <li><div class="item-bullet"></div><span><strong>Certificado de Situación de Revista</strong></span></li>
+            <li><div class="item-bullet"></div><span>Nota de <strong>Renuncia</strong></span></li>
+            <li><div class="item-bullet"></div><span>Notas de Estudiantes, Profesores y agentes de la institución</span></li>
+            <li><div class="item-bullet"></div><span>Notas varias, <strong>Recursos y Oficios</strong></span></li>
+            <li><div class="item-bullet"></div><span>Solicitudes de <strong>Instituciones Coformadoras</strong></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Subcategoría 3 -->
+      <div class="subcat" id="sub3">
+        <div class="subcat-header" onclick="toggleSub('sub3')">
+          <span class="subcat-icon">📊</span>
+          <span class="subcat-titulo">Planillas e informes</span>
+          <span class="subcat-badge">5</span>
+          <span class="subcat-arrow">›</span>
+        </div>
+        <div class="subcat-body">
+          <ul class="item-list" id="list-planillas">
+            <li><div class="item-bullet"></div><span>Planillas de asistencia a terreno — <strong>Práctica Profesional y Residencia</strong></span></li>
+            <li><div class="item-bullet"></div><span>Planillas de seguimiento de <strong>Aulas Virtuales</strong></span></li>
+            <li><div class="item-bullet"></div><span>Planillas de cumplimiento de <strong>Coordinaciones de Área</strong></span></li>
+            <li><div class="item-bullet"></div><span>Planillas de cumplimiento de acciones de <strong>Formación Continua</strong></span></li>
+            <li><div class="item-bullet"></div><span>Asistencia mensual de <strong>Docentes, Administrativos y No Docentes</strong></span></li>
+            <li><div class="item-bullet"></div><span>Informes</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Subcategoría 4 -->
+      <div class="subcat" id="sub4">
+        <div class="subcat-header" onclick="toggleSub('sub4')">
+          <span class="subcat-icon">🏆</span>
+          <span class="subcat-titulo">Concursos y cargos de gestión</span>
+          <span class="subcat-badge">1</span>
+          <span class="subcat-arrow">›</span>
+        </div>
+        <div class="subcat-body">
+          <ul class="item-list" id="list-concursos">
+            <li><div class="item-bullet"></div><span>Inscripción a Concursos de <strong>Coordinadores de Carrera, Área</strong> y otros cargos de Gestión</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARD 3: NOTIFICARSE -->
+  <div class="tramite-card" id="card-notificar">
+    <div class="tramite-header" onclick="toggleCard('card-notificar')">
+      <div class="tramite-icon">🔔</div>
+      <div class="tramite-titulo">Notificarse
+        <small>respuestas, expedientes y más</small>
+      </div>
+      <span class="badge">7</span>
+      <div class="tramite-arrow">›</div>
+    </div>
+    <div class="tramite-body">
+      <ul class="item-list" id="list-notificar">
+        <li><div class="item-bullet"></div><span>Respuesta a <strong>Notas Varias</strong></span></li>
+        <li><div class="item-bullet"></div><span>Respuesta a <strong>Recursos</strong></span></li>
+        <li><div class="item-bullet"></div><span><strong>Expedientes</strong></span></li>
+        <li><div class="item-bullet"></div><span><strong>Memorándum</strong></span></li>
+        <li><div class="item-bullet"></div><span><strong>Cédulas</strong></span></li>
+        <li><div class="item-bullet"></div><span>Certificación de <strong>Adscripciones</strong></span></li>
+        <li><div class="item-bullet"></div><span>Certificado de <strong>Situación de Revista</strong></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">No se encontraron resultados para tu búsqueda.</div>
+
+  <!-- AVISO -->
+  <div class="aviso-general" id="aviso-nota">
+    <h3>📌 Datos obligatorios en toda nota</h3>
+    <ul>
+      <li>Dirigida a la <strong style="color:var(--dorado-claro)">Rectora</strong></li>
+      <li>Motivo claro de la solicitud</li>
+      <li>Apellido y Nombre completo</li>
+      <li>DNI</li>
+      <li>Carrera, curso y división (si corresponde)</li>
+      <li>Número de contacto</li>
+      <li>Correo electrónico (para notificación oficial)</li>
+    </ul>
+    <div style="margin-top:14px;text-align:center;">
+      <a href="mailto:mesadeentrada@iestrada.edu.ar" style="font-size:13.5px;color:var(--dorado-claro);font-weight:600;text-decoration:none;">✉️ mesadeentrada@iestrada.edu.ar</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Mesa de Entradas
+</footer>
+
+<!-- BARRA DE NAVEGACIÓN FIJA -->
+<nav class="nav-bar">
+  <button class="nav-btn" onclick="navTo('card-solicitar', this)">
+    <span class="nav-icon">📥</span>
+    <span class="nav-label">Solicitar</span>
+  </button>
+  <button class="nav-btn" onclick="navTo('card-presentar', this)">
+    <span class="nav-icon">📤</span>
+    <span class="nav-label">Presentar</span>
+  </button>
+  <button class="nav-btn" onclick="navTo('card-notificar', this)">
+    <span class="nav-icon">🔔</span>
+    <span class="nav-label">Notificarse</span>
+  </button>
+  <button class="nav-btn" onclick="navTo('aviso-nota', this)">
+    <span class="nav-icon">📝</span>
+    <span class="nav-label">La nota</span>
+  </button>
+</nav>
+
+<script>
+  // Acordeón principal
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  // Sub-acordeón
+  function toggleSub(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  // Navegación barra fija
+  function navTo(id, btn) {
+    // Abrir card si está cerrada
+    const card = document.getElementById(id);
+    if (card && card.classList.contains('tramite-card') && !card.classList.contains('open')) {
+      card.classList.add('open');
+    }
+    // Scroll
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+    // Highlight botón activo
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // BUSCADOR
+  const buscador = document.getElementById('buscador');
+  const resultCount = document.getElementById('resultCount');
+  const noResults = document.getElementById('noResults');
+
+  // Recopilar todos los items buscables
+  function getAllItems() {
+    return document.querySelectorAll('.item-list li');
+  }
+
+  buscador.addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+
+    if (!query) {
+      // Restaurar todo
+      getAllItems().forEach(li => {
+        li.classList.remove('hidden');
+        li.querySelector('span').innerHTML = li.querySelector('span').innerHTML.replace(/<mark>/g,'').replace(/<\/mark>/g,'');
+      });
+      // Cerrar todas las cards
+      document.querySelectorAll('.tramite-card').forEach(c => c.classList.remove('open'));
+      document.querySelectorAll('.subcat').forEach(s => s.classList.remove('open'));
+      resultCount.textContent = '';
+      noResults.classList.remove('visible');
+      return;
+    }
+
+    let totalVisible = 0;
+
+    // Abrir todas las cards y subcats para mostrar resultados
+    document.querySelectorAll('.tramite-card').forEach(c => c.classList.add('open'));
+    document.querySelectorAll('.subcat').forEach(s => s.classList.add('open'));
+
+    getAllItems().forEach(li => {
+      const span = li.querySelector('span');
+      const text = span.textContent.toLowerCase();
+
+      if (text.includes(query)) {
+        li.classList.remove('hidden');
+        totalVisible++;
+        // Highlight
+        const regex = new RegExp(`(${query})`, 'gi');
+        span.innerHTML = span.textContent.replace(regex, '<mark>$1</mark>');
+      } else {
+        li.classList.add('hidden');
+        span.innerHTML = span.textContent;
+      }
+    });
+
+    resultCount.textContent = totalVisible > 0
+      ? `${totalVisible} resultado${totalVisible !== 1 ? 's' : ''} encontrado${totalVisible !== 1 ? 's' : ''}`
+      : '';
+    noResults.classList.toggle('visible', totalVisible === 0);
+  });
+</script>
 </body>
 </html>
