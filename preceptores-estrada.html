@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preceptores · ISFD José Manuel Estrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul:#1b2d4f; --azul-medio:#253d6b; --azul-claro:#2e4d87;
+    --dorado:#c9a84c; --dorado-claro:#e8c97d; --dorado-suave:#fef3d0;
+    --blanco:#ffffff; --crema:#f7f4ee; --crema-dark:#edeae1;
+    --texto:#1a1a2e; --gris:#6b7280;
+    --sombra:0 4px 28px rgba(27,45,79,0.13); --radio:14px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:40px; }
+  .franja-top { height:5px; background:linear-gradient(90deg,var(--azul),var(--dorado),var(--dorado-claro),var(--dorado),var(--azul)); }
+  header { background:var(--azul); padding:0 0 24px; text-align:center; }
+  .inst-label { display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--dorado); padding:18px 20px 6px; font-weight:500; }
+  header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.15; padding:0 20px; }
+  .oficina-sub { font-size:clamp(12px,3vw,15px); color:var(--dorado-claro); font-weight:400; margin-top:5px; display:block; }
+  .linea-dorada { width:60px; height:2px; background:var(--dorado); margin:10px auto 0; }
+
+  /* BUSCADOR */
+  .search-wrap { max-width:600px; margin:0 auto; padding:20px 16px 0; position:relative; }
+  .search-input { width:100%; padding:12px 16px 12px 44px; border-radius:12px; border:1.5px solid var(--crema-dark); background:var(--blanco); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto); box-shadow:var(--sombra); outline:none; transition:border .2s; }
+  .search-input:focus { border-color:var(--dorado); }
+  .search-icon { position:absolute; left:28px; top:50%; transform:translateY(-50%); font-size:18px; pointer-events:none; }
+  .search-count { font-size:12px; color:var(--gris); margin-top:6px; padding-left:4px; min-height:16px; }
+
+  main { max-width:600px; margin:0 auto; padding:20px 16px 20px; }
+
+  /* CARRERA HEADER */
+  .carrera-grupo { margin-bottom:20px; }
+  .carrera-grupo.hidden { display:none; }
+  .carrera-titulo { background:var(--azul); border-radius:10px 10px 0 0; padding:10px 16px; }
+  .carrera-titulo h2 { font-family:'Playfair Display',serif; font-size:15px; color:var(--dorado-claro); }
+
+  /* PRECEPTOR CARD */
+  .preceptor-card { background:var(--blanco); border:1px solid rgba(27,45,79,0.08); padding:14px 16px; display:flex; align-items:center; gap:14px; border-top:1px solid var(--crema-dark); }
+  .carrera-grupo .preceptor-card:last-child { border-radius:0 0 10px 10px; }
+  .foto-frame { width:58px; height:58px; border-radius:50%; border:2px solid var(--dorado); flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:22px; color:rgba(255,255,255,0.4); overflow:hidden; }
+  .prec-info { flex:1; }
+  .prec-nombre { font-family:'Playfair Display',serif; font-size:14.5px; color:var(--azul); margin-bottom:4px; }
+  .prec-anio { font-size:12px; color:var(--gris); margin-bottom:5px; }
+  .prec-meta { display:flex; flex-wrap:wrap; gap:5px; }
+  .chip { font-size:10.5px; padding:2px 8px; border-radius:20px; font-weight:500; }
+  .chip-azul { background:var(--azul); color:var(--dorado-claro); }
+  .chip-gris { background:#374151; color:#e5e7eb; }
+
+  .no-results { text-align:center; padding:30px; color:var(--gris); font-size:14px; display:none; }
+  .no-results.visible { display:block; }
+
+  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:8px; }
+  footer span { color:var(--azul-medio); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="franja-top"></div>
+<header>
+  <span class="inst-label">Instituto Superior de Formación Docente</span>
+  <h1>José Manuel Estrada</h1>
+  <span class="oficina-sub">Preceptores por Carrera</span>
+  <div class="linea-dorada"></div>
+</header>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" id="buscador" placeholder="Buscar por nombre, carrera o año..." autocomplete="off">
+  <div class="search-count" id="searchCount"></div>
+</div>
+
+<main>
+
+  <!-- PROFESORADO DE EDUCACIÓN PRIMARIA -->
+  <div class="carrera-grupo" data-carrera="profesorado de educación primaria">
+    <div class="carrera-titulo"><h2>Profesorado de Educación Primaria</h2></div>
+    <div class="preceptor-card" data-search="gomez gladys primaria 1 2 3 4 año mañana">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Gómez, Gladys Elena</div>
+        <div class="prec-anio">1°, 2°, 3° y 4° año</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">7:30 – 12:00 hs</span>
+          <span class="chip chip-azul">Turno mañana</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+    <div class="preceptor-card" data-search="ojeda facundo primaria 3era division tarde noche">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Ojeda, Facundo Sebastián</div>
+        <div class="prec-anio">3ª División</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">17:00 – 22:00 hs</span>
+          <span class="chip chip-azul">Turno tarde/noche</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESORADO DE EDUCACIÓN INICIAL -->
+  <div class="carrera-grupo" data-carrera="profesorado de educación inicial">
+    <div class="carrera-titulo"><h2>Profesorado de Educación Inicial</h2></div>
+    <div class="preceptor-card" data-search="aguirre sonia inicial 1 año tarde siesta">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Aguirre, Sonia Analía</div>
+        <div class="prec-anio">1° año</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">13:00 – 18:00 hs</span>
+          <span class="chip chip-azul">Turno tarde</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+    <div class="preceptor-card" data-search="baez fernando inicial 2 3 4 año tarde siesta">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Baez, Fernando Sebastián</div>
+        <div class="prec-anio">2°, 3° y 4° año</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">13:00 – 18:00 hs</span>
+          <span class="chip chip-azul">Turno tarde</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESORADO DE FILOSOFÍA -->
+  <div class="carrera-grupo" data-carrera="profesorado de filosofía">
+    <div class="carrera-titulo"><h2>Profesorado de Filosofía</h2></div>
+    <div class="preceptor-card" data-search="garcia federico filosofia tarde noche">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">García, Federico Maximiliano</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">17:00 – 22:00 hs</span>
+          <span class="chip chip-azul">Turno tarde/noche</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESORADO DE EDUCACIÓN TECNOLÓGICA -->
+  <div class="carrera-grupo" data-carrera="profesorado de educación tecnológica">
+    <div class="carrera-titulo"><h2>Profesorado de Educación Tecnológica</h2></div>
+    <div class="preceptor-card" data-search="ojeda facundo tecnologica tarde noche">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Ojeda, Facundo Sebastián</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">17:00 – 22:00 hs</span>
+          <span class="chip chip-azul">Turno tarde/noche</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESORADO EN CIENCIAS DE LA EDUCACIÓN -->
+  <div class="carrera-grupo" data-carrera="profesorado en ciencias de la educación">
+    <div class="carrera-titulo"><h2>Profesorado en Ciencias de la Educación</h2></div>
+    <div class="preceptor-card" data-search="ojeda facundo ciencias educacion mañana">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Ojeda, Facundo Sebastián</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">7:30 – 12:00 hs</span>
+          <span class="chip chip-azul">Turno mañana</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECNICATURA EN CIENCIAS DE DATOS E IA -->
+  <div class="carrera-grupo" data-carrera="tecnicatura en ciencias de datos inteligencia artificial">
+    <div class="carrera-titulo"><h2>Tecnicatura en Ciencias de Datos e Inteligencia Artificial</h2></div>
+    <div class="preceptor-card" data-search="aguirre sonia datos inteligencia artificial tarde">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Aguirre, Sonia Analía</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">13:00 – 18:00 hs</span>
+          <span class="chip chip-azul">Turno tarde</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECNICATURA EN LOGÍSTICA PORTUARIA -->
+  <div class="carrera-grupo" data-carrera="tecnicatura en logística portuaria">
+    <div class="carrera-titulo"><h2>Tecnicatura en Logística Portuaria</h2></div>
+    <div class="preceptor-card" data-search="aguirre sonia logistica portuaria tarde">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Aguirre, Sonia Analía</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">13:00 – 18:00 hs</span>
+          <span class="chip chip-azul">Turno tarde</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECNICATURA EN GESTIÓN ADMINISTRATIVA -->
+  <div class="carrera-grupo" data-carrera="tecnicatura en gestión administrativa">
+    <div class="carrera-titulo"><h2>Tecnicatura en Gestión Administrativa</h2></div>
+    <div class="preceptor-card" data-search="zibelman alejandra gestion administrativa tarde sabado">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Zibelman, Alejandra</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">Mar/Mié/Jue 13:00–17:00</span>
+          <span class="chip chip-gris">Sáb 8:00–13:00</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+    <div class="preceptor-card" data-search="cabrera lorena gestion administrativa mañana">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Cabrera, Lorena</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">L–V 8:00–12:00 hs</span>
+          <span class="chip chip-azul">Turno mañana</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECNICATURA EN NIÑEZ, ADOLESCENCIA Y FAMILIA -->
+  <div class="carrera-grupo" data-carrera="tecnicatura en niñez adolescencia y familia">
+    <div class="carrera-titulo"><h2>Tecnicatura en Niñez, Adolescencia y Familia</h2></div>
+    <div class="preceptor-card" data-search="zibelman alejandra niñez adolescencia familia tarde sabado">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Zibelman, Alejandra</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">Mar/Mié/Jue 13:00–17:00</span>
+          <span class="chip chip-gris">Sáb 8:00–13:00</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+    <div class="preceptor-card" data-search="cabrera lorena niñez adolescencia familia mañana">
+      <div class="foto-frame">👤</div>
+      <div class="prec-info">
+        <div class="prec-nombre">Cabrera, Lorena</div>
+        <div class="prec-anio">Todos los años</div>
+        <div class="prec-meta">
+          <span class="chip chip-gris">L–V 8:00–12:00 hs</span>
+          <span class="chip chip-azul">Turno mañana</span>
+          <span class="chip chip-azul">Preceptoría</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">No se encontraron resultados.</div>
+
+</main>
+
+<footer>
+  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Preceptores por Carrera
+</footer>
+
+<script>
+  const buscador = document.getElementById('buscador');
+  const searchCount = document.getElementById('searchCount');
+  const noResults = document.getElementById('noResults');
+  const grupos = document.querySelectorAll('.carrera-grupo');
+  const cards = document.querySelectorAll('.preceptor-card');
+
+  buscador.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) {
+      grupos.forEach(g => g.classList.remove('hidden'));
+      cards.forEach(c => c.style.display = '');
+      searchCount.textContent = '';
+      noResults.classList.remove('visible');
+      return;
+    }
+    let found = 0;
+    grupos.forEach(grupo => {
+      const carrera = (grupo.dataset.carrera || '').toLowerCase();
+      let grupoVisible = false;
+      grupo.querySelectorAll('.preceptor-card').forEach(card => {
+        const texto = (card.dataset.search || '') + ' ' + card.textContent.toLowerCase() + ' ' + carrera;
+        if (texto.includes(q)) {
+          card.style.display = '';
+          grupoVisible = true;
+          found++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      grupo.classList.toggle('hidden', !grupoVisible);
+    });
+    searchCount.textContent = found > 0 ? `${found} preceptor${found !== 1 ? 'es' : ''} encontrado${found !== 1 ? 's' : ''}` : '';
+    noResults.classList.toggle('visible', found === 0);
+  });
+</script>
+</body>
+</html>
