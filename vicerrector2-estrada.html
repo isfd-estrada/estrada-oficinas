@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vicerrector 2 · ISFD José Manuel Estrada</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Vicerrectoría · ISFD José Manuel Estrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --azul:#1b2d4f; --azul-medio:#253d6b; --azul-claro:#2e4d87;
@@ -14,143 +14,72 @@
     --sombra:0 4px 28px rgba(27,45,79,0.13); --radio:14px;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:40px; }
+  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; display:flex; flex-direction:column; }
   .franja-top { height:5px; background:linear-gradient(90deg,var(--azul),var(--dorado),var(--dorado-claro),var(--dorado),var(--azul)); }
-  header { background:var(--azul); padding:0 0 24px; text-align:center; }
+  header { background:var(--azul); padding:0 0 28px; text-align:center; }
   .inst-label { display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--dorado); padding:18px 20px 6px; font-weight:500; }
-  header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.2; padding:0 20px; }
-  .oficina-sub { font-size:12px; color:var(--dorado-claro); font-weight:400; margin-top:5px; display:block; }
+  header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.15; padding:0 20px; }
+  .oficina-sub { font-size:clamp(12px,3vw,15px); color:var(--dorado-claro); font-weight:400; letter-spacing:0.5px; margin-top:5px; display:block; }
   .linea-dorada { width:60px; height:2px; background:var(--dorado); margin:10px auto 0; }
-  .dep-label { font-size:11px; color:rgba(255,255,255,0.4); margin-top:8px; display:block; letter-spacing:0.5px; }
 
-  .responsable-wrap { padding:20px 16px 0; display:flex; justify-content:center; }
-  .responsable-card { background:var(--azul-medio); border:1px solid rgba(201,168,76,0.35); border-radius:var(--radio); padding:18px; display:flex; align-items:center; gap:16px; width:100%; max-width:540px; position:relative; overflow:hidden; }
-  .responsable-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .foto-frame { width:70px; height:70px; border-radius:50%; border:2.5px solid var(--dorado); flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:26px; color:rgba(255,255,255,0.4); }
-  .resp-etiqueta { font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:4px; }
-  .resp-nombre { font-family:'Playfair Display',serif; font-size:15px; color:rgba(255,255,255,0.5); line-height:1.3; margin-bottom:3px; font-style:italic; }
-  .resp-cargo { font-size:12px; color:rgba(255,255,255,0.4); font-style:italic; }
+  .perfil { padding:26px 16px 0; display:flex; flex-direction:column; align-items:center; }
+  .foto-frame { width:130px; height:130px; border-radius:50%; border:3px solid var(--dorado); overflow:hidden; box-shadow:0 0 0 6px rgba(201,168,76,0.15); }
+  .foto-frame img { width:100%; height:100%; object-fit:cover; display:block; }
+  .resp-etiqueta { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-top:16px; }
+  .resp-nombre { font-family:'Playfair Display',serif; font-size:clamp(20px,5.5vw,24px); color:var(--blanco); line-height:1.25; margin-top:4px; padding:0 20px; }
+  .resp-cargo { font-size:13px; color:rgba(255,255,255,0.6); font-style:italic; margin-top:3px; }
 
-  .horario-wrap { padding:10px 16px 20px; display:flex; justify-content:center; }
-  .horario-card { background:rgba(201,168,76,0.10); border:1px solid rgba(201,168,76,0.25); border-radius:10px; padding:10px 16px; width:100%; max-width:540px; display:flex; align-items:center; gap:10px; }
-  .horario-icon { font-size:18px; }
-  .horario-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:2px; }
-  .horario-horas { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; }
+  main { max-width:640px; width:100%; margin:0 auto; padding:24px 16px 20px; flex:1; }
 
-  main { max-width:640px; margin:0 auto; padding:24px 16px 20px; }
+  .mision { background:var(--azul); border-radius:var(--radio); padding:22px 20px; margin-bottom:14px; position:relative; overflow:hidden; text-align:center; box-shadow:var(--sombra); }
+  .mision::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .mision-label { font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:var(--dorado); font-weight:600; margin-bottom:8px; }
+  .mision p { font-family:'Playfair Display',serif; font-size:16px; color:var(--blanco); line-height:1.5; }
 
-  .aviso-construccion { background:var(--azul); border-radius:var(--radio); padding:20px; margin-bottom:18px; position:relative; overflow:hidden; text-align:center; }
-  .aviso-construccion::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .aviso-construccion .aviso-icon { font-size:32px; margin-bottom:10px; }
-  .aviso-construccion p { font-size:13.5px; color:rgba(255,255,255,0.75); line-height:1.6; }
-  .aviso-construccion strong { color:var(--dorado-claro); }
-  .dep-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px; padding:8px 14px; font-size:12px; color:var(--dorado-claro); margin-top:8px; }
+  .dato-card { background:var(--azul); border-radius:var(--radio); padding:16px 18px; margin-bottom:12px; display:flex; align-items:center; gap:14px; border:1px solid rgba(201,168,76,0.25); box-shadow:var(--sombra); text-decoration:none; }
+  .dato-icon { width:44px; height:44px; border-radius:10px; background:var(--azul-medio); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .dato-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:3px; }
+  .dato-valor { font-size:15px; color:var(--blanco); word-break:break-all; }
+  a.dato-card .dato-valor { color:var(--dorado-claro); }
+  a.dato-card:hover { border-color:var(--dorado); }
+  .dato-accion { margin-left:auto; color:var(--dorado); font-size:20px; }
 
-  .seccion-label { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-  .seccion-label::before,.seccion-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .seccion-label span { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:600; white-space:nowrap; }
-
-  .tramite-card { background:var(--blanco); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:12px; overflow:hidden; border:1px solid rgba(27,45,79,0.08); }
-  .tramite-header { display:flex; align-items:center; gap:14px; padding:16px 16px 14px; cursor:pointer; user-select:none; }
-  .tramite-icon { width:42px; height:42px; border-radius:10px; background:var(--azul); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:19px; opacity:0.5; }
-  .tramite-titulo { flex:1; font-family:'Playfair Display',serif; font-size:15px; color:#9ca3af; line-height:1.3; }
-  .tramite-titulo small { font-family:'DM Sans',sans-serif; font-size:11px; color:#d1d5db; font-weight:400; display:block; margin-top:2px; }
-  .tramite-arrow { color:#d1d5db; font-size:20px; transition:transform .2s; }
-  .tramite-card.open .tramite-arrow { transform:rotate(90deg); }
-  .tramite-body { display:none; padding:0 16px 16px; border-top:1px solid var(--crema-dark); }
-  .tramite-card.open .tramite-body { display:block; padding-top:14px; }
-  .proximamente { background:var(--crema); border-radius:10px; padding:16px; text-align:center; border:1px dashed var(--dorado); }
-  .proximamente p { font-size:13px; color:var(--gris); line-height:1.6; }
-  .proximamente strong { color:var(--azul); }
-
-  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:8px; }
+  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); }
   footer span { color:var(--azul-medio); font-weight:600; }
 </style>
 </head>
 <body>
-
 <div class="franja-top"></div>
 <header>
   <span class="inst-label">Instituto Superior de Formación Docente</span>
   <h1>José Manuel Estrada</h1>
-  <span class="oficina-sub">Vicerrectorado 2</span>
+  <span class="oficina-sub">Vicerrectoría</span>
   <div class="linea-dorada"></div>
-  <span class="dep-label">Depende de Equipo de Conducción</span>
 
-  <div class="responsable-wrap">
-    <div class="responsable-card">
-      <div class="foto-frame">👤</div>
-      <div>
-        <div class="resp-etiqueta">Responsable del área</div>
-        <div class="resp-nombre">A confirmar</div>
-        <div class="resp-cargo">Vicerrectorado 2</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="horario-wrap">
-    <div class="horario-card">
-      <div class="horario-icon">🕐</div>
-      <div>
-        <div class="horario-label">Horario de atención</div>
-        <div class="horario-horas">A confirmar próximamente</div>
-      </div>
-    </div>
+  <div class="perfil">
+    <div class="foto-frame"><img src="data:image/jpeg;base64,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" alt="Lic. Ingrid Krieghoff"></div>
+    <div class="resp-etiqueta">Vicerrectora</div>
+    <div class="resp-nombre">Lic. Krieghoff, Ingrid</div>
   </div>
 </header>
 
 <main>
-  <div class="aviso-construccion">
-    <div class="aviso-icon">🏗️</div>
-    <p>Esta página está en construcción. El contenido completo de <strong>Vicerrectorado 2</strong> estará disponible próximamente.</p>
-    <div class="dep-badge">📌 Depende de Equipo de Conducción</div>
+  <div class="mision">
+    <div class="mision-label">Función</div>
+    <p>Acompañamiento en la gestión académica y fortalecimiento institucional para una educación superior de calidad.</p>
   </div>
 
-  <div class="seccion-label"><span>Próximamente disponible</span></div>
-
-  <div class="tramite-card">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">📋</div>
-      <div class="tramite-titulo">Trámites y servicios<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
-    </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>El detalle de trámites y servicios estará disponible <strong>próximamente</strong>.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="tramite-card">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">📁</div>
-      <div class="tramite-titulo">Documentación<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
-    </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>El detalle de documentación requerida estará disponible <strong>próximamente</strong>.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="tramite-card">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">💬</div>
-      <div class="tramite-titulo">Consultas y contacto<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
-    </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>Los canales de consulta y contacto estarán disponibles <strong>próximamente</strong>.</p>
-      </div>
+  <div class="dato-card">
+    <div class="dato-icon">🕐</div>
+    <div>
+      <div class="dato-label">Horario de atención</div>
+      <div class="dato-valor">17:00 a 22:00 hs</div>
     </div>
   </div>
 </main>
 
 <footer>
-  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Vicerrectorado 2
+  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Vicerrectoría
 </footer>
-
 </body>
 </html>
