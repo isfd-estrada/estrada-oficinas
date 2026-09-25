@@ -80,6 +80,12 @@ button,input,select{font:inherit;color:inherit}
 .detalle dl{margin:6px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 16px}
 .detalle dt{color:var(--suave)}
 .detalle dd{margin:0}
+.respuestas{display:grid;gap:12px;margin:6px 0 18px}
+.respuesta{background:var(--blanco);border:2px solid var(--linea);border-left:8px solid var(--violeta);border-radius:16px;padding:16px 20px;box-shadow:var(--sombra)}
+.respuesta h3{font-size:1.2em;margin-bottom:6px}
+.respuesta p{margin:6px 0 0;max-width:75ch}
+.respuesta .hora{font-weight:700;color:var(--tinta)}
+.respuesta button{margin-top:10px;background:none;border:2px solid var(--vivo);color:var(--vivo);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
 .vacio{padding:30px;border:2px dashed var(--linea);border-radius:16px;text-align:center;color:var(--suave)}
 
 /* Agenda */
@@ -137,10 +143,10 @@ button,input,select{font:inherit;color:inherit}
 
 <main class="envoltura">
   <section class="buscador">
-    <h1>¿Qué proyecto buscás?</h1>
-    <p>Escribí el número, una palabra del título, el nombre del instituto o un tema. Te mostramos dónde y a qué hora se presenta.</p>
+    <h1>¿Qué estás buscando?</h1>
+    <p>Escribí el número o una palabra de un proyecto, un instituto o tu duda: certificado, conferencia, café, problema técnico. Te mostramos dónde, a qué hora y qué tenés que saber.</p>
     <form class="campo" id="form" role="search" onsubmit="return false">
-      <input id="q" type="search" autocomplete="off" placeholder="Ej.: 34, huerta, Bella Vista, inglés" aria-label="Buscar proyecto">
+      <input id="q" type="search" autocomplete="off" placeholder="Ej.: 34, huerta, Bella Vista, certificado, café" aria-label="Buscar">
       <button type="button" id="limpiar">Borrar</button>
     </form>
     <nav class="secciones" role="tablist" aria-label="Secciones">
@@ -161,6 +167,7 @@ button,input,select{font:inherit;color:inherit}
       <button data-f="taller" aria-pressed="false">Taller · miércoles</button>
       <select id="inst" aria-label="Filtrar por instituto"><option value="">Todos los institutos</option></select>
     </div>
+    <div class="respuestas" id="respuestas" aria-live="polite"></div>
     <p class="cuenta" id="cuenta" aria-live="polite"></p>
     <ul class="lista" id="lista"></ul>
   </section>
@@ -396,21 +403,101 @@ const LISTA = Object.values(PROY).sort((a,b)=>a.n-b.n);
 const texto = x => norm([x.n,x.t,x.i,x.ejes.join(" "),MOD[x.m],...x.part.map(p=>[ACT[p.a].nombre,ESPACIO[p.s].nombre,ESPACIO[p.s].tema,LUGAR[codigoLugar(p.s)],p.s].join(" "))].join(" "));
 LISTA.forEach(x=>x._txt=texto(x));
 
+/* ============ RESPUESTAS A DUDAS GENERALES ============ */
+const STOP = new Set("a al ante como con cual cuales cuando de del donde el en es esta estan este hay la las le lo los me mi mis para por que se si sobre su sus tengo un una uno y o voy puedo quiero necesito busco hace hacer ir queda quedan son ser esto ese esa proyecto proyectos numero nro n hola buen buenos buenas dia dias tarde saber info informacion".split(" "));
+/* Palabras equivalentes: se llevan a una forma común */
+const EQUIV = [
+ [["cafe","mate","agua","termo","comida","comer","almuerz","almorz","merienda","descanso","recreo","break","cantina","cocina","bebida","tomar"],"esparcimiento"],
+ [["charla","disertant","conferencist","expositor principal","keynote"],"conferencia"],
+ [["certific","constancia","sima","inscrip","inscribi","puntaje","diploma","resolucion"],"certificacion"],
+ [["tecnic","proyector","internet","wifi","conexion","audio","microfono","sonido","parlante","compu","notebook","pantalla","referente","tic","eduardo","lopez","falla","problema","ayuda"],"soporte"],
+ [["horario","hora","empieza","comienza","inicio","empez","arranca","termina","finaliza","cronograma","programa","agenda"],"horario"],
+ [["ahora","momento","actual","pasando"],"ahora"],
+ [["lugar","ubicacion","direccion","sede","edificio","galeria","rectores","patio","sum"],"lugar"],
+ [["expon","exposit","presentar","presento","presentacion","diapositiva","power","ppt","minutos","tiempo","duracion","ponencia","panelista","relato","camara","llegar"],"presentar"],
+ [["publico","oyente","preguntar","intervenir","participar","asistir"],"publico"]
+];
+const canon = t => { for (const [lista,c] of EQUIV) if (lista.some(k=>t.startsWith(k))) return c; return t };
+const tokens = q => norm(q).replace(/[¿?¡!.,;:()"«»]/g," ").split(/\s+/).filter(t=>t && !STOP.has(t));
+const BLOQUE_TEMA = {"Dónde se desarrolla":["lugar"],"Esparcimiento y ayuda":["esparcimiento","soporte"],"Certificación":["certificacion"],"Si presentás un proyecto":["presentar"],"Si participás como público":["publico"]};
+function mensajeAhora(){
+  const hoy = fechaHoy(), min = ahoraEnMinutos();
+  const dia = AGENDA.find(x=>x.fecha===hoy);
+  if (!dia) return hoy < AGENDA[0].fecha
+    ? ["Próximamente:","La jornada empieza el martes 29 de septiembre a las 8:00 con la acreditación."]
+    : ["La jornada finalizó.","Gracias por participar."];
+  const ahora = dia.items.filter(i=>min>=aMin(i[0]) && min<aMin(i[1]));
+  const prox = dia.items.find(i=>aMin(i[0])>min);
+  if (ahora.length) return ["Ahora:", ahora.map(i=>`${i[2]} (hasta las ${i[1]})`).join(" y ") + (prox? `. Después, a las ${prox[0]}: ${prox[2]}.` : ".")];
+  if (prox) return ["A continuación:", `${prox[2]}, a las ${prox[0]}.`];
+  return ["Terminaron las actividades de hoy.", dia.dia===1 ? "Mañana, miércoles 30, seguimos desde las 8:30." : "Gracias por participar."];
+}
+function buscarRespuestas(q){
+  const toks = tokens(q); if (!toks.length) return [];
+  const temas = new Set(toks.map(canon));
+  const out = [];
+  if (temas.has("ahora")) { const m=mensajeAhora(); out.push({titulo:"En este momento",p:[`${m[0]} ${m[1]}`]}) }
+  if (temas.has("horario")) out.push({titulo:"Horarios generales",p:[
+    "Martes 29: de 8:00 (acreditación) a 16:45 (conferencia de cierre).",
+    "Miércoles 30: de 8:30 (conferencia de apertura) a 17:00 (clausura)."],agenda:true});
+  for (const b of INFO){
+    const claves = BLOQUE_TEMA[b.titulo]||[];
+    let parr = b.p;
+    if (claves.some(c=>temas.has(c))){
+      if (b.titulo==="Esparcimiento y ayuda"){
+        parr = b.p.filter(t=>temas.has("soporte") ? true : !/técnicos/.test(t));
+        if (!temas.has("esparcimiento")) parr = b.p.filter(t=>/técnicos/.test(t));
+      }
+      out.push({titulo:b.titulo,p:parr});
+    }
+  }
+  /* Actividades de la agenda: se muestran las que coinciden con más palabras de la consulta */
+  const txtTokens = toks.filter(t=>t.length>=4 && !["horario","ahora"].includes(canon(t)));
+  const puntuadas = [];
+  for (const d of AGENDA) for (const it of d.items){
+    const texto = norm(d.titulo+" "+it[2]+" "+it[3]);
+    const pts = txtTokens.filter(t=>texto.includes(t) || (["conferencia","esparcimiento"].includes(canon(t)) && texto.includes(canon(t)))).length;
+    if (pts) puntuadas.push({d,it,pts});
+  }
+  const max = Math.max(0,...puntuadas.map(x=>x.pts));
+  puntuadas.filter(x=>x.pts===max).slice(0,6).forEach(({d,it})=>
+    out.push({titulo:it[2],hora:`${d.titulo} · ${it[0]} a ${it[1]} h`,p:it[3]?[it[3]]:[],agenda:true}));
+  return out;
+}
+function renderRespuestas(q){
+  const cont = $("#respuestas"); cont.replaceChildren();
+  if (!q || /^\d+$/.test(q.trim())) return 0;
+  const rs = buscarRespuestas(q);
+  for (const r of rs){
+    const art = el("article",{class:"respuesta"},el("h3",{},r.titulo));
+    if (r.hora) art.append(el("p",{class:"hora"},r.hora));
+    r.p.forEach(t=>art.append(el("p",{},t)));
+    if (r.agenda) art.append(el("button",{type:"button",onclick:()=>irA("agenda")},"Ver la agenda completa"));
+    cont.append(art);
+  }
+  return rs.length;
+}
+
 /* ============ ESTADO ============ */
 let filtroAct = "", filtroInst = "", vista = "proyectos";
 
 /* ============ PROYECTOS ============ */
 function renderProyectos(){
-  const q = norm($("#q").value.trim());
+  const bruto = $("#q").value.trim();
+  const nRespuestas = renderRespuestas(bruto);
+  const toks = tokens(bruto);
+  const num = toks.find(t=>/^\d+$/.test(t));
   let res = LISTA;
-  if (/^\d+$/.test(q)) res = res.filter(x=>String(x.n)===q);
-  else if (q){ const toks=q.split(/\s+/); res = res.filter(x=>toks.every(t=>x._txt.includes(t))) }
+  if (num) res = res.filter(x=>String(x.n)===num);
+  else if (toks.length) res = res.filter(x=>toks.every(t=>x._txt.includes(t)));
+  else if (bruto) res = [];
   if (filtroAct) res = res.filter(x=>x.part.some(p=>p.a===filtroAct));
   if (filtroInst) res = res.filter(x=>x.i===filtroInst);
-  $("#cuenta").textContent = res.length===1 ? "1 proyecto" : `${res.length} proyectos`;
   const ul = $("#lista"); ul.replaceChildren();
+  $("#cuenta").textContent = res.length ? (res.length===1 ? "1 proyecto" : `${res.length} proyectos`) : "";
+  if (!res.length && nRespuestas) return;
   if (!res.length){
-    ul.append(el("li",{class:"vacio"},"No encontramos proyectos con esa búsqueda. Probá con otra palabra o con el número del proyecto."));
+    ul.append(el("li",{class:"vacio"},"No encontramos resultados. Probá con el número del proyecto, otra palabra del título, el instituto o una duda como «certificado» o «conferencia». Si no aparece, consultá en la mesa de acreditación."));
     return;
   }
   for (const x of res){
@@ -482,20 +569,7 @@ function renderAhora(){
   const d = new Date();
   $("#hora").textContent = d.toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
   $("#fecha").textContent = d.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});
-  const hoy = fechaHoy(), min = ahoraEnMinutos(), caja = $("#ahora");
-  const dia = AGENDA.find(x=>x.fecha===hoy);
-  let msg;
-  if (!dia){
-    msg = hoy < AGENDA[0].fecha
-      ? ["Próximamente:","La jornada empieza el martes 29 de septiembre a las 8:00 con la acreditación."]
-      : ["La jornada finalizó.","Gracias por participar."];
-  } else {
-    const ahora = dia.items.filter(i=>min>=aMin(i[0]) && min<aMin(i[1]));
-    const prox = dia.items.find(i=>aMin(i[0])>min);
-    if (ahora.length) msg = ["Ahora:", ahora.map(i=>`${i[2]} (hasta las ${i[1]})`).join(" y ") + (prox? `. Después, a las ${prox[0]}: ${prox[2]}.` : ".")];
-    else if (prox) msg = ["A continuación:", `${prox[2]}, a las ${prox[0]}.`];
-    else msg = ["Terminaron las actividades de hoy.", dia.dia===1 ? "Mañana, miércoles 30, seguimos desde las 8:30." : "Gracias por participar."];
-  }
+  const caja = $("#ahora"), msg = mensajeAhora();
   caja.replaceChildren(el("b",{},msg[0]),el("span",{},msg[1]));
   if (vista==="agenda") renderAgenda();
 }
@@ -525,7 +599,7 @@ let inactivo;
 function reiniciarInactividad(){
   clearTimeout(inactivo);
   inactivo = setTimeout(()=>{
-    $("#q").value="";filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();
+    $("#q").value="";filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();$("#respuestas").replaceChildren();
     turnos.length=0;$("#mensajes").replaceChildren();$("#pregunta").value="";
     irA("proyectos");window.scrollTo(0,0);
   },120000);
