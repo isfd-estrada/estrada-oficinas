@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coordinación de las Prácticas · ISFD José Manuel Estrada</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Laboratorio de Prácticas · ISFD José Manuel Estrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --azul:#1b2d4f; --azul-medio:#253d6b; --azul-claro:#2e4d87;
@@ -14,146 +14,128 @@
     --sombra:0 4px 28px rgba(27,45,79,0.13); --radio:14px;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; padding-bottom:40px; }
+  body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); min-height:100vh; }
   .franja-top { height:5px; background:linear-gradient(90deg,var(--azul),var(--dorado),var(--dorado-claro),var(--dorado),var(--azul)); }
   header { background:var(--azul); padding:0 0 24px; text-align:center; }
   .inst-label { display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--dorado); padding:18px 20px 6px; font-weight:500; }
-  header h1 { font-family:'Playfair Display',serif; font-size:clamp(20px,5.5vw,28px); color:var(--blanco); line-height:1.2; padding:0 20px; }
-  .oficina-sub { font-size:12px; color:var(--dorado-claro); font-weight:400; margin-top:5px; display:block; }
+  header h1 { font-family:'Playfair Display',serif; font-size:clamp(22px,6vw,30px); color:var(--blanco); line-height:1.15; padding:0 20px; }
+  .oficina-sub { font-size:clamp(12px,3vw,15px); color:var(--dorado-claro); font-weight:400; letter-spacing:0.5px; margin-top:5px; display:block; }
   .linea-dorada { width:60px; height:2px; background:var(--dorado); margin:10px auto 0; }
-  .dep-label { font-size:11px; color:rgba(255,255,255,0.45); margin-top:8px; display:block; letter-spacing:0.5px; }
-
-  .responsable-wrap { padding:20px 16px 0; display:flex; justify-content:center; }
-  .responsable-card { background:var(--azul-medio); border:1px solid rgba(201,168,76,0.35); border-radius:var(--radio); padding:18px; display:flex; align-items:center; gap:16px; width:100%; max-width:540px; position:relative; overflow:hidden; }
-  .responsable-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .foto-frame { width:70px; height:70px; border-radius:50%; border:2.5px solid var(--dorado); flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:26px; color:rgba(255,255,255,0.4); }
-  .resp-etiqueta { font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:4px; }
-  .resp-nombre { font-family:'Playfair Display',serif; font-size:15px; color:rgba(255,255,255,0.5); line-height:1.3; margin-bottom:3px; font-style:italic; }
-  .resp-cargo { font-size:12px; color:rgba(255,255,255,0.4); font-style:italic; }
-
-  .horario-wrap { padding:10px 16px 20px; display:flex; justify-content:center; }
-  .horario-card { background:rgba(201,168,76,0.10); border:1px solid rgba(201,168,76,0.25); border-radius:10px; padding:10px 16px; width:100%; max-width:540px; display:flex; align-items:center; gap:10px; }
-  .horario-icon { font-size:18px; }
-  .horario-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:2px; }
-  .horario-horas { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; }
+  .nav { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:18px 16px 0; }
+  .nav a { font-size:12px; color:var(--dorado-claro); border:1px solid rgba(201,168,76,0.4); border-radius:20px; padding:6px 12px; text-decoration:none; }
+  .nav a:hover { background:rgba(201,168,76,0.15); }
 
   main { max-width:640px; margin:0 auto; padding:24px 16px 20px; }
 
-  .aviso-construccion { background:var(--azul); border-radius:var(--radio); padding:20px; margin-bottom:18px; position:relative; overflow:hidden; text-align:center; }
-  .aviso-construccion::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .aviso-construccion .aviso-icon { font-size:32px; margin-bottom:10px; }
-  .aviso-construccion p { font-size:13.5px; color:rgba(255,255,255,0.75); line-height:1.6; }
-  .aviso-construccion strong { color:var(--dorado-claro); }
+  .coord { background:var(--azul); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:16px; overflow:hidden; border:1px solid rgba(201,168,76,0.25); position:relative; scroll-margin-top:12px; }
+  .coord::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
+  .coord-top { display:flex; align-items:center; gap:16px; padding:20px 18px 14px; }
+  .foto-frame { width:78px; height:78px; border-radius:50%; border:2.5px solid var(--dorado); overflow:hidden; flex-shrink:0; background:var(--azul-claro); display:flex; align-items:center; justify-content:center; font-size:28px; color:rgba(255,255,255,0.4); }
+  .foto-frame img { width:100%; height:100%; object-fit:cover; display:block; }
+  .area { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); font-weight:600; line-height:1.45; margin-bottom:5px; }
+  .nombre { font-family:'Playfair Display',serif; font-size:17px; color:var(--blanco); line-height:1.25; }
+  .desc { padding:0 18px 14px; font-size:13.5px; color:rgba(255,255,255,0.78); line-height:1.6; font-style:italic; }
+  .datos { background:var(--azul-medio); padding:14px 18px; border-top:1px solid rgba(201,168,76,0.2); }
+  .dato { display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; }
+  .dato:last-child { margin-bottom:0; }
+  .dato-icon { font-size:15px; line-height:1.4; }
+  .dato-label { font-size:10px; letter-spacing:1.3px; text-transform:uppercase; color:var(--dorado); font-weight:500; margin-bottom:3px; }
+  .dato-valor { font-size:13px; color:var(--blanco); line-height:1.6; }
+  .dato-valor.pend { color:rgba(255,255,255,0.45); font-style:italic; }
+  .dato-valor a { color:var(--dorado-claro); text-decoration:none; word-break:break-all; display:block; }
+  .dato-valor a:hover { text-decoration:underline; }
 
-  .seccion-label { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-  .seccion-label::before,.seccion-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--dorado),transparent); }
-  .seccion-label span { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:600; white-space:nowrap; }
+  .lema { text-align:center; padding:18px 16px 6px; font-family:'Playfair Display',serif; font-size:15px; color:var(--azul); letter-spacing:1px; line-height:1.5; }
+  .lema::after { content:''; display:block; width:50px; height:2px; background:var(--dorado); margin:10px auto 0; }
 
-  .tramite-card { background:var(--blanco); border-radius:var(--radio); box-shadow:var(--sombra); margin-bottom:12px; overflow:hidden; border:1px solid rgba(27,45,79,0.08); }
-  .tramite-header { display:flex; align-items:center; gap:14px; padding:16px 16px 14px; cursor:pointer; user-select:none; }
-  .tramite-icon { width:42px; height:42px; border-radius:10px; background:var(--azul); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:19px; opacity:0.5; }
-  .tramite-titulo { flex:1; font-family:'Playfair Display',serif; font-size:15px; color:#9ca3af; line-height:1.3; }
-  .tramite-titulo small { font-family:'DM Sans',sans-serif; font-size:11px; color:#d1d5db; font-weight:400; display:block; margin-top:2px; }
-  .tramite-arrow { color:#d1d5db; font-size:20px; }
-  .tramite-body { display:none; padding:0 16px 16px; border-top:1px solid var(--crema-dark); }
-  .tramite-card.open .tramite-body { display:block; padding-top:14px; }
-  .tramite-card.open .tramite-arrow { transform:rotate(90deg); }
-  .proximamente { background:var(--crema); border-radius:10px; padding:16px; text-align:center; border:1px dashed var(--dorado); }
-  .proximamente p { font-size:13px; color:var(--gris); line-height:1.6; }
-  .proximamente strong { color:var(--azul); }
-
-  .dep-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px; padding:8px 14px; font-size:12px; color:var(--dorado-claro); margin-top:8px; }
-
-  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:8px; }
+  footer { text-align:center; font-size:12px; color:var(--gris); padding:16px; border-top:1px solid var(--crema-dark); margin-top:14px; }
   footer span { color:var(--azul-medio); font-weight:600; }
 </style>
 </head>
 <body>
-
 <div class="franja-top"></div>
 <header>
   <span class="inst-label">Instituto Superior de Formación Docente</span>
   <h1>José Manuel Estrada</h1>
-  <span class="oficina-sub">Coordinación de las Prácticas</span>
+  <span class="oficina-sub">Laboratorio de Prácticas</span>
   <div class="linea-dorada"></div>
-  <span class="dep-label">Depende de Secretaría Académica</span>
-
-  <div class="responsable-wrap">
-    <div class="responsable-card">
-      <div class="foto-frame">👤</div>
-      <div>
-        <div class="resp-etiqueta">Responsable del área</div>
-        <div class="resp-nombre">A confirmar</div>
-        <div class="resp-cargo">Coordinación de las Prácticas</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="horario-wrap">
-    <div class="horario-card">
-      <div class="horario-icon">🕐</div>
-      <div>
-        <div class="horario-label">Horario de atención</div>
-        <div class="horario-horas">A confirmar próximamente</div>
-      </div>
-    </div>
-  </div>
+  <nav class="nav">
+    <a href="#inicial-primario">Inicial y Primario</a>
+    <a href="#secundario-superior">Secundario y Superior</a>
+    <a href="#profesionalizantes">Profesionalizantes</a>
+  </nav>
 </header>
 
 <main>
 
-  <div class="aviso-construccion">
-    <div class="aviso-icon">🏗️</div>
-    <p>Esta página está en construcción. El contenido completo de trámites y servicios de <strong>Coordinación de las Prácticas</strong> estará disponible próximamente.</p>
-    <div class="dep-badge">📌 Depende de Secretaría Académica · Prof. Darío Romero</div>
-  </div>
-
-  <div class="seccion-label"><span>Próximamente disponible</span></div>
-
-  <div class="tramite-card" id="c1">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">📋</div>
-      <div class="tramite-titulo">Trámites y servicios<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
-    </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>El detalle de trámites y servicios de esta área estará disponible <strong>próximamente</strong>.<br>Consultá directamente en Secretaría Académica.</p>
+  <section class="coord" id="inicial-primario">
+    <div class="coord-top">
+      <div class="foto-frame"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCz/wAARCADIAMgDASIAAhEBAxEB/8QAHAAAAQQDAQAAAAAAAAAAAAAAAAEFBgcDBAgC/8QAQxAAAQMCBAIIAwYEBAQHAAAAAQACAwQRBQYSITFBBxMiUWFxgaEUkcEyQlKx0eEVI2LwJDNy8QiCkrIlQ1Njc6LC/8QAGgEAAgMBAQAAAAAAAAAAAAAAAAMBAgQFBv/EACYRAAICAgEEAQUBAQAAAAAAAAABAhEDITEEEiIyQRNCUXGBYUP/2gAMAwEAAhEDEQA/ALbRZCFUsCEIUACEJHGwKCQc4AKE5r6RsOy80wxn4mp7mnsj1Td0k5+Zg0DsKoHh9bKO2R9wfqqNqny1j3yzSlzju5x3/v6IW9E8K2SLHekvHMUncG1ckLPuxQdkAeJ4lMDM9Y/QSl9PiUzXH7usuUeqKxzyYoexCDy4u8SVtYLQtq6+OPTe53UyqKshXJ0hajF8QrZC6aWR8jjuTubrLTOrnt0Xbp43da6TFqT4WpeC8gg8BZa1E8yS2cag+TkRd8ESVOmbdY+oontDpIJtW9i0t909Zdzhi2AVEc1HWSU44aC7XGR3Edyb64GmpWuJcWkffAcP1TRFVR6r26u535tUtAmdMZP6TsPzAWUlYW0dedrXuyQ/0n6FToEHcLkKnHbEsJ6t3Kx2urm6M+kaSrezBMbktUfZhmd97+kn8iql2vwWzdCQJUFQQhCCARZCEAIkXpIgkRCChBB7QlSIJEQlshACFRjPWaIsq5anrnWdL9iFn4nn6DipM42F1zx0rZhON5ofSsOukw7+W0A7PeePv+SCUiFzV01ZLJVVMhfVVDi4lx+yDzP6LXe12If4Wl2gaf5j/wAZ428hxKxGJ8srg+7XPNyW93gtnU2Ix00BDWgdpzeIUx0Vk7G2Sj0Oexgsxn2n8LeCdssTxUtaHP1tvs23LxW3HQHG3U9PQxnUdmMAve32nu8F6gpIKHGWUhvK8P0FzNwDzuVTI1wMxp3ZoZgiLZz11PKL7673um2lhptDpoKt8MrN9LmkgqzMcy4+rivGQWsa0MB4+S0IMvxUtNaWiE4cNLpGbEeBB2SVnUUPlglJ6ITU1dVWBugNka3i1u/y5rT0xarW6t55HZP1ZhUUNQ/qKt0LRvpfGQR7WTVJFUP2lLJW8nFwKcsikIlilE8RPkpraIyBb8Wzv0TlT1IqAHROdFIzcH70Z5enimvtQuAAO/Ft7i3mtiOJ7mialeGvjO7Tv6Edys6IVo6T6Nc3PzHgYgrCBiFKNEo5u8VNlzTkvMZwjEKfE4SWiF3V1Ed79jmPTiPD1XR9JVRVtLHUQvD45GhzXDgQqRleiZxrZnSpEK5QVIlQgBEJUiAEKEqEALdCLIQAJCvS8lADTmfEm4Plqvr3G3UQuePO23uuUqipfJKXvuXyEyvPHcnb2V+dNGImmygyiY6z6yUNI72jc/Rc9VRtPL3B+kW7hso+Sy4MsdS5gknfuGmw8SsDSXfzGk6n8PBY3HU5sJ2azd3nzW/h8b5p43xtLpC7TC0Dn+L05ePkobpWEY9zofsL+LgjfQ0LiyoqBoqJm/aA5saeXifRWJlvJ1NDTRSSQNMgFxtexXrJ+U20NKySoa3rXNuRx91OqeBkYY0N2C5c8jm6R2sWGMFbNSDAIDIyR4L3NG3IBZpsHpySGNIb97YdpO3BtgkLez4qXFMsmRmTA6LSWup2XBvvumjEMqUFYwskpInX/pCmM0Zcd1qvjJBtxCQ7T0O01spfMOQRQsdNQlzbb6TwUUhdAJhBLakqWgjXa7HeBH1C6BraOOsp3wSgEOHMcCqRz1gLsMxC5h7HJzSt3T5e/wAZPZzupw9nnFaGiKqfheI9e9pbC+zJ2cbA8HDvsd1evRNjzn08uBVDrvpx1kBv9qM8vQ+xCoBxNTQlj2EOaLAnjbuKmWSMfkw9+HYlqvJSv6ibfi3vPp+S0S8dmONS0dNDglWClqGVVNHPGQWSNDgQsyctiKoVIlQgBEIQpARCVCAPSEIUAC8lel5cgCl+maq67M2F0V7iOMyW5bn9lTUR1tdK4XFwR5/2VZvSlUGXpDndquIKctHhZhKq2KZpoYhzAufE8AqfI16ige0zTubGDZx4DirOyLlN9Npra5tpiOyz/wBMch5qOZHwYVlcJ5GgxwG5P4n/ALK36SCzBbZYepyv0R0Okwf9JDnR2bpt3W2T1TjUQe5NVFAS/jsN06xnQ1ZceuTdPfBuaABuvNgHAIbLqI8liqJxGzVcbBPckkJUXYssQA1OIb4kpixLG6GhFjOwv7tS0cWGJYkS1lSYafuBtdMRmy1lcOnxKohmqRuTIdZHk1LTjL4LNSiOUOZ4pptLqaUsP3msJHzRimFYfmHDnMcA9rgQHc2n6LTwzpBwHEalkMFW1mr8Q0geCkhET5RK3fUN3A8Qoap8USn3Lm0c5Y7hdRgGNzU8rwxvEagbEJMp1QOJVNI4gsqGHs8QTyVj9LWCdfh8OIRMu6E6XEdx4KpcGL6TG4HW07/uulCf1Md/JyMkPpZaXB070XYwcRyuynkfqlpjoN+O39+6nAVNdG2ItoM0y0WqzKkB49f7CuVXxu0LyxqQIKLoTBQJEIUgCEIQB6QhCgAXly9Ly7ggDnHO8vxWdMZkJN42Sjw4WVXUjw1wDjs3krIx1/xGZMedcdoSf9wCrNw6uoe3uJSsbtsdl0kXDkp0NFlqKZ/3u27vJJUgYzGcRdqb/hIXHYnkPJR7KjWvwSkuAWtaHkHwH6rZzHnaTCYo6aia2SpmF9fHSFzmm5uuTrRko403wSMYTjMVhHjEbif6rFO9GzEIYg3474i25ubqm5BiU+KEyYhJVE6XfyHEtcCLkDY7g3HJSbAmYph0FK6CKrdM8XlEha1h7XLnw8OKvkxNLbK48qctJlr4fiAmIa93aGxWPGZnRbtO1t1FqStfFiznONmud9E+Vs3xLNQFxaxWW3VGxLdkXzRmHqYPgoJrSS7EtaXHTtc2G548OahQy0+sxGpNHQz1ofq6qWrba7SBxB+yQdwQrOp8MhduACTsSRut6GjdA2zDZPx5OxeKEZMCyPyZCYciSVopJMUgp4G08TWNZC2zjbm48ypZR081NG2IyF0bRYDuW+0SOdYkrYZTFx7tlWUpT5LwxxxrQ24th7a/CZ6aUXEkZb68lz9iVEaetifbSY5A0j1sulZ4SIrkWAVF51pDBiMxjADOsAN+/VdOwvt0ZeoipbHPCqo0eNYTVA2c5jW+o2/MBdEU8zaimjmbwkaHD1C5n1GPCKGe9yx9wTysQfqugco1ZrMs0shNyBp/T2K04XujDmWrHtCELSZQQhKpA8oSoQAqEqRQAhWOZ2mJx7hdZCsNQLwSDvBCAOaMUcDjuKCwLpA+3o5QGrj/APEyO9wKndU7XmSQc5BIPndQjEWFlRFKeW/n2lnx8mnLwiz8oOLsHhA4NBb7p7jwSF9SJjEHEcio5kCo6yKSG3Za+7T3ghWRSQsJFwsOS1J0dfDFSgrMGH0dJAwCOlYHHe5at80gAMjtzZbsdM3Y2XmpFmWASr/I/tXwRmeMfGar7ak/0krTBY7ghMFTIyStDGb2Nr96kNDTPfC2zb2VC1UetDS8GIhvgVtRwvc0Ekei8T4ZJIQB2W8brzC6WHXGLP0G3mrcEG9DTgO3WbQGu71qU9cx5Lb6XDiDxWbrAXg3V1JVoq0/kyVA1Qub4Kos/UBjwyWpa3frSSe7dW4TqBHEFVF0k5vwmnpcUy4+jkkxEyR9XINmxjZxJP0HG+6bjTlJUZMslCDsjrGl2U3EG5ge13srq6LqwVOWdF79Xb9PoqbwjTNlfFObhGxwHqrH6HakikljJuHOe0ehBWiDqX9MORXH+FpoQEWW0xAlQhACFCLIUgKlSIVQEKxT/wCS9Zlhl+zZAHL87jFmeNzrm1Q+M/8AUQo5j8bW2bzBcPdSDHnaMZmlYblla+4twGoJnzDE51XILbda63rZZoeyNc/VkjyBKeoicGnQRYu5X4W9lbFBsAbqoui8yVMOI4bEI3Txt+Ibrfp7LeNvFWnhVcyekjkYQ4OaHNIPFZOoTUrOj0k04JWSeENIFzZaeITxsDmMNzaywz1zoYQ1n+Y8WCbnVAsNTtTuZWVys3VRpNbBAdbtTpL3DQpJhWLN+Gs4GMja3emRj27EAWW2yRhi0uDWk8LkAqE2DXch4q5nVDRYlsfKx4rV7TRZosAsTagsgEJIeeQby9V6DZ9J6uNzja+nibd6Z2tlKpCVDRJESTpkaOy4cV5wyukqLxvHbZse7zTBSYniuMZhqKTq2UtBSP0uLdzKQN9+6+23cpThtO2MyPLbONgPJLlFxdMhSTQ4xjs8LbLm7pKcJuk3FCCHaZGs+TWhdISPZDA6V5DWtBJJ5AcVypXV5xfNFZXHf4md8vpc2W/pPlnN6x6SJrleMHD6pp4SMa0fJSnohq3MxOSLVsZAbeYI/RRjKr2/wukc7i+QH2TpkB5oc4zxg2s4m3+lwP5Kb2/2LatL9HQQ4JUgOoXHApV0DnghCEEAhIhSSCVIlVQBYZvslZlgnt1bkMDmHMLAKmvA3LZy+/qtXMMQDGzBuz2sk/8Arv7rYxjW7E8WY435i3LtD9UlXG6ry7E4kGzXMPzuP+5Y06aZue00QZ0kkUjyxzmOuQS02uFa3RhjHxmDfBPf/OpDYAniw8P0VWzxHWf6hdZ8AxufAMYirYO0Bs9l7a28wnZsf1IUhHT5fpZE3wdPxUlPX02prtMrBwUUzDhuIU0Zkw6o6tzNyx7dQIW9l3MVNiNJDW0z9bJG38fEHxCd60NnY2VosCLkcVxV4vZ6C+5WQbAcUrK+tNFXFtJOXaWG50P228vVWJR5SNQymkNTE5so7RG+k+HeoVXYNIa3rKTz0/onHCg1kretZKOr2a25Fj4LUnHlIqozlpSLBpsEw/DBL8dVs6sWALiGWBH5prxTG6aphjo8Nh6iB8ZhllcztFp7vfc96ZooiasvbTNLX8S65N7W4pzhpQJA59rAWDAEx5EloX9Gnc3Zq4dhjKGjI0tu91wR3Lfj/lxNHI7rLIS+5IAtwC1quojp4S55ADRdZJO3ZeyIdKmZxg+UJKSJ9qrELwNHMN++flt6qiaGD/Ok5MYbfJPuf8UmxjNs75HHqorRxN/C0fqd020jdOGzn+k39SPounij2Y1/px80u/I/8JNl6Qx0OHs7nk+drhPuBAQ9IhaNusLrerf2CjmCgijoHfftf5vKkNO40+faJxt2tIP/AE2SJcsfHhF/UUnW0MD/AMTAfZbKaMtVQqsBp5Ab2u33TuF0IO4pnOmqk0CEIVigIQhACIQhQSBWvUu0wSPJsACbrYsmzMMhgy9Wyg20wu9xZQ3SJW2c34s4OzROCezOxzdvK/0WXCyJcJnh2PVuDrex9nBaGKTGPGoang0PabeFv3W7hTfh8WfTE7SHT8wW/p8lifqdBezREq+ARzlh26txaPK/7hNM8Za64HHdSvH6QxzaiLa26j4EbFMFRHeFxHFhv81rhK1ZiyRptG1lnNNXluuLoyZKZ57cJOx8R3FXfg+YocSo2SRuPVSC5B4hc79WS8AC5Ks7JHWSYWyNxLXRkt8rLJ1eONd65NnRZZX2PgtGFrJHaWntDceK2oCdY1FRykqpaVw1dpo59yfaapjm0vLt1z0jr2O8TCdiLrZjj0+C14qqMMC8S4gxgvqFyr6KtMzzysjjL3EABRbEqmSrY8m4jvsO9ONRLLXOtuIxy71o4nF1dK4DbZVvZWqKKzENWO1JHMi35LwQRQVLB+MN/v5LbzDB1OM6vxHda8wtR1J/90e911YvxRx5ryY7YNMAYoubGxkeoupBWG2baWYHS1sjLnz/ALKjeBtAxcNPDQz8gFIsUaI8YPeY2vHo4pD9mOXqi1+jOuNTglTC43dBO4KbBVL0a4o2mzVXUBdYTnUByJ/sK2gteJ+NGPMqlZ6QkQmiQKEIQAiVJdF1BIqi3SFWikyfVdqxlIYLfP6KSSSsjYXPcGsaLkk2AVRdKGZqbEmspKGoZNDACXvYbtLu4Hnw90rI6iNxRuSKwxyzmO8GNJ8NlsVE3V1tJUNNhI3j4/3da2OEtfWEi7dLLfJLKTJlVlRa74JDbwsSkJeKNTfkxxzLCJ6Y1LRv9u3nufcFQ6doaxwbuHNupzMBW5ebMLEtHAcwd/oVCKsdW/SPsjUFfC9ULzrdmzlvDRWYrFcdiIGR23G3AepU1yrDNSVdTTzt6uRkzg5vcb7hPXQflWOrqX4vUs1tib/LaeF+9JVQmPO+N3Gn/GPPuo6j0sZ0yqZI4qds0dl7ZQFh5+i9Yc+4Dbbp2EQIuAuTwdY0oqZ1ty4+F1sNpwCLN3WcN/uyzRsGpQAsUOllyOCa8X3iIT48hsSYMTfrDgroqync0wWrdR/EmmxmoZyf6S7zBsfzU5qcK/iOaaGlIu2eoY0jwvv7KK11E7CsZr8NmFt3MF/C4+gXSxu0czKqkbdFG2DGGEH7UYIPlb9E7Y+8DHYG2I6yFzfycE00n86qw94P24iD52K382PMctHMSQ4Ma8HvsN/YKleZP2HrB8Udh+a6erY77Lx4X4Lo+mnZU0sc7DdsjQ4eRXK1bJ1bmysNgSN/H+wrqyBnaimwWmo6yobDKOywvNg7wv339inwfa/2IyR7l+ixULy14c0EG4PMJbrSZBUJLoQB5uo1nnOVNk3AHVkln1Mp6uni/G+3PwHEqTERs3e4u8GrnPpxzB8dnJmHQ7RYfEG/87u04/LSEdpJHsaz7mHHagtrcRfM1zuzCwaI238Bx9br1LKG0DqcHfQGt8T/AHdRzDYtcxkP2Wdo+PcE7i8tTTMbfjrcfK/6e6zzSbNGNtL9m3mAAifvJYPkAvFAHTZVr2cdLifmAjMRLeu2ses/LZLgTgcCxVvPSD9EtagNfub2ATdbg08Lz/lju7rH8rqMYm0iqMRG7nFP+XZA2vqadovqB29j+ZTLVxvnzG2IDe7fophqbIm7gjpXolwoYdk2Hs7yDUofnKhdh+fqyQizKsNmb43Fj7hWtlOmbS5XpGcP5YUX6TsIM+HU+JxC7qVxa+34HH6G3zTs8LxlennWQjFBIGvaeSk1OWyxjmoTRTOAFwVKcOqgYwCVxZKjtLZvuj08Chh7Vl7MjSFhL7vsqki1suiG3fumGseSD3pyr33dpTFiEhDTbiFeJD4M2SMPFfnmKZw1ClY6TyJ7I/MqHdMeDvw/PE9RG2wl0zDbkRY+491bfRnhZiw9+ISNtJVPuP8ASNh9T6pj6dMMa+koK/SNN3QPPgeHuutjh24rOPln3ZaKewkO6mgkBHYmDfK5/dOueLNwyilA/wAva9/K/sSmTC6h0WHSDTd0L9VvLZSHNcHX4FH4ut8/90h6yIZzjZEnOM9ABtdzLA+IP+y3sBkNbTzUl7Oe3VGP6hy/MJswp2uic11+wL+Xf+fsvNNUOo8VZJG4MudQJ4A3391eStNFIummyWYV0kY9hMjYqSvf1LdhFKA9viLFWNlfpko8Uq4qHF6UUNRIQxszCTGXXtuDu3fzVG5gYI65tZALRVI1OaBsHcx81jpW/Ft6xj9NRGNQJ2DwOd+RCdB6sRNbr5Owmm4uN0JsyrijcZyrhlYWgump2Oc5p52397oWntEWOsjWxlrnfY7+5cdZpr3Yxm/Eq++o1NS94HhqNvay61znW/wvKGL1RNuqo5HN8HaTb3suRKWLtOndvp2HmqzdIsl3OjLEzqImxg2Ljd3mnDBB12JseQQ0vDQPUfQJt1B5eCbEcPr7XT3gkYYWOdsYmOl9bbfRZZaiaY+yo18wya5A299RJ+Zv+i94azq8MrAG/aDWuH/MCm6vqOvxAC97G/y/2TvTPEeEy3t2nj8iVVqopFl5SbNfA5+rzbALjQ9xufA3ThhWGCv6SDA1vZZKG7crH9lHsJeTmJjgfs3Htb6qyei/Dv4pnnEprgBk4bqPAd5/Mq6Xn/Cnd4f0tHMOZajBYKTCcNfatka17naQRFHy2O1z7DzUhw+oizFgTm1MYuW9VOy3eOPkeIVd5fxZmeMy4vi0Y/w8UzqeD/422DD6jf1U7wnVQS6mC44OaeDh3LSIT/BA58N+BxCWlkFjE4tueY5H1C3IYgwbbWUvzJgbMWpfiqTeojHZHNw46T9FDaea4sR81x8+JwlXwdzp8qyRv5NvUbeK8iQ3O+6QkW4rEXWvY8VmRqoxVDy4kkpuZSPxLEYKKMkGV1nEfdbzPyW5UPs217X5qVZOwRtDROxp8YdU1A0RX+60c/n9FpwYu+VGbqMqxwsfMPxPD6DEY8FbG6N7Y2tY+40g2+we48PVNfSbhf8AFcl4hCW3MbRKPAhaOJYdJDHNUuBMj97+KdoMYixPCZMJrpmDEn0rxpcd5WgW1DxBIv53XZrVHB+bOYaBpFTVRPFjI3h3Hgfy91KcVlbLlSB5duxrD8tj+Sj1dGaTML2kWGo8vQ+4908FrqjKsrDxYXgi3qudP2TOhD1aIfhp0V9RTu4F5b7leMQhfHJIAN2nWPXj7/mk1dVjD38teo+R/wB06YvGOsErNg4AHyd+6c/YQtxMDC2uwp0I+20GRl+ZA7Q9Rv6JjY58M7dJNr7eCcsOnMNRYDeN2u3fbiPlf5rBiNL8NWPibuA86D4cvYhWx6biUybSkdF9DuIsq8ixRxiwge6P3v8AVCjPQFXObhWLYd95k0crR/qaQf8AtCFrjwIZNemSsdB0f1jG21VGiEC3G7xf2uudaqEU1IGs5XafE80IWfK/JIfjXi2N9LA6aoiY02Ljcnz/AGUhhcabCKqc7GQiNnlxP/5QhIycpDcS02R5rdcpfbjsnGqqPh8FYXHd5LvnsPyQhXkrkkUTqLZgy3GBXdc7fQ0k+v8AspRhuZ6XLnRzjE1JVNOL4xUy08cbT2oY7AOkPddpIHi7wQhNh7tipuoId/8Ah/xYQ5hr8JkIDamESsB/E02PsfZX46m6t+3AoQn/AAKRtUbuqk0u4FQrNuHfw7FhWQttT1RJ24NfzHrx+aELL1EU8bv4NfSyaypfkaWvuBvdeXu33KELjneXBpshqcRq2UtLGZHvNgOXmfBW3HGPh42Boa2Noa1o4AIQur0cV2tnF66T7kjVrKds8YjcNiblc5dKmZKvCelaGfC6jq5sIY0MPEB7u04EcwQQCO5CFuZzxlxfFKfHJ/4zBH1BlcHSw3v1TjxA7xcXHgU9YdJ11BVU33nsLgP6gP3QhczNydHC7RCcRZ1VZG/7r2C/yTzM01WD0zzbXoMbgO8HZCEyXwLjy0MjQIa4uB2+16Wv9Vu4rGR1Jtdzouyf6m7flZCFb7kV+1k/6BJ9Gbq+F3/m0of6teP1QhC1x4MzP//Z" alt="Prof. Laura Vallejos"></div>
+      <div>
+        <div class="area">Coordinadora de Prácticas del Nivel Inicial y Primario</div>
+        <div class="nombre">Prof. Vallejos, Laura</div>
       </div>
     </div>
-  </div>
-
-  <div class="tramite-card" id="c2">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">📁</div>
-      <div class="tramite-titulo">Documentación<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
+    <p class="desc">Promoviendo experiencias formativas significativas que fortalecen la práctica docente y el compromiso con la educación de calidad desde los primeros años.</p>
+    <div class="datos">
+      <div class="dato"><div class="dato-icon">🕐</div><div>
+        <div class="dato-label">Horario de atención</div>
+        <div class="dato-valor">Lunes · 9:00 a 12:00 y 16:00 a 20:00 hs<br>Miércoles · 9:00 a 12:00 hs<br>Viernes · 16:00 a 21:00 hs</div>
+      </div></div>
+      <div class="dato"><div class="dato-icon">✉️</div><div>
+        <div class="dato-label">Contacto</div>
+        <div class="dato-valor"><a href="mailto:lvallejos@iestrada.edu.ar">lvallejos@iestrada.edu.ar</a><a href="mailto:coordinacionformacion@iestrada.edu.ar">coordinacionformacion@iestrada.edu.ar</a></div>
+      </div></div>
     </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>El detalle de documentación requerida estará disponible <strong>próximamente</strong>.<br>Consultá directamente en Secretaría Académica.</p>
+  </section>
+
+  <section class="coord" id="secundario-superior">
+    <div class="coord-top">
+      <div class="foto-frame"><img src="data:image/jpeg;base64,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" alt="Prof. Cecilia Maradey"></div>
+      <div>
+        <div class="area">Coordinadora de Prácticas de Nivel Secundario y Superior</div>
+        <div class="nombre">Prof. Maradey, Cecilia</div>
       </div>
     </div>
-  </div>
-
-  <div class="tramite-card" id="c3">
-    <div class="tramite-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="tramite-icon">💬</div>
-      <div class="tramite-titulo">Consultas y contacto<small>contenido en desarrollo</small></div>
-      <div class="tramite-arrow">›</div>
+    <p class="desc">Acompañamiento y gestión de las prácticas profesionales y docentes, fortaleciendo los vínculos entre la formación académica y los entornos educativos.</p>
+    <div class="datos">
+      <div class="dato"><div class="dato-icon">🕐</div><div>
+        <div class="dato-label">Horario de atención</div>
+        <div class="dato-valor pend">A confirmar próximamente</div>
+      </div></div>
+      <div class="dato"><div class="dato-icon">✉️</div><div>
+        <div class="dato-label">Contacto</div>
+        <div class="dato-valor"><a href="mailto:coordinacionesdepracticas.isfdestrada@iestrada.edu.ar">coordinacionesdepracticas.isfdestrada@iestrada.edu.ar</a></div>
+      </div></div>
     </div>
-    <div class="tramite-body">
-      <div class="proximamente">
-        <p>Los canales de consulta y contacto estarán disponibles <strong>próximamente</strong>.<br>Consultá directamente en Secretaría Académica.</p>
+  </section>
+
+  <section class="coord" id="profesionalizantes">
+    <div class="coord-top">
+      <div class="foto-frame">👤</div>
+      <div>
+        <div class="area">Coordinadora de Prácticas Profesionalizantes</div>
+        <div class="nombre">Prof. López, Romina</div>
       </div>
     </div>
-  </div>
+    <p class="desc">Acompañamiento y gestión de las prácticas profesionales, fortaleciendo los vínculos entre la formación académica y los entornos laborales.</p>
+    <div class="datos">
+      <div class="dato"><div class="dato-icon">🕐</div><div>
+        <div class="dato-label">Horario de atención</div>
+        <div class="dato-valor pend">A confirmar próximamente</div>
+      </div></div>
+      <div class="dato"><div class="dato-icon">✉️</div><div>
+        <div class="dato-label">Contacto</div>
+        <div class="dato-valor"><a href="mailto:coordinacion.de.practica@iestrada.edu.ar">coordinacion.de.practica@iestrada.edu.ar</a></div>
+      </div></div>
+    </div>
+  </section>
 
+  <p class="lema">Formación que inspira,<br>enseñanza que transforma</p>
 </main>
 
 <footer>
-  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Coordinación de las Prácticas
+  <span>ISFD "José Manuel Estrada"</span> · Corrientes · Laboratorio de Prácticas
 </footer>
-
 </body>
 </html>
