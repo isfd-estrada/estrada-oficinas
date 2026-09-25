@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Consultas · I Jornada de Intercambio de Experiencias en el Campo de las Prácticas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#0C2D5C; --azul:#1E66C8; --celeste:#DCEAFB; --papel:#F6F9FE; --blanco:#FFFFFF;
+  --sol:#F4B63A; --texto:#14223A; --suave:#51627D; --linea:#C9D8EE;
+  --sombra:0 2px 0 rgba(12,45,92,.12);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --tinta:#BFD6F7; --azul:#6FA6F0; --celeste:#1A2F52; --papel:#0E1A2E; --blanco:#14233B;
+    --sol:#F4B63A; --texto:#E8EFFA; --suave:#A3B4CE; --linea:#2B4368; --sombra:none;
+  }
+}
+:root[data-theme="dark"]{
+  --tinta:#BFD6F7; --azul:#6FA6F0; --celeste:#1A2F52; --papel:#0E1A2E; --blanco:#14233B;
+  --sol:#F4B63A; --texto:#E8EFFA; --suave:#A3B4CE; --linea:#2B4368; --sombra:none;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--papel);color:var(--texto);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:clamp(17px,1.25vw,21px);line-height:1.5}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;color:var(--tinta);line-height:1.15;margin:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sol);outline-offset:3px}
+.envoltura{max-width:1180px;margin:0 auto;padding:0 clamp(16px,3vw,40px)}
+
+/* Cabecera */
+.cabecera{background:var(--tinta);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cabecera{background:#0A2247}}
+:root[data-theme="dark"] .cabecera{background:#0A2247}
+.cabecera .envoltura{display:flex;gap:24px;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px;flex-wrap:wrap}
+.marca{max-width:62ch}
+.marca strong{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(20px,1.8vw,28px);line-height:1.2}
+.marca span{opacity:.85;font-size:.9em}
+.reloj{text-align:right}
+.reloj b{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(30px,3vw,44px);display:block;line-height:1}
+.reloj small{opacity:.85}
+
+/* Ahora */
+.ahora{background:var(--sol);color:#1F1600}
+.ahora .envoltura{padding-top:12px;padding-bottom:12px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.ahora b{font-size:1.05em}
+
+/* Búsqueda */
+.buscador{padding:clamp(24px,4vw,48px) 0 12px}
+.buscador h1{font-size:clamp(32px,4.2vw,58px);font-weight:800;letter-spacing:-.01em}
+.buscador p{color:var(--suave);margin:8px 0 18px;max-width:60ch}
+.campo{display:flex;gap:10px;flex-wrap:wrap}
+.campo input{flex:1 1 380px;min-width:0;font-size:clamp(20px,1.7vw,26px);padding:16px 20px;border:3px solid var(--azul);border-radius:14px;background:var(--blanco)}
+.campo button{padding:0 22px;min-height:60px;border-radius:14px;border:3px solid var(--tinta);background:var(--blanco);font-weight:700;cursor:pointer}
+
+.secciones{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 6px;border-bottom:2px solid var(--linea)}
+.secciones button{background:none;border:0;border-bottom:5px solid transparent;padding:12px 14px 10px;font-weight:700;color:var(--suave);cursor:pointer;margin-bottom:-2px}
+.secciones button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--azul)}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.filtros button,.filtros select{padding:10px 16px;border-radius:999px;border:2px solid var(--linea);background:var(--blanco);cursor:pointer;min-height:48px}
+.filtros button[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--papel)}
+.cuenta{color:var(--suave);margin:4px 0 12px}
+
+/* Resultados */
+.lista{list-style:none;margin:0 0 60px;padding:0;display:grid;gap:14px}
+.proyecto{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;background:var(--blanco);border:2px solid var(--linea);border-radius:16px;padding:18px 20px;box-shadow:var(--sombra)}
+.numero{grid-row:span 3;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--azul);font-size:clamp(46px,4.6vw,72px);line-height:.9;min-width:2.1ch;text-align:right}
+.numero small{display:block;font-size:13px;font-family:"Atkinson Hyperlegible",sans-serif;font-weight:700;color:var(--suave);text-align:right;margin-bottom:2px}
+.proyecto h3{font-size:clamp(19px,1.5vw,24px);font-weight:600}
+.inst{color:var(--suave)}
+.donde{display:grid;gap:8px;margin-top:6px}
+.cita{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;background:var(--celeste);border-radius:10px;padding:10px 14px}
+.cita .lugar{font-weight:700;font-size:1.12em;color:var(--tinta)}
+.detalle{grid-column:2;margin-top:4px}
+.detalle summary{cursor:pointer;color:var(--azul);font-weight:700;padding:6px 0;min-height:44px;display:flex;align-items:center}
+.detalle dl{margin:6px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 16px}
+.detalle dt{color:var(--suave)}
+.detalle dd{margin:0}
+.vacio{padding:30px;border:2px dashed var(--linea);border-radius:16px;text-align:center;color:var(--suave)}
+
+/* Agenda */
+.dias{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin:20px 0 60px}
+.dia h2{font-size:clamp(24px,2.2vw,32px);margin-bottom:12px}
+.hito{display:grid;grid-template-columns:7.2em 1fr;gap:4px 16px;padding:14px 0;border-top:2px solid var(--linea)}
+.hito time{font-weight:700;color:var(--tinta)}
+.hito b{display:block}
+.hito p{margin:2px 0 0;color:var(--suave)}
+.hito.ya{opacity:.55}
+.hito.en-curso{background:linear-gradient(90deg,rgba(244,182,58,.28),transparent);border-top-color:var(--sol)}
+.hito button{margin-top:8px;background:none;border:2px solid var(--azul);color:var(--azul);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
+
+/* Espacios */
+.espacios{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:18px 0 60px}
+.espacio{background:var(--blanco);border:2px solid var(--linea);border-radius:16px;padding:16px 18px}
+.espacio h3{font-size:1.25em}
+.espacio .sub{color:var(--suave);margin:2px 0 10px}
+.espacio ol{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.espacio li button{all:unset;cursor:pointer;display:grid;grid-template-columns:2.4em 1fr;gap:8px;padding:4px 0}
+.espacio li button:focus-visible{outline:3px solid var(--sol)}
+.espacio li b{color:var(--azul)}
+
+/* Asistente */
+.chat{margin:18px 0 60px;display:grid;gap:14px}
+.mensajes{display:grid;gap:12px;min-height:160px}
+.globo{max-width:72ch;padding:14px 18px;border-radius:16px;white-space:pre-wrap}
+.globo.yo{justify-self:end;background:var(--tinta);color:var(--papel)}
+.globo.bot{background:var(--blanco);border:2px solid var(--linea)}
+.sugerencias{display:flex;flex-wrap:wrap;gap:8px}
+.sugerencias button{border:2px solid var(--linea);background:var(--blanco);border-radius:999px;padding:8px 14px;cursor:pointer}
+.nota{color:var(--suave);font-size:.9em}
+[hidden]{display:none!important}
+@media (max-width:560px){
+  .proyecto{grid-template-columns:1fr}
+  .numero{grid-row:auto;text-align:left}
+  .numero small{text-align:left}
+  .detalle{grid-column:1}
+  .hito{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){
+  .lista>li{animation:entra .18s ease-out}
+  @keyframes entra{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="envoltura">
+    <div class="marca">
+      <strong>I Jornada de Intercambio de Experiencias en el Campo de las Prácticas</strong>
+      <span>Desafíos del Nivel Superior en la Formación Docente Inicial y Técnica · ISFD José Manuel Estrada</span>
+    </div>
+    <div class="reloj" aria-live="off"><b id="hora">--:--</b><small id="fecha"></small></div>
+  </div>
+</header>
+<div class="ahora" role="status"><div class="envoltura" id="ahora"></div></div>
+
+<main class="envoltura">
+  <section class="buscador">
+    <h1>¿Qué proyecto buscás?</h1>
+    <p>Escribí el número, una palabra del título, el nombre del instituto o un tema. Te mostramos dónde y a qué hora se presenta.</p>
+    <form class="campo" id="form" role="search" onsubmit="return false">
+      <input id="q" type="search" autocomplete="off" placeholder="Ej.: 34, huerta, Bella Vista, inglés" aria-label="Buscar proyecto">
+      <button type="button" id="limpiar">Borrar</button>
+    </form>
+    <nav class="secciones" role="tablist" aria-label="Secciones">
+      <button role="tab" data-vista="proyectos" aria-selected="true">Proyectos</button>
+      <button role="tab" data-vista="agenda" aria-selected="false">Agenda de los dos días</button>
+      <button role="tab" data-vista="espacios" aria-selected="false">Aulas y espacios</button>
+      <button role="tab" data-vista="info" aria-selected="false">Información útil</button>
+      <button role="tab" data-vista="asistente" aria-selected="false" id="tabAsistente" hidden>Preguntarle al asistente</button>
+    </nav>
+  </section>
+
+  <section id="v-proyectos">
+    <div class="filtros" id="filtros">
+      <button data-f="" aria-pressed="true">Todos</button>
+      <button data-f="mesa" aria-pressed="false">Mesas · martes mañana</button>
+      <button data-f="feria" aria-pressed="false">Feria · martes tarde</button>
+      <button data-f="panel" aria-pressed="false">Panel · miércoles</button>
+      <button data-f="taller" aria-pressed="false">Taller · miércoles</button>
+      <select id="inst" aria-label="Filtrar por instituto"><option value="">Todos los institutos</option></select>
+    </div>
+    <p class="cuenta" id="cuenta" aria-live="polite"></p>
+    <ul class="lista" id="lista"></ul>
+  </section>
+
+  <section id="v-agenda" hidden><div class="dias" id="dias"></div></section>
+  <section id="v-espacios" hidden><div class="espacios" id="espacios"></div></section>
+
+  <section id="v-info" hidden><div class="espacios" id="info"></div></section>
+
+  <section id="v-asistente" hidden>
+    <div class="chat">
+      <div class="sugerencias" id="sugerencias"></div>
+      <div class="mensajes" id="mensajes" aria-live="polite"></div>
+      <form class="campo" id="formChat" onsubmit="return false">
+        <input id="pregunta" autocomplete="off" placeholder="Escribí tu pregunta sobre la jornada" aria-label="Pregunta">
+        <button type="button" id="enviar">Preguntar</button>
+        <button type="button" id="detener" hidden>Detener</button>
+      </form>
+      <p class="nota">El asistente responde solo con la información oficial de la distribución de la jornada. Ante cualquier duda, consultá en la mesa de acreditación.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============ DATOS (distribución actualizada al 24 de septiembre) ============ */
+/* Lugar físico de cada código. Si un campo queda vacío, se muestra solo el código. */
+const LUGAR = {
+  M01:"SUM", M02:"SUM", M03:"Aula 2", M04:"Aula 3", M05:"Aula 4", M06:"Aula 5", M07:"Aula 6",
+  M08:"Aula 7", M09:"Aula 8", M10:"Aula 9", M11:"Aula 10", M12:"Aula 11", M13:"Aula 12",
+  M14:"", M15:"Galería de Rectores",
+  G01:"", G02:"", G03:"", G04:"", G05:"", GV01:"",
+  H:"Sala H", T01:"Aula T01"
+};
+const ESPACIO = {
+  M01:{nombre:"Mesa M01",tema:"Innovación y tecnologías"},
+  M02:{nombre:"Mesa M02",tema:"Innovación y tecnologías en escenarios educativos"},
+  M03:{nombre:"Mesa M03",tema:"Prácticas en escenarios educativos e investigación y narrativas"},
+  M04:{nombre:"Mesa M04",tema:"Prácticas en escenarios educativos"},
+  M05:{nombre:"Mesa M05",tema:"Prácticas en escenarios educativos"},
+  M06:{nombre:"Mesa M06",tema:"Prácticas profesionalizantes y mundo del trabajo"},
+  M07:{nombre:"Mesa M07",tema:"Prácticas profesionalizantes y mundo del trabajo"},
+  M08:{nombre:"Mesa M08",tema:"Prácticas profesionalizantes y compromiso profesional"},
+  M09:{nombre:"Mesa M09",tema:"Investigación y sistematización de las prácticas"},
+  M10:{nombre:"Mesa M10",tema:"Investigación y narrativas de las prácticas"},
+  M11:{nombre:"Mesa M11",tema:"Investigación y reflexión sobre las prácticas"},
+  M12:{nombre:"Mesa M12",tema:"Acompañamiento y coformación"},
+  M13:{nombre:"Mesa M13",tema:"Acompañamiento y coformación"},
+  M14:{nombre:"Mesa M14",tema:"Acompañamiento y coformación"},
+  M15:{nombre:"Mesa M15",tema:"Investigación y acompañamiento formativo"},
+  G01:{nombre:"Gazebo G01",tema:"Innovación y tecnologías"},
+  G02:{nombre:"Gazebo G02",tema:"Innovación y tecnologías"},
+  G03:{nombre:"Gazebo G03",tema:"Prácticas en escenarios educativos"},
+  G04:{nombre:"Gazebo G04",tema:"Investigación y acompañamiento"},
+  G05:{nombre:"Gazebo G05",tema:"Innovación y tecnologías"},
+  GV01:{nombre:"Gazebo virtual GV01",tema:"Proyección de videos de la Feria"},
+  H1:{nombre:"Panel · bloque H1",tema:"Escenarios educativos e innovación"},
+  H2:{nombre:"Panel · bloque H2",tema:"Escenarios educativos y trayectorias formativas"},
+  H3:{nombre:"Panel · bloque H3",tema:"Acompañamiento y coformación"},
+  T01:{nombre:"Taller simultáneo",tema:"Aula de uso exclusivo"}
+};
+const ACT = {
+  mesa:{nombre:"Mesas de experiencias",dia:1,fecha:"Martes 29 de septiembre",ini:"10:15",fin:"12:00"},
+  feria:{nombre:"Feria pedagógica",dia:1,fecha:"Martes 29 de septiembre",ini:"14:30",fin:"16:00"},
+  panel:{nombre:"Panel «Historias que dejan huella»",dia:2,fecha:"Miércoles 30 de septiembre",ini:"09:45",fin:"12:00"},
+  taller:{nombre:"Taller simultáneo",dia:2,fecha:"Miércoles 30 de septiembre",ini:"09:45",fin:"12:00"}
+};
+const MOD = {P:"Presencial",V:"Virtual",VG:"Virtual, con video grabado",VS:"Virtual sincrónica"};
+const EJ = {
+  IA:"Innovación, tecnologías e Inteligencia Artificial",
+  EC:"Las prácticas en escenarios educativos complejos",
+  PP:"Prácticas profesionalizantes y mundo del trabajo",
+  IS:"Investigación y sistematización de las prácticas",
+  IN:"Investigación, sistematización y narrativas",
+  AC:"Acompañamiento y coformación",
+  ET:"Ética y compromiso profesional"
+};
+const I = {
+  EST:"ISFD José Manuel Estrada", GV:"ISFD Gobernador Virasoro", CC:"ISFD Curuzú Cuatiá", BV:"ISFD Bella Vista",
+  JGC:"ISFD Juan García de Cossio", PUJ:"ISFD Dr. Juan G. Pujol", MER:"ISFD Mercedes", LES:"ISFyCD Daniel Lesteime",
+  CAR:"ISFD Dr. Ramón J. Cárcano", PDL:"ISFD PAG Paso de los Libres", MLR:"ISFD María Luisa Román de Frechou",
+  ALV:"ISFD Alvear", COR:"ISFD Julio Cortázar", GUE:"ISFD Martín Miguel de Güemes", N1:"ISFD Nº 1",
+  SLP:"ISFD San Luis del Palmar", SMI:"ISFD San Miguel", SLU:"ISFD Santa Lucía", SAB:"ISFD Ernesto Sábato (La Cruz)"
+};
+/* [número, título, instituto, ejes, modalidad, actividad, espacio, stand/orden] */
+const P = [
+ [1,"Cuentoteka digital: narrativas multimodales para la enseñanza de la alfabetización en la Educación Inicial","GV",["IA"],"V","mesa","M01"],
+ [28,"Habitación escape","CC",["IA"],"P","mesa","M01"],
+ [48,"Muestra anual de producciones académicas interdisciplinares: un espacio para ampliar capacidades","BV",["IA"],"VG","mesa","M01"],
+ [18,"Aprender a enseñar más allá del aula","GV",["IA"],"V","mesa","M02"],
+ [62,"Explorando la literatura, cine y tecnología en el aula de inglés","CC",["IA"],"V","mesa","M02"],
+ [51,"El currículum oculto y la ESI en el campo de las prácticas: los dispositivos digitales de reflexión crítica y resignificación de la identidad docente","EST",["EC"],"P","mesa","M02"],
+ [2,"Proyecto interdisciplinario e intercarreras: «Ciencias Exactas en Acción: Visitas Pedagógicas»","JGC",["EC"],"P","mesa","M03"],
+ [9,"Cuando el papel se resiste al pliegue","PUJ",["EC"],"P","mesa","M03"],
+ [70,"Narrar para formarse: registros, experiencias y narrativas en la construcción de la identidad docente","EST",["IN"],"P","mesa","M03"],
+ [57,"Enseñar en el Jardín Maternal: un desafío que atraviesa la trayectoria formativa","EST",["EC"],"P","mesa","M03"],
+ [25,"Desempeños de comprensión respecto al concepto dependiente de la recta: análisis de una secuencia mediada con GeoGebra","JGC",["EC"],"P","mesa","M04"],
+ [32,"Cuando las letras se cansan de estar quietas","PUJ",["EC"],"P","mesa","M04"],
+ [22,"Código Rojo, un disparador para integración interdisciplinaria en la EFE de Enfermería","MER",["EC"],"P","mesa","M04"],
+ [41,"Del laboratorio a la Feria de Ciencias: investigación, participación y comunicación científica en el Ciclo Básico","JGC",["EC"],"P","mesa","M05"],
+ [65,"El Taller de Residencia como espacio de reconstrucción del saber didáctico y el sentido matemático","PUJ",["EC"],"P","mesa","M05"],
+ [15,"Sembrar música, cultivar experiencias","LES",["EC"],"P","mesa","M05"],
+ [4,"Digitalización de organizaciones locales: un enfoque situado para las prácticas profesionalizantes en Software","CAR",["PP"],"P","mesa","M06"],
+ [12,"Festival de la Empanada: integración profesional, institucional y comunitaria","PDL",["PP"],"P","mesa","M06"],
+ [29,"Una experiencia de articulación entre el segundo ciclo del nivel primario y la Tecnicatura Superior en Turismo","BV",["PP"],"V","mesa","M06"],
+ [50,"Del aula a una experiencia gastronómica real: proyecto intercátedra Locro del 9 de Julio","CAR",["PP"],"P","mesa","M07"],
+ [43,"Del territorio a la marca: diseño y comunicación turística para Bella Vista","BV",["PP"],"V","mesa","M07"],
+ [33,"Pimiento y tomate: producción de Tatacuá, calidad de exportación","MLR",["PP"],"VG","mesa","M07"],
+ [53,"Diseño e identidad para productos innovadores","BV",["PP"],"V","mesa","M08"],
+ [46,"Hospitalidad situada: las prácticas profesionalizantes como puente entre la formación técnica y el desarrollo socioproductivo de Gobernador Virasoro","GV",["PP"],"P","mesa","M08"],
+ [40,"Humanización del parto y el rol de Enfermería en la atención centrada en la mujer y su familia","JGC",["ET"],"P","mesa","M08"],
+ [3,"ITER FACIENTES: cuando la práctica docente se convierte en una revista de enseñanza de la Física","JGC",["IS"],"P","mesa","M09"],
+ [16,"La construcción de una mirada compartida sobre la evaluación de las prácticas de enseñanza","BV",["IS"],"V","mesa","M09"],
+ [19,"Experiencia de reflexión sobre la práctica docente desde un enfoque clínico en Ciencias de la Educación con estudiantes de Residencia del profesorado","EST",["IS"],"P","mesa","M09"],
+ [35,"Integración digital de la comunidad","ALV",["IN"],"VS","mesa","M10"],
+ [55,"Cuando la práctica se hace relato: narrar, mirar(se) y reflexionar en la formación docente","CAR",["IS"],"P","mesa","M10"],
+ [66,"Miradas sobre una misma práctica: análisis de clases filmadas en la formación docente","PUJ",["AC","IS"],"P","mesa","M10"],
+ [17,"Miradas sobre una misma práctica","PUJ",["AC","IS"],"P","mesa","M11"],
+ [37,"Aprender con la comunidad: experiencias sociocomunitarias en la formación docente","COR",["IS"],"P","mesa","M11"],
+ [67,"Mirar para aprender: escenas, preguntas y aprendizajes de Práctica Docente II","EST",["IN"],"P","mesa","M11"],
+ [6,"Planificar para enseñar Matemática: acompañamiento y construcción progresiva de las decisiones didácticas en Práctica Docente III y Residencia Pedagógica","GUE",["AC"],"P","mesa","M12"],
+ [20,"Articulación de Práctica Docente y Didáctica Específica: acompañar para construir puentes entre teoría y práctica","EST",["AC"],"P","mesa","M12"],
+ [21,"Mi resis me enseñaron","BV",["AC"],"V","mesa","M12"],
+ [23,"Internship Programme: acompañamiento, coformación y mentoría entre pares en la FDI de Inglés","JGC",["AC"],"P","mesa","M12"],
+ [7,"«Los villanos de la práctica»: coformador, profesor de Práctica y alumno practicante frente a los obstáculos cotidianos de la formación docente","MER",["AC"],"P","mesa","M13"],
+ [26,"Entre la teoría y la práctica, una experiencia de residencia pedagógica","COR",["AC"],"P","mesa","M13"],
+ [27,"El rol del coformador en los procesos de prácticas docentes","BV",["AC"],"V","mesa","M13"],
+ [34,"Construyendo saberes: diseño colaborativo de soportes de cultivos para la huerta escolar entre residencia y el aula","EST",["AC"],"P","mesa","M13"],
+ [31,"Los docentes de apoyo a la inclusión y su relación con la práctica docente","N1",["AC"],"P","mesa","M14"],
+ [39,"Habitar la primera clase: miedos, parejas pedagógicas y la red de acompañamiento en la praxis","EST",["AC"],"P","mesa","M14"],
+ [54,"La práctica pedagógica ante el diálogo: tensiones, aprendizajes y oportunidades en la tríada formativa","ALV",["AC"],"P","mesa","M14"],
+ [64,"Diferentes vivencias que nos condujeron a experiencias compartidas","PUJ",["AC"],"P","mesa","M14"],
+ [13,"Contar con la mano: mitos, medidas y números guaraníes","EST",["AC"],"P","mesa","M15"],
+ [44,"Escenarios educativos diversos: conociendo la EFA","N1",["AC"],"P","mesa","M15"],
+ [47,"Propuestas de enseñanza que contribuyan a la renovación de las prácticas de Lengua en el primer ciclo del nivel secundario","SLP",["AC"],"P","mesa","M15"],
+ [61,"Musicalizando cálculos","ALV",["AC"],"P","mesa","M15"],
+ [11,"Del diseño al aula: experiencias innovadoras para enseñar Educación Tecnológica","EST",["IA"],"P","feria","G01","Stand 1"],
+ [24,"Tras las huellas de la enseñanza en Matemática","JGC",["IA"],"P","feria","G01","Stand 2"],
+ [5,"De residuo a recurso: desarrollo de biotextiles con desechos orgánicos regionales en la formación técnico-profesional","CAR",["IA"],"P","feria","G01","Stand 3"],
+ [63,"Ciencia de datos e inteligencia artificial en la administración pública","EST",["IA"],"P","feria","G02","Stand 1"],
+ [42,"Prompt Lab","JGC",["IA"],"P","feria","G02","Stand 2"],
+ [49,"Construyendo materiales inclusivos: propuestas STEAM para la enseñanza en contextos de inclusión educativa","N1",["EC"],"P","feria","G03","Stand 1"],
+ [13,"Contar con la mano: mitos, medidas y números guaraníes","EST",["AC"],"P","feria","G04","Stand 1"],
+ [52,"Corriente de ideas. Energía y tecnología en acción","EST",["IA"],"P","feria","G05","Stand 1"],
+ [68,"El poder de las buenas preguntas","MER",["EC"],"VG","feria","GV01","Proyección 1"],
+ [8,"De la reflexión artesanal a la sistematización y la transferencia afectiva en la formación docente","EST",["EC","IA"],"P","panel","H1","1.º relato del bloque"],
+ [36,"Microexperiencias en aulas plurigrado de la Educación Rural","CAR",["EC"],"P","panel","H1","2.º relato del bloque"],
+ [45,"Expectativas y realidades en la formación docente inicial","SMI",["EC"],"VS","panel","H1","3.º relato del bloque"],
+ [14,"Speaking Workshops","MLR",["EC"],"VS","panel","H1","4.º relato del bloque"],
+ [58,"La huella analógica: de la reflexión artesanal a la sistematización y la transferencia afectiva en la formación docente","EST",["EC"],"P","panel","H2","1.º relato del bloque"],
+ [56,"Escuchar el territorio: el guaraní como huella en la enseñanza de la Historia","SLP",["EC"],"P","panel","H2","2.º relato del bloque"],
+ [59,"Enseñar, aprender y transformar: una mirada reflexiva sobre mi trayectoria docente","SLU",["EC","AC"],"P","panel","H2","3.º relato del bloque"],
+ [60,"La práctica que transforma el territorio","EST",["EC"],"P","panel","H2","4.º relato del bloque"],
+ [69,"Sr./a Maestra: una imagen en mi formación","EST",["AC"],"P","panel","H3","1.º relato del bloque"],
+ [30,"La reconfiguración de registros entre pares e intercátedras, un dispositivo innovador en el campo de las prácticas del Profesorado de Educación Secundaria en Lengua y Literatura","SAB",["AC"],"P","panel","H3","2.º relato del bloque"],
+ [38,"Formarse para enseñar inglés","PDL",["AC"],"VS","panel","H3","3.º relato del bloque"],
+ [10,"Construyendo prácticas innovadoras: la multitarea como modalidad organizativa privilegiada en el Nivel Inicial. Una experiencia de formación situada en el Profesorado de Educación Inicial","EST",["AC"],"P","taller","T01"]
+].map(r=>({n:r[0],t:r[1],i:I[r[2]],ejes:r[3].map(e=>EJ[e]),m:r[4],a:r[5],s:r[6],st:r[7]||""}));
+
+const AGENDA = [
+ {dia:1,fecha:"2026-09-29",titulo:"Martes 29 de septiembre",items:[
+  ["08:00","09:00","Acreditación","Recepción y acreditación."],
+  ["09:00","09:40","Apertura institucional","Palabras de autoridades, presentación de instituciones participantes y encuadre de la jornada."],
+  ["09:40","10:10","Conferencia de apertura","En la Galería de Rectores. Profesoras Cecilia Maradey, Laura Vallejos y Romina López: «Las prácticas como territorio de encuentro: donde la formación se vuelve profesión»."],
+  ["10:15","12:00","Mesas de experiencias","Dispositivo 1. Mesas M01 a M15.","mesa"],
+  ["12:00","13:00","Espacio de esparcimiento","En la cantina."],
+  ["13:00","14:30","Taller especial","Prof. Belén Ferreyra: «De la actividad a la experiencia: diseño de propuestas innovadoras y desafiantes en aulas reales»."],
+  ["14:30","16:00","Feria pedagógica","Dispositivo 2. Gazebos G01 a G05 y gazebo virtual GV01.","feria"],
+  ["16:00","16:45","Conferencia de cierre","En la Galería de Rectores. Mgtr. Mónica Alegre y Mgtr. Diego Craig: «Innovación, inclusión y saberes profesionales en la formación inicial y técnica»."]
+ ]},
+ {dia:2,fecha:"2026-09-30",titulo:"Miércoles 30 de septiembre",items:[
+  ["08:30","09:30","Conferencia de apertura","En la Galería de Rectores. Mgter. María Teresa «Maite» Alcalá, docente investigadora de la Facultad de Humanidades de la UNNE: «Las prácticas como espacios de construcción de saberes, identidad profesional, innovación formativa y compromiso ético con la educación»."],
+  ["09:45","12:00","Panel «Historias que dejan huella»","Dispositivo 3. Sala H, en tres bloques sucesivos: H1, H2 y H3.","panel"],
+  ["09:45","12:00","Taller simultáneo","Dispositivo 4. Aula T01, en paralelo al Panel.","taller"],
+  ["12:00","13:00","Espacio de esparcimiento","En la cantina."],
+  ["13:00","14:30","Taller especial","Mgtr. Sebastián Franco: «La oratoria como tecnología pedagógica»."],
+  ["15:00","16:00","Conferencia de cierre","En la Galería de Rectores. Dra. Patricia Demuth Mercado, Secretaria General Académica de la UNNE."],
+  ["16:15","17:00","Clausura","Palabras de cierre: Lic. Prof. Rosa I. Ceccardi y Prof. Fabián Alcaráz."]
+ ]}
+];
+
+const INFO = [
+ {titulo:"Dónde se desarrolla",p:[
+  "La jornada es presencial y se realiza en el SUM, las aulas y el patio del ISFD José Manuel Estrada, en la ciudad de Corrientes, los días martes 29 y miércoles 30 de septiembre de 2026.",
+  "Todas las conferencias principales son presenciales y se realizan en la Galería de Rectores.",
+  "Las Mesas de experiencias M01 y M02 funcionan en el SUM."]},
+ {titulo:"Esparcimiento y ayuda",p:[
+  "El espacio de esparcimiento es en la cantina.",
+  "En la cocina del instituto hay agua caliente para el mate y café, entre otras cosas.",
+  "Ante problemas técnicos (conexión, proyector, audio o participaciones virtuales), recurrí a un referente TIC del equipo a cargo de Eduardo López."]},
+ {titulo:"Certificación",p:[
+  "Directivos y docentes del Nivel Superior: inscripción en SIMA Catálogo desde el martes 22/09 a las 15 h hasta el sábado 26/09 a las 15 h. Requisito: constancia probatoria de desempeño en el Nivel Superior.",
+  "Docentes coformadores del Nivel Secundario que acompañan en los dispositivos: certificación del ISFD José Manuel Estrada.",
+  "Estudiantes que participan en las experiencias: certificación del ISFD José Manuel Estrada.",
+  "La jornada está aprobada por Resolución Ministerial N.º 3274/26, con una carga de 12 horas reloj presenciales."]},
+ {titulo:"Si presentás un proyecto",p:[
+  "Llegá 20 minutos antes al aula o espacio asignado.",
+  "Mesas de experiencias: cada experiencia tiene hasta 10 minutos, con exposiciones breves, intercambio con el público y cierre. Podés usar hasta 6 diapositivas como apoyo; no se recomienda leerlas textualmente.",
+  "Panel «Historias que dejan huella»: relatos breves, personales o colectivos, que marcaron una trayectoria formativa, con resonancias del público y cierre. Los recursos audiovisuales son de uso excepcional.",
+  "Participación virtual sincrónica: conexión estable, micrófono y cámara funcionando, y respeto de los tiempos y consignas de la coordinación.",
+  "Al finalizar: cierre con ideas principales y entrega de los materiales solicitados."]},
+ {titulo:"Si participás como público",p:[
+  "Se prioriza el intercambio: las preguntas y aportes son breves y vinculados al eje del dispositivo.",
+  "La coordinación organiza las intervenciones y la relatoría registra los principales aportes.",
+  "Usá un lenguaje claro, inclusivo y respetuoso."]}
+];
+function renderInfo(){
+  const c=$("#info"); c.replaceChildren();
+  for (const b of INFO){
+    const art=el("article",{class:"espacio"},el("h3",{},b.titulo));
+    b.p.forEach(t=>art.append(el("p",{},t)));
+    c.append(art);
+  }
+}
+
+/* ============ UTILIDADES ============ */
+const $ = s=>document.querySelector(s);
+const norm = s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const el = (tag,attrs={},...hijos)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}for(const h of hijos){if(h==null||h===false)continue;e.append(h.nodeType?h:document.createTextNode(h))}return e};
+const codigoLugar = s => s.startsWith("H") ? "H" : s;
+function dondeTexto(p){
+  const esp = ESPACIO[p.s], lugar = LUGAR[codigoLugar(p.s)];
+  let partes = [esp.nombre];
+  if (lugar) partes.push(lugar);
+  if (p.st) partes.push(p.st);
+  return partes.join(" · ");
+}
+function cuandoTexto(p){const a=ACT[p.a];return `${a.fecha} · ${a.ini} a ${a.fin} h`}
+
+/* Agrupa participaciones por número de proyecto */
+const PROY = {};
+for (const p of P){ (PROY[p.n] ||= {n:p.n,t:p.t,i:p.i,ejes:p.ejes,m:p.m,part:[]}).part.push(p) }
+const LISTA = Object.values(PROY).sort((a,b)=>a.n-b.n);
+const texto = x => norm([x.n,x.t,x.i,x.ejes.join(" "),MOD[x.m],...x.part.map(p=>[ACT[p.a].nombre,ESPACIO[p.s].nombre,ESPACIO[p.s].tema,LUGAR[codigoLugar(p.s)],p.s].join(" "))].join(" "));
+LISTA.forEach(x=>x._txt=texto(x));
+
+/* ============ ESTADO ============ */
+let filtroAct = "", filtroInst = "", vista = "proyectos";
+
+/* ============ PROYECTOS ============ */
+function renderProyectos(){
+  const q = norm($("#q").value.trim());
+  let res = LISTA;
+  if (/^\d+$/.test(q)) res = res.filter(x=>String(x.n)===q);
+  else if (q){ const toks=q.split(/\s+/); res = res.filter(x=>toks.every(t=>x._txt.includes(t))) }
+  if (filtroAct) res = res.filter(x=>x.part.some(p=>p.a===filtroAct));
+  if (filtroInst) res = res.filter(x=>x.i===filtroInst);
+  $("#cuenta").textContent = res.length===1 ? "1 proyecto" : `${res.length} proyectos`;
+  const ul = $("#lista"); ul.replaceChildren();
+  if (!res.length){
+    ul.append(el("li",{class:"vacio"},"No encontramos proyectos con esa búsqueda. Probá con otra palabra o con el número del proyecto."));
+    return;
+  }
+  for (const x of res){
+    const donde = el("div",{class:"donde"});
+    for (const p of x.part){
+      donde.append(el("div",{class:"cita"},
+        el("span",{class:"lugar"},dondeTexto(p)),
+        el("span",{},`${ACT[p.a].nombre} · ${cuandoTexto(p)}`)));
+    }
+    const dl = el("dl",{},
+      el("dt",{},"Eje"), el("dd",{},x.ejes.join(" / ")),
+      el("dt",{},"Modalidad"), el("dd",{},MOD[x.m] + (x.m!=="P" ? " (se sigue desde el mismo espacio)" : "")));
+    for (const p of x.part){
+      const otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.s===p.s));
+      if (otros.length){
+        dl.append(el("dt",{},`Junto con (${ESPACIO[p.s].nombre})`),
+          el("dd",{},otros.map(o=>`${o.n} · ${o.t}`).join("\n")));
+      }
+    }
+    dl.querySelectorAll("dd").forEach(d=>d.style.whiteSpace="pre-line");
+    ul.append(el("li",{class:"proyecto"},
+      el("div",{class:"numero"},el("small",{},"N.º"),String(x.n)),
+      el("h3",{},x.t),
+      el("div",{class:"inst"},x.i),
+      donde,
+      el("details",{class:"detalle"},el("summary",{},"Ver eje, modalidad y con quién comparte espacio"),dl)
+    ));
+  }
+}
+
+/* ============ AGENDA ============ */
+function ahoraEnMinutos(){const d=new Date();return d.getHours()*60+d.getMinutes()}
+const aMin = h=>{const[a,b]=h.split(":").map(Number);return a*60+b};
+function fechaHoy(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function renderAgenda(){
+  const cont = $("#dias"); cont.replaceChildren();
+  const hoy = fechaHoy(), min = ahoraEnMinutos();
+  for (const d of AGENDA){
+    const col = el("div",{class:"dia"},el("h2",{},`Día ${d.dia} · ${d.titulo}`));
+    for (const [ini,fin,tit,desc,act] of d.items){
+      let clase = "hito";
+      if (hoy>d.fecha || (hoy===d.fecha && min>=aMin(fin))) clase+=" ya";
+      else if (hoy===d.fecha && min>=aMin(ini)) clase+=" en-curso";
+      const cuerpo = el("div",{},el("b",{},tit), desc? el("p",{},desc):null);
+      if (act) cuerpo.append(el("button",{type:"button",onclick:()=>{filtroAct=act;marcarFiltros();irA("proyectos")}},"Ver proyectos y aulas"));
+      col.append(el("div",{class:clase},el("time",{},`${ini} a ${fin}`),cuerpo));
+    }
+    cont.append(col);
+  }
+}
+
+/* ============ ESPACIOS ============ */
+function renderEspacios(){
+  const cont = $("#espacios"); cont.replaceChildren();
+  for (const [cod,esp] of Object.entries(ESPACIO)){
+    const parts = P.filter(p=>p.s===cod);
+    const a = ACT[parts[0].a], lugar = LUGAR[codigoLugar(cod)];
+    const ol = el("ol");
+    parts.forEach(p=>ol.append(el("li",{},el("button",{type:"button",onclick:()=>{$("#q").value=String(p.n);filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();irA("proyectos")}},el("b",{},String(p.n)),el("span",{},p.t)))));
+    cont.append(el("article",{class:"espacio"},
+      el("h3",{},esp.nombre + (lugar? ` · ${lugar}` : "")),
+      el("p",{class:"sub"},`${esp.tema}. ${a.fecha}, ${a.ini} a ${a.fin} h.`),
+      ol));
+  }
+}
+
+/* ============ AHORA ============ */
+function renderAhora(){
+  const d = new Date();
+  $("#hora").textContent = d.toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+  $("#fecha").textContent = d.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});
+  const hoy = fechaHoy(), min = ahoraEnMinutos(), caja = $("#ahora");
+  const dia = AGENDA.find(x=>x.fecha===hoy);
+  let msg;
+  if (!dia){
+    msg = hoy < AGENDA[0].fecha
+      ? ["Próximamente:","La jornada empieza el martes 29 de septiembre a las 8:00 con la acreditación."]
+      : ["La jornada finalizó.","Gracias por participar."];
+  } else {
+    const ahora = dia.items.filter(i=>min>=aMin(i[0]) && min<aMin(i[1]));
+    const prox = dia.items.find(i=>aMin(i[0])>min);
+    if (ahora.length) msg = ["Ahora:", ahora.map(i=>`${i[2]} (hasta las ${i[1]})`).join(" y ") + (prox? `. Después, a las ${prox[0]}: ${prox[2]}.` : ".")];
+    else if (prox) msg = ["A continuación:", `${prox[2]}, a las ${prox[0]}.`];
+    else msg = ["Terminaron las actividades de hoy.", dia.dia===1 ? "Mañana, miércoles 30, seguimos desde las 8:30." : "Gracias por participar."];
+  }
+  caja.replaceChildren(el("b",{},msg[0]),el("span",{},msg[1]));
+  if (vista==="agenda") renderAgenda();
+}
+
+/* ============ NAVEGACIÓN Y FILTROS ============ */
+function irA(v){
+  vista = v;
+  document.querySelectorAll(".secciones button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.vista===v)));
+  for (const s of ["proyectos","agenda","espacios","info","asistente"]) $("#v-"+s).hidden = s!==v;
+  if (v==="proyectos") renderProyectos();
+  if (v==="agenda") renderAgenda();
+  if (v==="espacios") renderEspacios();
+  if (v==="info") renderInfo();
+}
+function marcarFiltros(){
+  document.querySelectorAll("#filtros button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.f===filtroAct)));
+}
+document.querySelectorAll(".secciones button").forEach(b=>b.addEventListener("click",()=>irA(b.dataset.vista)));
+document.querySelectorAll("#filtros button").forEach(b=>b.addEventListener("click",()=>{filtroAct=b.dataset.f;marcarFiltros();renderProyectos()}));
+[...new Set(LISTA.map(x=>x.i))].sort((a,b)=>a.localeCompare(b,"es")).forEach(i=>$("#inst").append(el("option",{value:i},i)));
+$("#inst").addEventListener("change",e=>{filtroInst=e.target.value;renderProyectos()});
+$("#q").addEventListener("input",()=>{ if(vista!=="proyectos") irA("proyectos"); else renderProyectos() });
+$("#limpiar").addEventListener("click",()=>{$("#q").value="";filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();renderProyectos();$("#q").focus()});
+
+/* Vuelve al inicio tras 2 minutos sin uso (pensado para una computadora de consulta) */
+let inactivo;
+function reiniciarInactividad(){
+  clearTimeout(inactivo);
+  inactivo = setTimeout(()=>{
+    $("#q").value="";filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();
+    turnos.length=0;$("#mensajes").replaceChildren();$("#pregunta").value="";
+    irA("proyectos");window.scrollTo(0,0);
+  },120000);
+}
+["pointerdown","keydown","touchstart"].forEach(ev=>document.addEventListener(ev,reiniciarInactividad,{passive:true}));
+
+/* ============ ASISTENTE (solo si el visor lo permite) ============ */
+const turnos = [];
+function datosParaAsistente(){
+  const proys = LISTA.map(x=>`N.º ${x.n} | ${x.t} | ${x.i} | Eje: ${x.ejes.join(" / ")} | Modalidad: ${MOD[x.m]} | ` +
+    x.part.map(p=>`${ACT[p.a].nombre}, ${cuandoTexto(p)}, ${dondeTexto(p)}`).join(" + ")).join("\n");
+  const ag = AGENDA.map(d=>`Día ${d.dia} (${d.titulo}):\n`+d.items.map(i=>`- ${i[0]} a ${i[1]}: ${i[2]}${i[3]?". "+i[3]:""}`).join("\n")).join("\n");
+  const inf = INFO.map(b=>`${b.titulo}:\n`+b.p.map(t=>"- "+t).join("\n")).join("\n");
+  return `INFORMACIÓN GENERAL\n${inf}\n\nAGENDA\n${ag}\n\nPROYECTOS (número | título | instituto | eje | modalidad | actividad, horario y lugar)\n${proys}`;
+}
+const REGLAS = () => `Sos el asistente de consultas de la I Jornada de Intercambio de Experiencias en el Campo de las Prácticas («Desafíos del Nivel Superior en la Formación Docente Inicial y Técnica»), organizada por el ISFD José Manuel Estrada de Corrientes, Argentina. Atendés a asistentes y expositores desde una computadora de consulta.
+
+Reglas:
+- Respondé SOLO con la información de los datos de abajo. No inventes contenidos de los proyectos, nombres, lugares ni horarios. De cada proyecto solo se conocen el título, el instituto, el eje y la modalidad; si te preguntan de qué trata, explicá lo que se desprende del título y del eje, sin agregar detalles.
+- Si algo no está en los datos (por ejemplo, la ubicación física de un gazebo o de la acreditación), decí que no tenés ese dato y sugerí consultar en la mesa de acreditación.
+- Cuando menciones un proyecto, indicá su número, el lugar, el día y el horario.
+- Escribí en español rioplatense (voseo), con tono cordial y breve: dos a cinco oraciones. Sin markdown, sin asteriscos ni títulos.
+- Fecha y hora actual: ${new Date().toLocaleString("es-AR")}.
+
+DATOS
+${datosParaAsistente()}`;
+
+function globo(quien,texto){const g=el("div",{class:"globo "+quien},texto);$("#mensajes").append(g);g.scrollIntoView({block:"nearest"});return g}
+(async()=>{
+  if (!window.claude || typeof window.claude.use!=="function") return;
+  let sample = null;
+  try { sample = await window.claude.use("sample") } catch(e){ sample = null }
+  if (!sample) return;
+  $("#tabAsistente").hidden = false;
+  const sug = ["¿Dónde se presenta el proyecto 34?","¿Qué hay ahora?","¿Qué proyectos trae Bella Vista?","¿Hay proyectos sobre inteligencia artificial?"];
+  sug.forEach(s=>$("#sugerencias").append(el("button",{type:"button",onclick:()=>{$("#pregunta").value=s;preguntar()}},s)));
+  let ctl = null;
+  async function preguntar(){
+    const txt = $("#pregunta").value.trim(); if (!txt || ctl) return;
+    $("#pregunta").value=""; globo("yo",txt);
+    turnos.push({role:"user",content:txt});
+    const g = globo("bot","Pensando…");
+    ctl = new AbortController(); $("#detener").hidden=false; $("#enviar").disabled=true;
+    try{
+      const recientes = turnos.slice(-8);
+      const {text} = await sample([{role:"user",content:REGLAS()},{role:"assistant",content:"Entendido. ¿En qué te puedo ayudar?"},...recientes],
+        {modelTier:"quick",cache:false,signal:ctl.signal,onText:({text})=>{g.textContent=text}});
+      g.textContent = text; turnos.push({role:"assistant",content:text});
+    }catch(e){
+      turnos.pop();
+      if (e && e.code==="cancelled") g.textContent = e.text || "Consulta detenida.";
+      else if (e && e.code==="not_granted"){ g.textContent="El asistente no está habilitado en esta computadora. Podés usar el buscador de proyectos."; $("#tabAsistente").hidden=true }
+      else if (e && e.code==="rate_limited") g.textContent="Hay muchas consultas en este momento. Esperá un minuto y volvé a intentar, o usá el buscador.";
+      else g.textContent="No se pudo obtener respuesta. Probá de nuevo o usá el buscador de proyectos.";
+    }finally{ ctl=null; $("#detener").hidden=true; $("#enviar").disabled=false }
+  }
+  $("#enviar").addEventListener("click",preguntar);
+  $("#pregunta").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();preguntar()}});
+  $("#detener").addEventListener("click",()=>ctl?.abort());
+})();
+
+/* ============ INICIO ============ */
+renderProyectos(); renderAhora(); setInterval(renderAhora,30000); reiniciarInactividad();
+</script>
+</body>
+</html>
