@@ -86,6 +86,15 @@ button,input,select{font:inherit;color:inherit}
 .respuesta p{margin:6px 0 0;max-width:75ch}
 .respuesta .hora{font-weight:700;color:var(--tinta)}
 .respuesta button{margin-top:10px;background:none;border:2px solid var(--vivo);color:var(--vivo);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
+.mapa{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:12px}
+.botones{display:flex;flex-wrap:wrap;gap:10px}
+.boton{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;background:var(--vivo);color:#fff;font-weight:700;text-decoration:none}
+.boton:hover{background:var(--azul)}
+.qr{margin:0;text-align:center}
+.qr svg{width:150px;height:150px;background:#fff;border-radius:8px;display:block;margin:0 auto}
+.qr figcaption{font-size:.85em;color:var(--suave);max-width:170px;margin-top:4px}
+.ubic{margin:-6px 0 18px;font-weight:700;color:var(--tinta)}
+.ubic a{color:var(--vivo)}
 .vacio{padding:30px;border:2px dashed var(--linea);border-radius:16px;text-align:center;color:var(--suave)}
 
 /* Agenda */
@@ -131,6 +140,7 @@ button,input,select{font:inherit;color:inherit}
   @keyframes entra{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
 <body>
 <header class="cabecera">
@@ -145,6 +155,7 @@ button,input,select{font:inherit;color:inherit}
   <section class="buscador">
     <h1>¿Qué estás buscando?</h1>
     <p>Escribí el número o una palabra de un proyecto, un instituto o tu duda: certificado, conferencia, café, problema técnico. Te mostramos dónde, a qué hora y qué tenés que saber.</p>
+    <p class="ubic">📍 Av. Pte. Raúl Alfonsín (ex Av. Centenario) y Sánchez de Bustamante, Corrientes · <a id="linkRuta" target="_blank" rel="noopener">Cómo llegar</a></p>
     <form class="campo" id="form" role="search" onsubmit="return false">
       <input id="q" type="search" autocomplete="off" placeholder="Ej.: 34, huerta, Bella Vista, certificado, café" aria-label="Buscar">
       <button type="button" id="limpiar">Borrar</button>
@@ -349,7 +360,8 @@ const AGENDA = [
 ];
 
 const INFO = [
- {titulo:"Dónde se desarrolla",p:[
+ {titulo:"Dónde se desarrolla",mapa:true,p:[
+  "Dirección: Av. Pte. Raúl Alfonsín (ex Av. Centenario) esquina Sánchez de Bustamante, barrio San Gerónimo, Corrientes Capital.",
   "La jornada es presencial y se realiza en el SUM, las aulas y el patio del ISFD José Manuel Estrada, en la ciudad de Corrientes, los días martes 29 y miércoles 30 de septiembre de 2026.",
   "Todas las conferencias principales son presenciales y se realizan en la Galería de Rectores.",
   "Las Mesas de experiencias M01 y M02 funcionan en el SUM."]},
@@ -373,11 +385,31 @@ const INFO = [
   "La coordinación organiza las intervenciones y la relatoría registra los principales aportes.",
   "Usá un lenguaje claro, inclusivo y respetuoso."]}
 ];
+const DESTINO = "Instituto Superior de Formación Docente José Manuel Estrada, Av. Raúl Alfonsín y Sánchez de Bustamante, Corrientes";
+const URL_MAPA = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DESTINO);
+const URL_RUTA = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(DESTINO);
+/* Botones del mapa y código QR (el QR necesita internet; sin conexión se oculta) */
+function bloqueMapa(){
+  const caja = el("div",{class:"mapa"},
+    el("div",{class:"botones"},
+      el("a",{class:"boton",href:URL_MAPA,target:"_blank",rel:"noopener"},"Ver en Google Maps"),
+      el("a",{class:"boton",href:URL_RUTA,target:"_blank",rel:"noopener"},"Cómo llegar")));
+  try{
+    if (typeof qrcode==="function"){
+      const q = qrcode(0,"M"); q.addData(URL_RUTA); q.make();
+      const fig = el("figure",{class:"qr"}); fig.innerHTML = q.createSvgTag({cellSize:4,margin:2,scalable:true});
+      fig.append(el("figcaption",{},"Escaneá con el celular para abrir el recorrido"));
+      caja.append(fig);
+    }
+  }catch(e){}
+  return caja;
+}
 function renderInfo(){
   const c=$("#info"); c.replaceChildren();
   for (const b of INFO){
     const art=el("article",{class:"espacio"},el("h3",{},b.titulo));
     b.p.forEach(t=>art.append(el("p",{},t)));
+    if (b.mapa) art.append(bloqueMapa());
     c.append(art);
   }
 }
@@ -413,8 +445,8 @@ const EQUIV = [
  [["tecnic","proyector","internet","wifi","conexion","audio","microfono","sonido","parlante","compu","notebook","pantalla","referente","tic","eduardo","lopez","falla","problema","ayuda"],"soporte"],
  [["horario","hora","empieza","comienza","inicio","empez","arranca","termina","finaliza","cronograma","programa","agenda"],"horario"],
  [["ahora","momento","actual","pasando"],"ahora"],
- [["lugar","ubicacion","direccion","sede","edificio","galeria","rectores","patio","sum"],"lugar"],
- [["expon","exposit","presentar","presento","presentacion","diapositiva","power","ppt","minutos","tiempo","duracion","ponencia","panelista","relato","camara","llegar"],"presentar"],
+ [["lugar","ubicacion","ubicad","direccion","sede","edificio","galeria","rectores","patio","sum","mapa","maps","llegar","llego","colectivo","barrio","calle","gps","interior"],"lugar"],
+ [["expon","exposit","presentar","presento","presentacion","diapositiva","power","ppt","minutos","tiempo","duracion","ponencia","panelista","relato","camara"],"presentar"],
  [["publico","oyente","preguntar","intervenir","participar","asistir"],"publico"]
 ];
 const canon = t => { for (const [lista,c] of EQUIV) if (lista.some(k=>t.startsWith(k))) return c; return t };
@@ -448,7 +480,7 @@ function buscarRespuestas(q){
         parr = b.p.filter(t=>temas.has("soporte") ? true : !/técnicos/.test(t));
         if (!temas.has("esparcimiento")) parr = b.p.filter(t=>/técnicos/.test(t));
       }
-      out.push({titulo:b.titulo,p:parr});
+      out.push({titulo:b.titulo,p:parr,mapa:!!b.mapa});
     }
   }
   /* Actividades de la agenda: se muestran las que coinciden con más palabras de la consulta */
@@ -472,6 +504,7 @@ function renderRespuestas(q){
     const art = el("article",{class:"respuesta"},el("h3",{},r.titulo));
     if (r.hora) art.append(el("p",{class:"hora"},r.hora));
     r.p.forEach(t=>art.append(el("p",{},t)));
+    if (r.mapa) art.append(bloqueMapa());
     if (r.agenda) art.append(el("button",{type:"button",onclick:()=>irA("agenda")},"Ver la agenda completa"));
     cont.append(art);
   }
@@ -662,6 +695,7 @@ function globo(quien,texto){const g=el("div",{class:"globo "+quien},texto);$("#m
 })();
 
 /* ============ INICIO ============ */
+$("#linkRuta").href = URL_RUTA;
 renderProyectos(); renderAhora(); setInterval(renderAhora,30000); reiniciarInactividad();
 </script>
 </body>
