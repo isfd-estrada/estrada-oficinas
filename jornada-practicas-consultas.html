@@ -74,6 +74,7 @@ button,input,select{font:inherit;color:inherit}
 .inst{color:var(--suave)}
 .donde{display:grid;gap:8px;margin-top:6px}
 .cita{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;background:var(--celeste);border-radius:10px;padding:10px 14px}
+.cita .mod{flex-basis:100%;font-weight:700;color:var(--tinta)}
 .cita .lugar{font-weight:700;font-size:1.12em;color:var(--tinta)}
 .detalle{grid-column:2;margin-top:4px}
 .detalle summary{cursor:pointer;color:var(--azul);font-weight:700;padding:6px 0;min-height:44px;display:flex;align-items:center}
@@ -203,15 +204,27 @@ button,input,select{font:inherit;color:inherit}
 </main>
 
 <script>
-/* ============ DATOS (distribución actualizada al 24 de septiembre) ============ */
+/* ============ DATOS (distribución actualizada al 27 de septiembre) ============ */
 /* Lugar físico de cada código. Si un campo queda vacío, se muestra solo el código. */
 const LUGAR = {
-  M01:"SUM", M02:"SUM", M03:"Aula 2", M04:"Aula 3", M05:"Aula 4", M06:"Aula 5", M07:"Aula 6",
+  M01:"SUM", M02:"Aula 1", M03:"Aula 2", M04:"Aula 3", M05:"Aula 4", M06:"Aula 5", M07:"Aula 6",
   M08:"Aula 7", M09:"Aula 8", M10:"Aula 9", M11:"Aula 10", M12:"Aula 11", M13:"Aula 12",
   M14:"", M15:"Galería de Rectores",
   G01:"", G02:"", G03:"", G04:"", G05:"", GV01:"",
   H:"Sala H", T01:"Aula T01"
 };
+/* Profesores moderadores del martes 29, por aula física. Cada mesa muestra los del lugar que figura en LUGAR. */
+const MODERADORES = {
+  "Aula 1":["Sofía Castelo","Susana Zerdá"], "Aula 2":["Liliana Yañez Calderón","Iris Lezcano"],
+  "Aula 3":["Myrna Rodas","Liliana Romero"], "Aula 4":["Yanina Nimec","Margarita Espínola"],
+  "Aula 5":["Carla Rausch","Nilda Sanz"], "Aula 6":["Ana María Barrientos","Mirta Johana Imbert"],
+  "Aula 7":["Silvina Gómez","Corina Barrios"], "Aula 8":["Belén Sandoval","María Florencia Conde"],
+  "Aula 9":["Edit Fabiana Sotelo","Betiana Rita Aquino"], "Aula 10":["Julio César Yank","Belén Storani"],
+  "Aula 11":["César Rafael Yañez Calderón","Nora Agostina Morello Benítez"], "Aula 12":["Diego Joaquín Torres","Natalia María Belén Flores"],
+  "Aula 13":["Clarisa Liliana Duete Zacarías","Adriana Gabriela Soto"], "Aula 14":["Mirta Raquel Aguirre","María Elena Cuyé"],
+  "Aula 15":["Roxana Elizabet González","Eliana Mariel Verón"]
+};
+const moderadores = cod => { const m = MODERADORES[LUGAR[cod]]; return m ? m.join(" y ") : "" };
 const ESPACIO = {
   M01:{nombre:"Mesa M01",tema:"Innovación y tecnologías"},
   M02:{nombre:"Mesa M02",tema:"Innovación y tecnologías en escenarios educativos"},
@@ -242,7 +255,7 @@ const ESPACIO = {
 const ACT = {
   mesa:{nombre:"Mesas de experiencias",dia:1,fecha:"Martes 29 de septiembre",ini:"10:15",fin:"12:00"},
   feria:{nombre:"Feria pedagógica",dia:1,fecha:"Martes 29 de septiembre",ini:"14:30",fin:"16:00"},
-  panel:{nombre:"Panel «Historias que dejan huella»",dia:2,fecha:"Miércoles 30 de septiembre",ini:"09:45",fin:"12:00"},
+  panel:{nombre:"Panel «Historias que dejan huella»",profes:"Fernando Rivero, Ma. Ángeles Cassuso y Florencia Conde",dia:2,fecha:"Miércoles 30 de septiembre",ini:"09:45",fin:"12:00"},
   taller:{nombre:"Taller simultáneo",dia:2,fecha:"Miércoles 30 de septiembre",ini:"09:45",fin:"12:00"}
 };
 const MOD = {P:"Presencial",V:"Virtual",VG:"Virtual, con video grabado",VS:"Virtual sincrónica"};
@@ -287,7 +300,7 @@ const P = [
  [43,"Del territorio a la marca: diseño y comunicación turística para Bella Vista","BV",["PP"],"V","mesa","M07"],
  [33,"Pimiento y tomate: producción de Tatacuá, calidad de exportación","MLR",["PP"],"VG","mesa","M07"],
  [53,"Diseño e identidad para productos innovadores","BV",["PP"],"V","mesa","M08"],
- [46,"Hospitalidad situada: las prácticas profesionalizantes como puente entre la formación técnica y el desarrollo socioproductivo de Gobernador Virasoro","GV",["PP"],"P","mesa","M08"],
+ [46,"Hospitalidad situada: las prácticas profesionalizantes como puente entre la formación técnica y el desarrollo socioproductivo de Gobernador Virasoro","GV",["PP"],"VG","mesa","M08"],
  [40,"Humanización del parto y el rol de Enfermería en la atención centrada en la mujer y su familia","JGC",["ET"],"P","mesa","M08"],
  [3,"ITER FACIENTES: cuando la práctica docente se convierte en una revista de enseñanza de la Física","JGC",["IS"],"P","mesa","M09"],
  [16,"La construcción de una mirada compartida sobre la evaluación de las prácticas de enseñanza","BV",["IS"],"V","mesa","M09"],
@@ -350,7 +363,7 @@ const AGENDA = [
  ]},
  {dia:2,fecha:"2026-09-30",titulo:"Miércoles 30 de septiembre",items:[
   ["08:30","09:30","Conferencia de apertura","En la Galería de Rectores. Mgter. María Teresa «Maite» Alcalá, docente investigadora de la Facultad de Humanidades de la UNNE: «Las prácticas como espacios de construcción de saberes, identidad profesional, innovación formativa y compromiso ético con la educación»."],
-  ["09:45","12:00","Panel «Historias que dejan huella»","Dispositivo 3. Sala H, en tres bloques sucesivos: H1, H2 y H3.","panel"],
+  ["09:45","12:00","Panel «Historias que dejan huella»","Dispositivo 3. Sala H, en tres bloques sucesivos: H1, H2 y H3. Profesores: Fernando Rivero, Ma. Ángeles Cassuso y Florencia Conde.","panel"],
   ["09:45","12:00","Taller simultáneo","Dispositivo 4. Aula T01, en paralelo al Panel.","taller"],
   ["12:00","13:00","Espacio de esparcimiento","En la cantina."],
   ["13:00","14:30","Taller especial","Mgtr. Sebastián Franco: «La oratoria como tecnología pedagógica»."],
@@ -364,7 +377,7 @@ const INFO = [
   "Dirección: Av. Pte. Raúl Alfonsín (ex Av. Centenario) esquina Sánchez de Bustamante, barrio San Gerónimo, Corrientes Capital.",
   "La jornada es presencial y se realiza en el SUM, las aulas y el patio del ISFD José Manuel Estrada, en la ciudad de Corrientes, los días martes 29 y miércoles 30 de septiembre de 2026.",
   "Todas las conferencias principales son presenciales y se realizan en la Galería de Rectores.",
-  "Las Mesas de experiencias M01 y M02 funcionan en el SUM."]},
+  "La Mesa de experiencias M01 funciona en el SUM."]},
  {titulo:"Esparcimiento y ayuda",p:[
   "El espacio de esparcimiento es en la cantina.",
   "En la cocina del instituto hay agua caliente para el mate y café, entre otras cosas.",
@@ -432,7 +445,7 @@ function cuandoTexto(p){const a=ACT[p.a];return `${a.fecha} · ${a.ini} a ${a.fi
 const PROY = {};
 for (const p of P){ (PROY[p.n] ||= {n:p.n,t:p.t,i:p.i,ejes:p.ejes,m:p.m,part:[]}).part.push(p) }
 const LISTA = Object.values(PROY).sort((a,b)=>a.n-b.n);
-const texto = x => norm([x.n,x.t,x.i,x.ejes.join(" "),MOD[x.m],...x.part.map(p=>[ACT[p.a].nombre,ESPACIO[p.s].nombre,ESPACIO[p.s].tema,LUGAR[codigoLugar(p.s)],p.s].join(" "))].join(" "));
+const texto = x => norm([x.n,x.t,x.i,x.ejes.join(" "),MOD[x.m],...x.part.map(p=>[ACT[p.a].nombre,ESPACIO[p.s].nombre,ESPACIO[p.s].tema,LUGAR[codigoLugar(p.s)],p.s,p.a==="mesa"?moderadores(p.s):""].join(" "))].join(" "));
 LISTA.forEach(x=>x._txt=texto(x));
 
 /* ============ RESPUESTAS A DUDAS GENERALES ============ */
@@ -538,11 +551,13 @@ function renderProyectos(){
     for (const p of x.part){
       donde.append(el("div",{class:"cita"},
         el("span",{class:"lugar"},dondeTexto(p)),
-        el("span",{},`${ACT[p.a].nombre} · ${cuandoTexto(p)}`)));
+        el("span",{},`${ACT[p.a].nombre} · ${cuandoTexto(p)}`),
+        p.a==="mesa" ? el("span",{class:"mod"},"Moderadores: " + (moderadores(p.s) || "a confirmar")) : null));
     }
     const dl = el("dl",{},
       el("dt",{},"Eje"), el("dd",{},x.ejes.join(" / ")),
       el("dt",{},"Modalidad"), el("dd",{},MOD[x.m] + (x.m!=="P" ? " (se sigue desde el mismo espacio)" : "")));
+    for (const p of x.part) if (ACT[p.a].profes) dl.append(el("dt",{},"Profesores del Panel"), el("dd",{},ACT[p.a].profes));
     for (const p of x.part){
       const otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.s===p.s));
       if (otros.length){
@@ -592,7 +607,7 @@ function renderEspacios(){
     parts.forEach(p=>ol.append(el("li",{},el("button",{type:"button",onclick:()=>{$("#q").value=String(p.n);filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();irA("proyectos")}},el("b",{},String(p.n)),el("span",{},p.t)))));
     cont.append(el("article",{class:"espacio"},
       el("h3",{},esp.nombre + (lugar? ` · ${lugar}` : "")),
-      el("p",{class:"sub"},`${esp.tema}. ${a.fecha}, ${a.ini} a ${a.fin} h.`),
+      el("p",{class:"sub"},`${esp.tema}. ${a.fecha}, ${a.ini} a ${a.fin} h.` + (a.profes ? ` Profesores: ${a.profes}.` : "") + (moderadores(cod) ? ` Moderadores: ${moderadores(cod)}.` : (cod.startsWith("M") ? " Moderadores: a confirmar." : ""))),
       ol));
   }
 }
@@ -643,7 +658,7 @@ function reiniciarInactividad(){
 const turnos = [];
 function datosParaAsistente(){
   const proys = LISTA.map(x=>`N.º ${x.n} | ${x.t} | ${x.i} | Eje: ${x.ejes.join(" / ")} | Modalidad: ${MOD[x.m]} | ` +
-    x.part.map(p=>`${ACT[p.a].nombre}, ${cuandoTexto(p)}, ${dondeTexto(p)}`).join(" + ")).join("\n");
+    x.part.map(p=>`${ACT[p.a].nombre}, ${cuandoTexto(p)}, ${dondeTexto(p)}${p.a==="mesa"&&moderadores(p.s)?", moderadores: "+moderadores(p.s):""}`).join(" + ")).join("\n");
   const ag = AGENDA.map(d=>`Día ${d.dia} (${d.titulo}):\n`+d.items.map(i=>`- ${i[0]} a ${i[1]}: ${i[2]}${i[3]?". "+i[3]:""}`).join("\n")).join("\n");
   const inf = INFO.map(b=>`${b.titulo}:\n`+b.p.map(t=>"- "+t).join("\n")).join("\n");
   return `INFORMACIÓN GENERAL\n${inf}\n\nAGENDA\n${ag}\n\nPROYECTOS (número | título | instituto | eje | modalidad | actividad, horario y lugar)\n${proys}`;
