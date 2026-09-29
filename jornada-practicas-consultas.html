@@ -48,6 +48,11 @@ button,input,select{font:inherit;color:inherit}
 .ahora{background:linear-gradient(90deg,#073182,#0048A8 70%,#1268D2);color:#fff;margin-top:4px}
 .ahora .envoltura{padding-top:12px;padding-bottom:12px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
 .ahora b{font-size:1.05em;color:#DCE7FB}
+#barraPlanB.planb{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;
+  padding:10px clamp(16px,3vw,40px);margin:0 auto;max-width:1180px;font-weight:700;color:#5A3D00;background:#FDECC8;border-bottom:2px solid #E3B24C}
+#barraPlanB.planb.activo{color:#fff;background:linear-gradient(90deg,#B02A2A,#D94A2B);border-bottom-color:#7A1E1E}
+#barraPlanB button{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid currentColor;background:transparent;color:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
+.planb-card{border-left:6px solid var(--violeta)}
 
 /* Búsqueda */
 .buscador{padding:clamp(24px,4vw,48px) 0 12px}
@@ -151,6 +156,7 @@ button,input,select{font:inherit;color:inherit}
   </div>
 </header>
 <div class="ahora" role="status"><div class="envoltura" id="ahora"></div></div>
+<div class="envoltura" id="barraPlanB" role="status"></div>
 
 <main class="envoltura">
   <section class="buscador">
@@ -209,7 +215,7 @@ button,input,select{font:inherit;color:inherit}
 const LUGAR = {
   M01:"SUM", M02:"Aula 1", M03:"Aula 2", M04:"Aula 3", M05:"Aula 4", M06:"Aula 5", M07:"Aula 6",
   M08:"Aula 7", M09:"Aula 8", M10:"Aula 9", M11:"Aula 10", M12:"Aula 11", M13:"Aula 12",
-  M14:"", M15:"Galería de Rectores",
+  M14:"Aula 14", M15:"Galería de Rectores",
   G01:"", G02:"", G03:"", G04:"", G05:"", GV01:"",
   H:"Sala H", T01:"Aula T01"
 };
@@ -225,6 +231,49 @@ const MODERADORES = {
   "Aula 15":["Roxana Elizabet González","Eliana Mariel Verón"]
 };
 const moderadores = cod => { const m = MODERADORES[LUGAR[cod]]; return m ? m.join(" y ") : "" };
+
+/* ============ PLAN B (reorganización por lluvia, solo martes 29) ============ */
+/* Cambiar a false el día que no aplique y volver a publicar el archivo. */
+const PLAN_B_DEFAULT = true;
+const PLANB_GRUPOS = [
+ {aula:"Aula 1", eje:"Innovación, tecnologías e Inteligencia Artificial", n:[1,28,48,18,62]},
+ {aula:"Aula 2", eje:"Prácticas en escenarios educativos complejos", n:[2,9,51,57]},
+ {aula:"Aula 3", eje:"Prácticas en escenarios educativos complejos", n:[25,32,22]},
+ {aula:"Aula 4", eje:"Prácticas en escenarios educativos complejos", n:[41,65,15]},
+ {aula:"Aula 5", eje:"Prácticas profesionalizantes y mundo del trabajo", n:[4,12,29,33,46]},
+ {aula:"Aula 6", eje:"Prácticas profesionalizantes / Ética y compromiso profesional", n:[50,43,53,40]},
+ {aula:"Aula 7", eje:"Investigación, sistematización y narrativas", n:[3,16,19,35,55]},
+ {aula:"Aula 12 y 13", eje:"Investigación, sistematización, narrativas y coformación", n:[70,66,17,37,67]},
+ {aula:"Aula 8", eje:"Acompañamiento y coformación", n:[6,20,21,23]},
+ {aula:"Aula 9", eje:"Acompañamiento y coformación", n:[7,26,27,34]},
+ {aula:"Aula 10", eje:"Acompañamiento y coformación", n:[31,39,54,64]},
+ {aula:"Aula 11", eje:"Coformación, investigación y trayectorias", n:[13,44,47,61]}
+];
+const PLANB_POR_PROYECTO = {}; PLANB_GRUPOS.forEach(g=>g.n.forEach(n=>PLANB_POR_PROYECTO[n]=g));
+const PLANB_FERIA_LUGAR = "Galería de Rectores";
+function moderadoresDeAula(aulaLabel){
+  if (aulaLabel==="Aula 12 y 13"){
+    const a=MODERADORES["Aula 12"]||[], b=MODERADORES["Aula 13"]||[];
+    return [...a,...b].join(" y ");
+  }
+  const m=MODERADORES[aulaLabel]; return m? m.join(" y "): "";
+}
+function moderadoresProyectoPlanB(n){ const g=PLANB_POR_PROYECTO[n]; return g? moderadoresDeAula(g.aula) : ""; }
+let planB = PLAN_B_DEFAULT;
+try{ const v=localStorage.getItem("planB"); if (v!==null) planB = v==="1"; }catch(e){}
+function setPlanB(v){
+  planB=v; try{localStorage.setItem("planB", v?"1":"0");}catch(e){}
+  renderBarraPlanB(); irA(vista);
+}
+function renderBarraPlanB(){
+  const cont=$("#barraPlanB"); if(!cont) return; cont.replaceChildren();
+  cont.className = "planb" + (planB?" activo":"");
+  const texto = planB
+    ? "☔ Inclemencia climática: distribución alternativa activa. Mesas reagrupadas, Feria en la Galería de Rectores y conferencias en el SUM. Rige solo hoy martes 29; mañana miércoles se mantiene la distribución habitual."
+    : "☀ Distribución habitual. Si hay inclemencia climática, activá la distribución alternativa.";
+  cont.append(el("span",{},texto),
+    el("button",{type:"button",onclick:()=>setPlanB(!planB)}, planB? "Desactivar" : "Activar por inclemencia climática"));
+}
 const ESPACIO = {
   M01:{nombre:"Mesa M01",tema:"Innovación y tecnologías"},
   M02:{nombre:"Mesa M02",tema:"Innovación y tecnologías en escenarios educativos"},
@@ -353,13 +402,13 @@ const P = [
 const AGENDA = [
  {dia:1,fecha:"2026-09-29",titulo:"Martes 29 de septiembre",items:[
   ["08:00","09:00","Acreditación","Recepción y acreditación."],
-  ["09:00","09:40","Apertura institucional","Palabras de autoridades, presentación de instituciones participantes y encuadre de la jornada."],
-  ["09:40","10:10","Conferencia de apertura","En la Galería de Rectores. Profesoras Cecilia Maradey, Laura Vallejos y Romina López: «Las prácticas como territorio de encuentro: donde la formación se vuelve profesión»."],
-  ["10:15","12:00","Mesas de experiencias","Dispositivo 1. Mesas M01 a M15.","mesa"],
+  ["09:00","09:40","Apertura institucional","Palabras de autoridades, presentación de instituciones participantes y encuadre de la jornada.",null,"Por inclemencia climática, en el SUM."],
+  ["09:40","10:10","Conferencia de apertura","En la Galería de Rectores. Profesoras Cecilia Maradey, Laura Vallejos y Romina López: «Las prácticas como territorio de encuentro: donde la formación se vuelve profesión».",null,"Por inclemencia climática, en el SUM. Profesoras Cecilia Maradey, Laura Vallejos y Romina López: «Las prácticas como territorio de encuentro: donde la formación se vuelve profesión»."],
+  ["10:15","12:00","Mesas de experiencias","Dispositivo 1. Mesas M01 a M15.","mesa","Dispositivo 1. Hoy reorganizadas por inclemencia climática en 12 aulas — ver el detalle en «Aulas y espacios»."],
   ["12:00","13:00","Espacio de esparcimiento","En la cantina."],
   ["13:00","14:30","Taller especial","Prof. Belén Ferreyra: «De la actividad a la experiencia: diseño de propuestas innovadoras y desafiantes en aulas reales»."],
-  ["14:30","16:00","Feria pedagógica","Dispositivo 2. Gazebos G01 a G05 y gazebo virtual GV01.","feria"],
-  ["16:00","16:45","Conferencia de cierre","En la Galería de Rectores. Mgtr. Mónica Alegre y Mgtr. Diego Craig: «Innovación, inclusión y saberes profesionales en la formación inicial y técnica»."]
+  ["14:30","16:00","Feria pedagógica","Dispositivo 2. Gazebos G01 a G05 y gazebo virtual GV01.","feria","Dispositivo 2. Hoy se traslada por inclemencia climática a la Galería de Rectores."],
+  ["16:00","16:45","Conferencia de cierre","En la Galería de Rectores. Mgtr. Mónica Alegre y Mgtr. Diego Craig: «Innovación, inclusión y saberes profesionales en la formación inicial y técnica».",null,"Por inclemencia climática, en el SUM. Mgtr. Mónica Alegre y Mgtr. Diego Craig: «Innovación, inclusión y saberes profesionales en la formación inicial y técnica»."]
  ]},
  {dia:2,fecha:"2026-09-30",titulo:"Miércoles 30 de septiembre",items:[
   ["08:30","09:30","Conferencia de apertura","En la Galería de Rectores. Mgter. María Teresa «Maite» Alcalá, docente investigadora de la Facultad de Humanidades de la UNNE: «Las prácticas como espacios de construcción de saberes, identidad profesional, innovación formativa y compromiso ético con la educación»."],
@@ -433,6 +482,11 @@ const norm = s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowe
 const el = (tag,attrs={},...hijos)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}for(const h of hijos){if(h==null||h===false)continue;e.append(h.nodeType?h:document.createTextNode(h))}return e};
 const codigoLugar = s => s.startsWith("H") ? "H" : s;
 function dondeTexto(p){
+  if (planB && p.a==="mesa"){
+    const g = PLANB_POR_PROYECTO[p.n];
+    if (g) return `Mesas de experiencias (inclemencia climática) · ${g.aula}`;
+  }
+  if (planB && p.a==="feria") return `Feria pedagógica (inclemencia climática) · ${PLANB_FERIA_LUGAR}`;
   const esp = ESPACIO[p.s], lugar = LUGAR[codigoLugar(p.s)];
   let partes = [esp.nombre];
   if (lugar) partes.push(lugar);
@@ -460,7 +514,8 @@ const EQUIV = [
  [["ahora","momento","actual","pasando"],"ahora"],
  [["lugar","ubicacion","ubicad","direccion","sede","edificio","galeria","rectores","patio","sum","mapa","maps","llegar","llego","colectivo","barrio","calle","gps","interior"],"lugar"],
  [["expon","exposit","presentar","presento","presentacion","diapositiva","power","ppt","minutos","tiempo","duracion","ponencia","panelista","relato","camara"],"presentar"],
- [["publico","oyente","preguntar","intervenir","participar","asistir"],"publico"]
+ [["publico","oyente","preguntar","intervenir","participar","asistir"],"publico"],
+ [["lluvia","llueve","llovio","tormenta","planb","plan","inclemencia","climatica","climatico","clima","tiempo"],"planb"]
 ];
 const canon = t => { for (const [lista,c] of EQUIV) if (lista.some(k=>t.startsWith(k))) return c; return t };
 const tokens = q => norm(q).replace(/[¿?¡!.,;:()"«»]/g," ").split(/\s+/).filter(t=>t && !STOP.has(t));
@@ -481,6 +536,9 @@ function buscarRespuestas(q){
   const toks = tokens(q); if (!toks.length) return [];
   const temas = new Set(toks.map(canon));
   const out = [];
+  if (temas.has("planb")) out.push({titulo:"Distribución por inclemencia climática", p:[ planB
+    ? "Está activa: las Mesas de experiencias de hoy se reorganizaron en 12 aulas, la Feria pedagógica se traslada a la Galería de Rectores y las conferencias al SUM. Mirá «Aulas y espacios» para ver dónde está cada proyecto. Rige solo hoy martes 29."
+    : "No está activa. Se mantiene la distribución habitual. Si hay inclemencia climática, el equipo organizador la activa desde la parte de arriba de esta página." ]});
   if (temas.has("ahora")) { const m=mensajeAhora(); out.push({titulo:"En este momento",p:[`${m[0]} ${m[1]}`]}) }
   if (temas.has("horario")) out.push({titulo:"Horarios generales",p:[
     "Martes 29: de 8:00 (acreditación) a 16:45 (conferencia de cierre).",
@@ -552,16 +610,27 @@ function renderProyectos(){
       donde.append(el("div",{class:"cita"},
         el("span",{class:"lugar"},dondeTexto(p)),
         el("span",{},`${ACT[p.a].nombre} · ${cuandoTexto(p)}`),
-        p.a==="mesa" ? el("span",{class:"mod"},"Moderadores: " + (moderadores(p.s) || "a confirmar")) : null));
+        p.a==="mesa" ? el("span",{class:"mod"},"Moderadores: " + ((planB ? moderadoresProyectoPlanB(p.n) : moderadores(p.s)) || "a confirmar")) : null));
     }
     const dl = el("dl",{},
       el("dt",{},"Eje"), el("dd",{},x.ejes.join(" / ")),
       el("dt",{},"Modalidad"), el("dd",{},MOD[x.m] + (x.m!=="P" ? " (se sigue desde el mismo espacio)" : "")));
     for (const p of x.part) if (ACT[p.a].profes) dl.append(el("dt",{},"Profesores del Panel"), el("dd",{},ACT[p.a].profes));
     for (const p of x.part){
-      const otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.s===p.s));
+      let otros, nombreGrupo;
+      if (planB && p.a==="mesa" && PLANB_POR_PROYECTO[p.n]){
+        const g = PLANB_POR_PROYECTO[p.n];
+        otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.a==="mesa" && PLANB_POR_PROYECTO[q.n]===g));
+        nombreGrupo = `Inclemencia climática · ${g.aula}`;
+      } else if (planB && p.a==="feria"){
+        otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.a==="feria"));
+        nombreGrupo = `Inclemencia climática · ${PLANB_FERIA_LUGAR}`;
+      } else {
+        otros = LISTA.filter(o=>o.n!==x.n && o.part.some(q=>q.s===p.s));
+        nombreGrupo = ESPACIO[p.s].nombre;
+      }
       if (otros.length){
-        dl.append(el("dt",{},`Junto con (${ESPACIO[p.s].nombre})`),
+        dl.append(el("dt",{},`Junto con (${nombreGrupo})`),
           el("dd",{},otros.map(o=>`${o.n} · ${o.t}`).join("\n")));
       }
     }
@@ -585,11 +654,12 @@ function renderAgenda(){
   const hoy = fechaHoy(), min = ahoraEnMinutos();
   for (const d of AGENDA){
     const col = el("div",{class:"dia"},el("h2",{},`Día ${d.dia} · ${d.titulo}`));
-    for (const [ini,fin,tit,desc,act] of d.items){
+    for (const [ini,fin,tit,desc,act,descPlanB] of d.items){
       let clase = "hito";
       if (hoy>d.fecha || (hoy===d.fecha && min>=aMin(fin))) clase+=" ya";
       else if (hoy===d.fecha && min>=aMin(ini)) clase+=" en-curso";
-      const cuerpo = el("div",{},el("b",{},tit), desc? el("p",{},desc):null);
+      const textoDesc = (planB && d.dia===1 && descPlanB) ? descPlanB : desc;
+      const cuerpo = el("div",{},el("b",{},tit), textoDesc? el("p",{},textoDesc):null);
       if (act) cuerpo.append(el("button",{type:"button",onclick:()=>{filtroAct=act;marcarFiltros();irA("proyectos")}},"Ver proyectos y aulas"));
       col.append(el("div",{class:clase},el("time",{},`${ini} a ${fin}`),cuerpo));
     }
@@ -598,13 +668,44 @@ function renderAgenda(){
 }
 
 /* ============ ESPACIOS ============ */
+function botonProyecto(p){
+  return el("li",{},el("button",{type:"button",onclick:()=>{$("#q").value=String(p.n);filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();irA("proyectos")}},el("b",{},String(p.n)),el("span",{},p.t)));
+}
 function renderEspacios(){
   const cont = $("#espacios"); cont.replaceChildren();
+  if (planB){
+    for (const g of PLANB_GRUPOS){
+      const ol = el("ol");
+      g.n.forEach(n=>ol.append(botonProyecto(PROY[n])));
+      cont.append(el("article",{class:"espacio planb-card"},
+        el("h3",{},`Mesa de experiencias (inclemencia climática) · ${g.aula}`),
+        el("p",{class:"sub"},`${g.eje}. Martes 29 de septiembre, 10:15 a 12:00 h.` + (moderadoresDeAula(g.aula) ? ` Moderadores: ${moderadoresDeAula(g.aula)}.` : "")),
+        ol));
+    }
+    const feriaNums = P.filter(p=>p.a==="feria").map(p=>p.n);
+    const olFeria = el("ol");
+    feriaNums.forEach(n=>olFeria.append(botonProyecto(PROY[n])));
+    cont.append(el("article",{class:"espacio planb-card"},
+      el("h3",{},`Feria pedagógica (inclemencia climática) · ${PLANB_FERIA_LUGAR}`),
+      el("p",{class:"sub"},"Hoy se traslada de los gazebos a la Galería de Rectores por inclemencia climática. Martes 29 de septiembre, 14:30 a 16:00 h."),
+      olFeria));
+    for (const [cod,esp] of Object.entries(ESPACIO)){
+      if (!(cod.startsWith("H") || cod==="T01")) continue;
+      const parts = P.filter(p=>p.s===cod);
+      const a = ACT[parts[0].a], lugar = LUGAR[codigoLugar(cod)];
+      const ol = el("ol"); parts.forEach(p=>ol.append(botonProyecto(p)));
+      cont.append(el("article",{class:"espacio"},
+        el("h3",{},esp.nombre + (lugar? ` · ${lugar}` : "")),
+        el("p",{class:"sub"},`${esp.tema}. ${a.fecha}, ${a.ini} a ${a.fin} h.` + (a.profes ? ` Profesores: ${a.profes}.` : "")),
+        ol));
+    }
+    return;
+  }
   for (const [cod,esp] of Object.entries(ESPACIO)){
     const parts = P.filter(p=>p.s===cod);
     const a = ACT[parts[0].a], lugar = LUGAR[codigoLugar(cod)];
     const ol = el("ol");
-    parts.forEach(p=>ol.append(el("li",{},el("button",{type:"button",onclick:()=>{$("#q").value=String(p.n);filtroAct="";filtroInst="";$("#inst").value="";marcarFiltros();irA("proyectos")}},el("b",{},String(p.n)),el("span",{},p.t)))));
+    parts.forEach(p=>ol.append(botonProyecto(p)));
     cont.append(el("article",{class:"espacio"},
       el("h3",{},esp.nombre + (lugar? ` · ${lugar}` : "")),
       el("p",{class:"sub"},`${esp.tema}. ${a.fecha}, ${a.ini} a ${a.fin} h.` + (a.profes ? ` Profesores: ${a.profes}.` : "") + (moderadores(cod) ? ` Moderadores: ${moderadores(cod)}.` : (cod.startsWith("M") ? " Moderadores: a confirmar." : ""))),
@@ -658,10 +759,11 @@ function reiniciarInactividad(){
 const turnos = [];
 function datosParaAsistente(){
   const proys = LISTA.map(x=>`N.º ${x.n} | ${x.t} | ${x.i} | Eje: ${x.ejes.join(" / ")} | Modalidad: ${MOD[x.m]} | ` +
-    x.part.map(p=>`${ACT[p.a].nombre}, ${cuandoTexto(p)}, ${dondeTexto(p)}${p.a==="mesa"&&moderadores(p.s)?", moderadores: "+moderadores(p.s):""}`).join(" + ")).join("\n");
-  const ag = AGENDA.map(d=>`Día ${d.dia} (${d.titulo}):\n`+d.items.map(i=>`- ${i[0]} a ${i[1]}: ${i[2]}${i[3]?". "+i[3]:""}`).join("\n")).join("\n");
+    x.part.map(p=>{const mod=planB?moderadoresProyectoPlanB(p.n):moderadores(p.s); return `${ACT[p.a].nombre}, ${cuandoTexto(p)}, ${dondeTexto(p)}${p.a==="mesa"&&mod?", moderadores: "+mod:""}`;}).join(" + ")).join("\n");
+  const ag = AGENDA.map(d=>`Día ${d.dia} (${d.titulo}):\n`+d.items.map(i=>{const desc=(planB&&d.dia===1&&i[5])?i[5]:i[3]; return `- ${i[0]} a ${i[1]}: ${i[2]}${desc?". "+desc:""}`;}).join("\n")).join("\n");
   const inf = INFO.map(b=>`${b.titulo}:\n`+b.p.map(t=>"- "+t).join("\n")).join("\n");
-  return `INFORMACIÓN GENERAL\n${inf}\n\nAGENDA\n${ag}\n\nPROYECTOS (número | título | instituto | eje | modalidad | actividad, horario y lugar)\n${proys}`;
+  const pb = planB ? "DISTRIBUCIÓN POR INCLEMENCIA CLIMÁTICA: ACTIVA HOY. Las Mesas de experiencias están reorganizadas en 12 aulas (ver PROYECTOS y AGENDA), la Feria pedagógica se traslada a la Galería de Rectores y las conferencias de hoy al SUM. Esto rige solo para hoy martes 29; el miércoles 30 sigue la distribución habitual." : "Distribución por inclemencia climática: no está activa. Rige la distribución habitual.";
+  return `INFORMACIÓN GENERAL\n${inf}\n\n${pb}\n\nAGENDA\n${ag}\n\nPROYECTOS (número | título | instituto | eje | modalidad | actividad, horario y lugar)\n${proys}`;
 }
 const REGLAS = () => `Sos el asistente de consultas de la I Jornada de Intercambio de Experiencias en el Campo de las Prácticas («Desafíos del Nivel Superior en la Formación Docente Inicial y Técnica»), organizada por el ISFD José Manuel Estrada de Corrientes, Argentina. Atendés a asistentes y expositores desde una computadora de consulta.
 
@@ -711,7 +813,7 @@ function globo(quien,texto){const g=el("div",{class:"globo "+quien},texto);$("#m
 
 /* ============ INICIO ============ */
 $("#linkRuta").href = URL_RUTA;
-renderProyectos(); renderAhora(); setInterval(renderAhora,30000); reiniciarInactividad();
+renderProyectos(); renderAhora(); renderBarraPlanB(); setInterval(renderAhora,30000); reiniciarInactividad();
 </script>
 </body>
 </html>
